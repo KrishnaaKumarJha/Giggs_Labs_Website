@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
-  { href: '/projects', label: 'Products' },
+  { href: '/products', label: 'Products' },
   { href: '/blog', label: 'Blog' },
   { href: '/careers', label: 'Careers' },
   { href: '/contact', label: 'Contact' },
@@ -70,7 +70,7 @@ export default function Footer() {
                 <img
                   src="/logo/logo.png"
                   alt="Giggs Software Lab Logo"
-                  className="h-12 w-auto object-contain"
+                  className="h-10 md:h-12 w-auto object-contain shrink-0"
                 />
               </div>
               <div>

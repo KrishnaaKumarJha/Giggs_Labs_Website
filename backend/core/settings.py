@@ -97,11 +97,15 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS (allow frontend dev origin)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+# CORS
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True          # any origin OK while developing
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        # add your production domain here
+    ]
 
 # Email — using Resend API directly in views.py
 # RESEND_API_KEY and HR_EMAIL_RECEIVER are read from .env in views.py

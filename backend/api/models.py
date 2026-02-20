@@ -54,3 +54,42 @@ class Post(models.Model):
 
     def __str__(self):
         return f"[{self.category}] {self.title}"
+
+
+class JobOpening(models.Model):
+    title = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    type = models.CharField(max_length=50, default='Full-time')  # Full-time, Part-time, Contract, Internship
+    description = models.TextField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} ({self.location})"
+
+
+class Service(models.Model):
+    icon = models.CharField(max_length=10, default='🔧')  # emoji
+    title = models.CharField(max_length=200)
+    tagline = models.CharField(max_length=300, blank=True)
+    description = models.TextField()
+    color = models.CharField(max_length=100, default='from-cyan-400 to-blue-500')  # tailwind gradient
+    border_hover = models.CharField(max_length=100, default='hover:border-cyan-500/50')
+    glow_hover = models.CharField(max_length=150, default='hover:shadow-[0_0_40px_rgba(34,211,238,0.25)]')
+    accent = models.CharField(max_length=50, default='text-cyan-400')
+    highlights = models.JSONField(default=list, blank=True)  # list of string tags
+    href = models.CharField(max_length=200, blank=True)  # link to detail page
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.title

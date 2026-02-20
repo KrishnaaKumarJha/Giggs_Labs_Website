@@ -1,16 +1,15 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import PageShell from '../../components/pageshell';
 
 const capabilities = [
     { name: 'Mihawk-powered Adaptive Defense', detail: 'Advanced machine learning models that identify and neutralize threats before they reach your systems. Behavioral analysis and anomaly detection keep you ahead of adversaries.' },
-    { name: 'Managed SOC with Mihawk SOAR', detail: 'Automated incident response workflows that reduce mean-time-to-respond. We orchestrate threat containment and evidence collection using Mihawk\'s proprietary playbooks.' },
-    { name: 'Continuous Cloud Posture Monitoring', detail: 'Mihawk\'s CSPM engine provides real-time assessment and remediation of cloud misconfigurations across multi-cloud environments, ensuring constant compliance.' },
+    { name: 'Managed SOC with Mihawk SOAR', detail: 'Automated incident response workflows that reduce mean-time-to-respond. We orchestrate threat containment and evidence collection using Mihawk’s proprietary playbooks.' },
+    { name: 'Continuous Cloud Posture Monitoring', detail: 'Mihawk’s CSPM engine provides real-time assessment and remediation of cloud misconfigurations across multi-cloud environments, ensuring constant compliance.' },
 
     { name: 'Zero Trust Implementation', detail: 'Identity-centric security with micro-segmentation and continuous verification, fully orchestrated through the Mihawk security stack.' },
     { name: 'Strategic Vulnerability Management', detail: 'Comprehensive security audits and red team exercises designed to stress-test your defenses and provide detailed remediation roadmaps.' },
-    { name: '24/7 Managed Incident Response', detail: 'Our specialized IR team remains on standby 24/7, utilizing Mihawk\'s automated tools to contain and remediate breaches within minutes.' },
+    { name: '24/7 Managed Incident Response', detail: 'Our specialized IR team remains on standby 24/7, utilizing Mihawk’s automated tools to contain and remediate breaches within minutes.' },
 ];
 
 const stats = [
@@ -26,9 +25,9 @@ const techStack = ['SIEM', 'SOAR', 'Splunk', 'CrowdStrike', 'AWS Security Hub', 
 
 const methodology = [
     { step: '01', title: 'Mihawk Deployment', desc: 'Rapid integration of the Mihawk security stack into your existing infrastructure for immediate visibility.' },
-    { step: '02', title: 'Adversary Modeling', desc: 'Identify attack vectors specific to your industry using Mihawk\'s global threat intelligence feeds.' },
+    { step: '02', title: 'Adversary Modeling', desc: 'Identify attack vectors specific to your industry using Mihawk’s global threat intelligence feeds.' },
     { step: '03', title: 'SOC Orchestration', desc: 'Design and deploy automated detection and incident response playbooks tailored to your operational needs.' },
-    { step: '04', title: 'Continuous Evolution', desc: 'Mihawk\'s AI engine learns from every interaction, continuously hardening your perimeter against new threats.' },
+    { step: '04', title: 'Continuous Evolution', desc: 'Mihawk’s AI engine learns from every interaction, continuously hardening your perimeter against new threats.' },
 ];
 
 
@@ -37,7 +36,7 @@ export default function CybersecurityPage() {
         <PageShell
             eyebrow="Managed Services"
             title="Mihawk Operations"
-            description="We go beyond traditional security. Our experts operate at the edge of Mihawk's AI ecosystem, providing 24/7 managed defense, strategic implementation, and automated threat neutralization tailored for the modern enterprise."
+            description="We go beyond traditional security. Our experts operate at the edge of Mihawk’s AI ecosystem, providing 24/7 managed defense, strategic implementation, and automated threat neutralization tailored for the modern enterprise."
         >
 
             {/* Sub-Hero / Logo area */}
@@ -46,8 +45,8 @@ export default function CybersecurityPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-12 flex flex-col md:flex-row items-center gap-6 p-8 rounded-3xl border border-sky-500/20 bg-sky-500/5 backdrop-blur-sm"
             >
-                <div className="relative h-10 w-full max-w-[180px] shrink-0 md:h-12 md:max-w-[200px]">
-                    <Image src="/logo/mihawk.svg" alt="Mihawk Logo" fill sizes="(max-width: 768px) 180px, 200px" style={{ objectFit: 'contain', objectPosition: 'left' }} />
+                <div className="relative h-12 w-48 shrink-0">
+                    <Image src="/logo/mihawk.svg" alt="Mihawk Logo" fill style={{ objectFit: 'contain' }} />
                 </div>
                 <div className="h-px w-full md:h-12 md:w-px bg-slate-800" />
                 <p className="text-sm text-slate-400 font-medium">

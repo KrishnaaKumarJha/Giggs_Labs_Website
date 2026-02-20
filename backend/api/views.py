@@ -1,14 +1,110 @@
 import os
+import re
 import requests
 import base64
+import PyPDF2
+import io
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from .models import ContactMessage, JobApplication, Post
-from .serializers import ContactMessageSerializer, JobApplicationSerializer, PostSerializer
+from rest_framework.views import APIView
+from .models import ContactMessage, JobApplication, Post, JobOpening, Service
+from .serializers import ContactMessageSerializer, JobApplicationSerializer, PostSerializer, JobOpeningSerializer, ServiceSerializer
 from django.conf import settings
 from rest_framework.permissions import IsAdminUser
+
+
+class ResumeParseView(APIView):
+    """Parse an uploaded PDF resume and return extracted fields."""
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request):
+        cv = request.FILES.get('cv')
+        if not cv:
+            return Response({'error': 'No file uploaded.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        ext = os.path.splitext(cv.name)[1].lower()
+        if ext != '.pdf':
+            return Response({'error': 'Only PDF files are supported.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            reader = PyPDF2.PdfReader(io.BytesIO(cv.read()))
+            text = ''
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + '\n'
+        except Exception as e:
+            return Response({'error': f'Failed to read PDF: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+        parsed = self._extract_fields(text)
+        return Response(parsed, status=status.HTTP_200_OK)
+
+    @staticmethod
+    def _extract_fields(text):
+        """Use regex to extract common resume fields from raw text."""
+        data = {
+            'name': '',
+            'email': '',
+            'phone': '',
+            'linkedin': '',
+            'qualification': '',
+            'experience': '',
+        }
+
+        # Email
+        email_match = re.search(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', text)
+        if email_match:
+            data['email'] = email_match.group()
+
+        # Phone (Indian & international formats)
+        phone_match = re.search(r'(?:\+?\d{1,3}[-.\s]?)?\(?\d{3,5}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}', text)
+        if phone_match:
+            data['phone'] = phone_match.group().strip()
+
+        # LinkedIn
+        linkedin_match = re.search(r'(?:https?://)?(?:www\.)?linkedin\.com/in/[a-zA-Z0-9_-]+/?', text, re.IGNORECASE)
+        if linkedin_match:
+            url = linkedin_match.group()
+            if not url.startswith('http'):
+                url = 'https://' + url
+            data['linkedin'] = url
+
+        # Name — first non-empty line that is not an email/phone/url
+        lines = [l.strip() for l in text.split('\n') if l.strip()]
+        for line in lines[:5]:  # check first 5 lines
+            if '@' in line or re.search(r'\d{5,}', line) or 'linkedin' in line.lower() or 'http' in line.lower():
+                continue
+            # likely the name if it's short and mostly alphabetical
+            if len(line) < 60 and re.match(r'^[A-Za-z\s.\'-]+$', line):
+                data['name'] = line.strip()
+                break
+
+        # Qualification / Education
+        edu_patterns = [
+            r'(?:B\.?Tech|B\.?E\.?|M\.?Tech|M\.?E\.?|B\.?Sc|M\.?Sc|MBA|BCA|MCA|Ph\.?D|B\.?Com|M\.?Com|B\.?A\.?|M\.?A\.?)[\s.,]*(?:in\s+)?[A-Za-z\s,()]*',
+            r'(?:Bachelor|Master|Doctor)(?:\'?s?)?\s+(?:of|in)\s+[A-Za-z\s,()]+',
+        ]
+        for pat in edu_patterns:
+            edu_match = re.search(pat, text, re.IGNORECASE)
+            if edu_match:
+                data['qualification'] = edu_match.group().strip()[:200]
+                break
+
+        # Experience
+        exp_patterns = [
+            r'(\d+)\+?\s*(?:years?|yrs?)\s*(?:of\s+)?(?:experience|exp)?',
+            r'(?:experience|exp)[\s:]*(\d+)\+?\s*(?:years?|yrs?)',
+        ]
+        for pat in exp_patterns:
+            exp_match = re.search(pat, text, re.IGNORECASE)
+            if exp_match:
+                years = exp_match.group(1)
+                data['experience'] = f'{years} years'
+                break
+
+        return data
 
 
 RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
@@ -170,3 +266,60 @@ class JobApplicationListView(generics.ListAPIView):
     queryset = JobApplication.objects.all().order_by('-created_at')
     serializer_class = JobApplicationSerializer
     permission_classes = [IsAdminUser]
+
+
+# ─── Admin CRUD for Job Openings ───
+
+class JobOpeningListView(generics.ListAPIView):
+    """Public: list active job openings."""
+    queryset = JobOpening.objects.filter(is_active=True)
+    serializer_class = JobOpeningSerializer
+
+class JobOpeningAdminListView(generics.ListCreateAPIView):
+    """Admin: list ALL job openings (inc. inactive) + create new."""
+    queryset = JobOpening.objects.all()
+    serializer_class = JobOpeningSerializer
+    permission_classes = [IsAdminUser]
+
+class JobOpeningAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Admin: retrieve / update / delete a single job opening."""
+    queryset = JobOpening.objects.all()
+    serializer_class = JobOpeningSerializer
+    permission_classes = [IsAdminUser]
+
+
+# ─── Admin CRUD for Services ───
+
+class ServiceListView(generics.ListAPIView):
+    """Public: list active services."""
+    queryset = Service.objects.filter(is_active=True)
+    serializer_class = ServiceSerializer
+
+class ServiceAdminListView(generics.ListCreateAPIView):
+    """Admin: list ALL services + create new."""
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [IsAdminUser]
+
+class ServiceAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Admin: retrieve / update / delete a single service."""
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [IsAdminUser]
+
+
+# ─── Admin CRUD for Posts ───
+
+class PostAdminListView(generics.ListCreateAPIView):
+    """Admin: list ALL posts (inc. unpublished) + create new."""
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser]
+
+class PostAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Admin: retrieve / update / delete a single post."""
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser]

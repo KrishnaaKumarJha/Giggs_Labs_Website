@@ -485,7 +485,7 @@ export default function Home() {
                 key={p.alt}
                 src={p.src}
                 alt={p.alt}
-                className="h-7 flex-shrink-0 opacity-75 hover:opacity-100 transition-opacity duration-300"
+                className="h-6 md:h-7 flex-shrink-0 object-contain opacity-75 hover:opacity-100 transition-opacity duration-300"
               />
             ))}
           </div>
@@ -1152,7 +1152,7 @@ export default function Home() {
                 <img
                   src={partner.src}
                   alt={partner.name}
-                  className="h-7 md:h-8 w-auto object-contain opacity-40 hover:opacity-100 transition-opacity duration-300"
+                  className="h-6 md:h-7 w-auto flex-shrink-0 object-contain opacity-40 hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
             ))}
@@ -1182,7 +1182,7 @@ export default function Home() {
                 Start a project
               </Link>
               <Link
-                href="/projects"
+                href="/products"
                 className="inline-flex items-center justify-center rounded-full border border-slate-700/80 bg-slate-950/60 px-5 py-2.5 text-sm font-medium text-slate-100 hover:border-slate-500 hover:bg-slate-900/80 transition"
               >
                 View case studies

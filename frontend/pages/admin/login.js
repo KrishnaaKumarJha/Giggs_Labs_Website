@@ -27,12 +27,13 @@ export default function AdminLogin() {
       }
 
       const data = await res.json();
-      // store access token in localStorage (dev-level security)
       localStorage.setItem('adminAccessToken', data.access);
-      // optional: store refresh token too
       localStorage.setItem('adminRefreshToken', data.refresh);
+      // Store the secret key so admin can navigate between pages
+      const key = router.query.key || '';
+      localStorage.setItem('adminSecretKey', key);
 
-      router.push('/admin/messages');
+      router.push('/admin/dashboard');
     } catch (err) {
       console.error(err);
       setError('Something went wrong. Try again.');
@@ -85,8 +86,12 @@ export default function AdminLogin() {
   );
 }
 
-export async function getServerSideProps() {
-  if (process.env.NEXT_PUBLIC_ENABLE_ADMIN !== 'true') {
+export async function getServerSideProps(context) {
+  const secretKey = process.env.ADMIN_SECRET_KEY;
+  const providedKey = context.query.key;
+
+  // If no secret key is configured or the provided key doesn't match -> 404
+  if (!secretKey || providedKey !== secretKey) {
     return { notFound: true };
   }
 

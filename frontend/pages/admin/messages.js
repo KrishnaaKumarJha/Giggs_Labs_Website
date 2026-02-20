@@ -8,13 +8,16 @@ export default function AdminMessages() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // run only in browser
     const token = typeof window !== 'undefined'
       ? localStorage.getItem('adminAccessToken')
       : null;
+    const secretKey = typeof window !== 'undefined'
+      ? localStorage.getItem('adminSecretKey')
+      : null;
 
-    if (!token) {
-      router.replace('/admin/login');
+    if (!token || !secretKey) {
+      // No token or secret key — user hasn't gone through the proper login flow
+      router.replace('/');
       return;
     }
 
@@ -27,10 +30,10 @@ export default function AdminMessages() {
         });
 
         if (res.status === 401 || res.status === 403) {
-          // token invalid or expired
           localStorage.removeItem('adminAccessToken');
           localStorage.removeItem('adminRefreshToken');
-          router.replace('/admin/login');
+          localStorage.removeItem('adminSecretKey');
+          router.replace('/');
           return;
         }
 
@@ -59,6 +62,13 @@ export default function AdminMessages() {
     loadMessages();
   }, [router]);
 
+  function handleLogout() {
+    localStorage.removeItem('adminAccessToken');
+    localStorage.removeItem('adminRefreshToken');
+    localStorage.removeItem('adminSecretKey');
+    router.replace('/');
+  }
+
   if (!messages && !error) {
     return <div className="p-8 text-slate-300">Loading messages…</div>;
   }
@@ -70,9 +80,31 @@ export default function AdminMessages() {
   return (
     <section className="p-8">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#00E0FF] to-[#7A5BFF]">
-          Admin · Contact Messages
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#00E0FF] to-[#7A5BFF]">
+            Admin · Contact Messages
+          </h1>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/admin/dashboard')}
+              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-slate-500 transition-colors"
+            >
+              ← Dashboard
+            </button>
+            <button
+              onClick={() => router.push('/admin/applications')}
+              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-slate-500 transition-colors"
+            >
+              Applications
+            </button>
+            <button
+              onClick={handleLogout}
+              className="text-xs px-3 py-1.5 rounded-lg border border-rose-800/40 text-rose-400 hover:bg-rose-500/10 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
 
         {messages.length === 0 ? (
           <div className="text-slate-400">No messages yet.</div>
@@ -107,13 +139,4 @@ export default function AdminMessages() {
       </div>
     </section>
   );
-}
-
-export async function getServerSideProps() {
-  if (process.env.NEXT_PUBLIC_ENABLE_ADMIN !== 'true') {
-    // Return 404 in production when admin is disabled
-    return { notFound: true };
-  }
-
-  return { props: {} };
 }

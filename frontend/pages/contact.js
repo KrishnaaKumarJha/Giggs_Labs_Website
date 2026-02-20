@@ -329,7 +329,7 @@ export default function ContactPage() {
               <Link href="/services" className="rounded-full border border-slate-700/60 bg-slate-900/60 px-4 py-2 text-slate-300 hover:border-sky-500/40 hover:text-sky-300 transition-colors">
                 View services →
               </Link>
-              <Link href="/projects" className="rounded-full border border-slate-700/60 bg-slate-900/60 px-4 py-2 text-slate-300 hover:border-sky-500/40 hover:text-sky-300 transition-colors">
+              <Link href="/products" className="rounded-full border border-slate-700/60 bg-slate-900/60 px-4 py-2 text-slate-300 hover:border-sky-500/40 hover:text-sky-300 transition-colors">
                 Case studies →
               </Link>
               <Link href="/careers" className="rounded-full border border-slate-700/60 bg-slate-900/60 px-4 py-2 text-slate-300 hover:border-sky-500/40 hover:text-sky-300 transition-colors">

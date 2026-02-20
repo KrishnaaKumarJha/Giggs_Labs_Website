@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ContactMessage, JobApplication, Post
+from .models import ContactMessage, JobApplication, Post, JobOpening, Service
 
 
 class ContactMessageSerializer(serializers.ModelSerializer):
@@ -24,3 +24,20 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'slug', 'category', 'excerpt', 'content', 'image', 'is_published', 'created_at', 'updated_at']
+
+
+class JobOpeningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobOpening
+        fields = ['id', 'title', 'location', 'type', 'description', 'is_active', 'created_at', 'updated_at']
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = [
+            'id', 'icon', 'title', 'tagline', 'description',
+            'color', 'border_hover', 'glow_hover', 'accent',
+            'highlights', 'href', 'order', 'is_active',
+            'created_at', 'updated_at',
+        ]

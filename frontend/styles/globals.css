@@ -83,9 +83,9 @@ h3,
   filter: blur(20px);
 }
 
-/* Defensive clamp for absolutely positioned glows so they don't create overflow seam */
-.pointer-events-none.absolute,
-.pointer-events-none.fixed {
+/* Defensive clamp for background glows so they don't create overflow seam.
+   Only applies to elements that opt-in with the .glow-clip class. */
+.glow-clip {
   box-sizing: border-box;
   max-height: 100vh;
   overflow: hidden;

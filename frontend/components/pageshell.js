@@ -26,9 +26,9 @@ const shellItem = {
 
 export default function PageShell({ title, eyebrow, description, children }) {
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-950/80 text-slate-100">
+    <main className="min-h-[calc(100vh-4rem)] bg-slate-950/80 text-slate-100" style={{ overflow: 'visible' }}>
       {/* NOTE: .page-content provides consistent top spacing so headings won't sit right under the hero */}
-      <section className="page-content mx-auto max-w-6xl px-4 pb-16 pt-10 md:px-6 lg:pt-16">
+      <section className="page-content mx-auto max-w-6xl px-4 pb-16 pt-10 md:px-6 lg:pt-16" style={{ overflow: 'visible' }}>
         {/* header */}
         <motion.div
           className="max-w-3xl"
@@ -68,7 +68,7 @@ export default function PageShell({ title, eyebrow, description, children }) {
         </motion.div>
 
         {/* page body */}
-        <div className="mt-8">
+        <div className="mt-8" style={{ overflow: 'visible' }}>
           {children}
         </div>
       </section>

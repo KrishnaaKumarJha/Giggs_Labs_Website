@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 import 'highlight.js/styles/github-dark.css';
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
+import Chatbot from '../components/Chatbot';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import Footer from '../components/Footer';
 import AnimatedBackground from '../components/AnimatedBackground';
+import CookieConsent from '../components/CookieConsent';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -48,11 +50,13 @@ function MyApp({ Component, pageProps }) {
     <>
       <AnimatedBackground />
       <Navbar />
+      <Chatbot />
       <main className="pt-20">
         <Component {...pageProps} />
       </main>
       <Footer />
       <ScrollToTopButton />
+      <CookieConsent />
     </>
   );
 }
