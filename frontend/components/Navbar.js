@@ -6,24 +6,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
+  { href: '/solutions', label: 'Solutions' },
+  { href: '/industries', label: 'Industries' },
   { href: '/products', label: 'Products' },
-  { href: '/careers', label: 'Careers' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/about', label: 'About Us' },
 ];
 
 const serviceSubLinks = [
-  { href: '/services/cybersecurity', label: 'Cybersecurity', desc: 'Enterprise-grade threat intelligence and 24/7 autonomous protection.' },
-  { href: '/services/ai-data', label: 'AI & Data', desc: 'Scalable machine learning and predictive analytics for real-world intelligence.' },
-  { href: '/services/performance', label: 'Performance', desc: 'Precision tuning and architectural optimization for mission-critical systems.' },
-  { href: '/services/automation', label: 'Automation', desc: 'Hyper-automated workflows and self-healing infrastructure deployments.' },
+  { href: '/solutions/ai-data', label: 'AI & Data Science', desc: 'Transforming data into actionable intelligence and automated workflows.' },
+  { href: '/solutions/cybersecurity', label: 'AI-driven Cybersecurity', desc: 'Intelligent threat detection and proactive enterprise defense.' },
+  { href: '/solutions/performance', label: 'Performance Engineering', desc: 'Building high-speed, scalable, and resilient systems.' },
+  { href: '/solutions/automation', label: 'Automation', desc: 'Streamlining operations with intelligent automation and RPA.' },
+];
+
+const industrySubLinks = [
+  { href: '/industries/banking', label: 'Fintech', desc: 'Secure, compliant, and data-driven fintech solutions.' },
+  { href: '/industries/healthcare', label: 'Health-Tech', desc: 'Predictive diagnostics and patient-centric platforms.' },
+  { href: '/industries/retail', label: 'Retail-Tech', desc: 'Omnichannel analytics and intelligent supply chains.' },
+  { href: '/industries/manufacturing', label: 'Martech', desc: 'Smart factories and IoT-powered operational efficiency.' },
 ];
 
 const productSubLinks = [
-  { href: '/products/mihawk', label: 'Mihawk', desc: 'Flagship security platform with AI-driven detection and automated response.' },
-  { href: '/products/ai-data', label: 'AI & Data', desc: 'Intelligent data pipelines and agentic AI solutions as a service.' },
-  { href: '/products/performance', label: 'Performance', desc: 'Suite of optimization tools for high-load application environments.' },
+  { href: '/products/ai-data', label: 'AI & Data Science', desc: 'Enterprise-grade MLOps and scalable model deployment.' },
+  { href: '/products/mihawk', label: 'AI-driven CyberSecurity', desc: 'Centralized threat intelligence and compliance monitoring.' },
+  { href: '/products/performance', label: 'Performance Engineering', desc: 'Real-time dashboards and predictive business insights.' },
 ];
 
 function BrandLogo() {
@@ -32,7 +39,7 @@ function BrandLogo() {
       <img
         src="/logo/logo.png"
         alt="Giggs Software Labs"
-        className="h-8 md:h-9 w-auto object-contain"
+        className="h-12 md:h-14 w-auto object-contain"
         style={{ display: 'block' }}
       />
     </div>
@@ -53,16 +60,16 @@ function MottoCycler({ lines = [], intervalMs = 3200 }) {
   const current = lines[index] ?? '';
 
   return (
-    <div className="w-full select-none relative" style={{ height: '14px' }}>
+    <div className="h-4 w-full overflow-hidden pointer-events-none relative flex justify-center items-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.42, ease: 'easeOut' }}
-          className="absolute inset-0 text-[10px] text-sky-600 text-center font-bold uppercase tracking-[0.18em] leading-normal select-none"
-          style={{ whiteSpace: 'nowrap' }}
+          initial={{ x: 18, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -18, opacity: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="absolute text-[9px] md:text-[11px] font-extrabold uppercase tracking-tight text-center leading-tight select-none"
+          style={{ color: '#3B9BD5', whiteSpace: 'nowrap' }}
         >
           {current}
         </motion.div>
@@ -80,18 +87,18 @@ function MegaDropdown({ active, items, type, onClose }) {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="absolute left-0 w-full top-full z-50 pointer-events-auto border-b border-sky-200/40 shadow-2xl"
-      style={{ background: 'linear-gradient(180deg, rgba(224,242,255,0.98) 0%, rgba(240,248,255,0.99) 50%, rgba(255,255,255,0.98) 100%)' }}
+      style={{ background: '#ffffff' }}
       onMouseLeave={onClose}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
           {/* Left Panel: Description */}
           <div className="w-full md:w-1/3 shrink-0">
-            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400 mb-3">{type} Portfolio</h3>
+            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400 mb-3">{type}</h3>
             <p className="text-sm text-slate-500 leading-relaxed pr-4">
-              {type === 'Services'
+              {type === 'Solutions'
                 ? 'Explore our core capabilities and comprehensive solutions designed to unlock intelligent business transformation.'
-                : 'Discover our cutting-edge product suites built for scale, intelligence, and continuous performance.'}
+                : 'Discover how we bring specialized intelligence to solve complex challenges across diverse sectors.'}
             </p>
           </div>
 
@@ -123,10 +130,13 @@ function MegaDropdown({ active, items, type, onClose }) {
   );
 }
 
+import Button from './Button';
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -138,6 +148,7 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
     setActiveDropdown(null);
+    setOpenMobileDropdown(null);
   }, [router.asPath]);
 
   const mottoLines = [
@@ -147,10 +158,10 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 z-[100] w-full transition-all duration-300 backdrop-blur-xl ${scrolled ? 'shadow-md py-2' : 'py-4'}`}
+    <nav className={`fixed top-0 z-[100] w-full transition-all duration-300 ${scrolled ? 'shadow-md py-2' : 'py-4'}`}
       style={{
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(224,242,255,0.97) 60%, rgba(186,225,255,0.95) 100%)',
-        borderBottom: activeDropdown ? '1px solid transparent' : '1px solid rgba(59,155,213,0.25)',
+        background: '#ffffff',
+        borderBottom: activeDropdown ? '1px solid transparent' : '1px solid rgba(0,0,0,0.08)',
         transition: 'border-color 0.2s ease, padding 0.3s ease, box-shadow 0.3s ease'
       }}
     >
@@ -158,16 +169,13 @@ export default function Navbar() {
         <div className="flex min-h-[4rem] items-center justify-between py-2">
 
           <div className="flex items-center">
-            <Link href="/" aria-label="Go to home" className="flex flex-col items-center">
-              <div className="transition-transform hover:scale-[1.02]">
+            <Link href="/" aria-label="Go to home" className="relative flex items-center -mt-2">
+              <div className="relative z-10 transition-transform hover:scale-[1.02]">
                 <BrandLogo />
               </div>
-              <span
-                className="text-[10px] md:text-[11px] font-extrabold uppercase tracking-tight whitespace-nowrap leading-tight mt-0.5"
-                style={{ color: '#3B9BD5' }}
-              >
-                Giggs Software Labs
-              </span>
+              <div className="absolute left-1/2 top-full -translate-x-1/2 mt-0.5 w-[160px]">
+                <MottoCycler lines={mottoLines} intervalMs={4000} />
+              </div>
             </Link>
           </div>
 
@@ -176,7 +184,7 @@ export default function Navbar() {
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link) => {
-                const hasDropdown = link.label === 'Services' || link.label === 'Products';
+                const hasDropdown = link.label === 'Solutions' || link.label === 'Industries' || link.label === 'Products';
                 const isActive = router.asPath.startsWith(link.href) && (link.href !== '/' || router.asPath === '/');
 
                 return (
@@ -188,7 +196,7 @@ export default function Navbar() {
                   >
                     <Link
                       href={link.href}
-                      className={`relative px-4 py-2 text-[12px] font-black uppercase tracking-[0.2em] transition-all rounded-full ${isActive ? 'text-[#2980B9]' : 'text-slate-700 hover:text-slate-900 hover:bg-white/60'}`}
+                      className={`relative px-4 py-2 text-[13px] font-black uppercase tracking-[0.2em] transition-all rounded-full ${isActive ? 'text-[#2980B9]' : 'text-slate-700 hover:text-slate-900 hover:bg-white/60'}`}
                     >
                       {link.label}
                       {isActive && (
@@ -201,7 +209,11 @@ export default function Navbar() {
                         <MegaDropdown
                           active={activeDropdown === link.label}
                           type={link.label}
-                          items={link.label === 'Services' ? serviceSubLinks : productSubLinks}
+                          items={
+                            link.label === 'Solutions' ? serviceSubLinks :
+                              link.label === 'Industries' ? industrySubLinks :
+                                productSubLinks
+                          }
                           onClose={() => setActiveDropdown(null)}
                         />
                       )}
@@ -209,6 +221,16 @@ export default function Navbar() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Desktop CTAs */}
+            <div className="hidden md:flex items-center gap-3 ml-4 pl-4 border-l border-sky-500/20">
+              <Button href="/contact" variant="secondary" className="px-5 py-2 !text-[12px] !rounded-full">
+                Contact Us
+              </Button>
+              <Button href="/careers" variant="primary" className="px-5 py-2 !text-[12px] !rounded-full">
+                Careers
+              </Button>
             </div>
 
             {/* Mobile Toggle */}
@@ -224,18 +246,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Gradient bleed — fades the navbar's blue bottom edge into the page */}
-      {!activeDropdown && (
-        <div
-          className="pointer-events-none absolute left-0 w-full"
-          style={{
-            top: '100%',
-            height: '60px',
-            background: 'linear-gradient(180deg, rgba(186,225,255,0.45) 0%, rgba(135,206,250,0.18) 35%, rgba(56,189,248,0.06) 65%, transparent 100%)',
-            zIndex: 90,
-          }}
-        />
-      )}
+
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -244,31 +255,61 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-20 z-[90] md:hidden backdrop-blur-xl border-b border-sky-200/40 shadow-2xl p-6"
-            style={{ background: 'linear-gradient(180deg, rgba(224,242,255,0.97) 0%, rgba(240,248,255,0.98) 40%, rgba(255,255,255,0.96) 100%)' }}
+            className="fixed inset-x-0 top-20 z-[90] md:hidden border-b border-gray-200 shadow-2xl p-6 h-[calc(100vh-5rem)] overflow-y-auto"
+            style={{ background: '#ffffff' }}
           >
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <div key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-2xl font-black text-slate-800 uppercase tracking-tight"
-                  >
-                    {link.label}
-                  </Link>
+            <div className="flex flex-col gap-6 pb-20">
+              {navLinks.map((link) => {
+                const hasDropdown = link.label === 'Solutions' || link.label === 'Industries' || link.label === 'Products';
+                const isDropdownOpen = openMobileDropdown === link.label;
 
-                  {(link.label === 'Services' || link.label === 'Products') && (
-                    <div className="mt-4 flex flex-col gap-3 pl-4 border-l-2 border-sky-100">
-                      {(link.label === 'Services' ? serviceSubLinks : productSubLinks).map((sub) => (
-                        <Link key={sub.href} href={sub.href} className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-700 uppercase tracking-tight">{sub.label}</span>
-                          <span className="text-[10px] text-slate-500 mt-0.5">{sub.desc}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                return (
+                  <div key={link.href}>
+                    {hasDropdown ? (
+                      <button
+                        onClick={() => setOpenMobileDropdown(isDropdownOpen ? null : link.label)}
+                        className="flex items-center justify-between w-full text-2xl font-black text-slate-800 uppercase tracking-tight"
+                      >
+                        <span>{link.label}</span>
+                        <svg className={`h-6 w-6 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="block text-2xl font-black text-slate-800 uppercase tracking-tight"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+
+                    <AnimatePresence>
+                      {hasDropdown && isDropdownOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-4 flex flex-col gap-4 pl-4 border-l-2 border-sky-100 py-2">
+                            {(
+                              link.label === 'Solutions' ? serviceSubLinks :
+                                link.label === 'Industries' ? industrySubLinks :
+                                  productSubLinks
+                            ).map((sub) => (
+                              <Link key={sub.href} href={sub.href} className="flex flex-col">
+                                <span className="text-sm font-bold text-slate-700 uppercase tracking-tight">{sub.label}</span>
+                                <span className="text-[10px] text-slate-500 mt-0.5 leading-tight">{sub.desc}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
 
 
             </div>

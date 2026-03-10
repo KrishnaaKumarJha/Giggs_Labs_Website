@@ -1,8 +1,10 @@
 // frontend/pages/index.js
 import Link from 'next/link';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrainCircuit, ShieldCheck, Zap, Bot } from 'lucide-react';
+import Button from '../components/Button';
+import SectionTitle from '../components/SectionTitle';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -60,61 +62,6 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-const SectionTitle = ({
-  eyebrow,
-  title,
-  subtitle,
-  align = 'left',
-  underline = 'short',
-}) => {
-  const alignText = align === 'center' ? 'text-center' : 'text-left';
-  const subtitleWidth = align === 'center' ? 'mx-auto' : '';
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.45 }}
-      className={`${alignText} space-y-2`}
-    >
-      {eyebrow && (
-        <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sky-400/80">
-          {eyebrow}
-        </div>
-      )}
-
-      {title && (
-        <h2 className="inline-block bg-gradient-to-r from-[#00E0FF] via-[#4C8DFF] to-[#0066FF] bg-clip-text text-2xl md:text-3xl font-extrabold tracking-tight text-transparent">
-          {title}
-        </h2>
-      )}
-
-      {subtitle && (
-        <p className={`text-sm text-slate-300 ${subtitleWidth} max-w-2xl`}>
-          {subtitle}
-        </p>
-      )}
-
-      {title && underline !== 'none' && (
-        <>
-          {underline === 'short' && (
-            <div
-              className={`flex ${align === 'center' ? 'justify-center' : 'justify-start'
-                }`}
-            >
-              <div className="mt-1 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#00E0FF] via-[#4C8DFF] to-[#0066FF] blur-[0.5px]" />
-            </div>
-          )}
-
-          {underline === 'full' && (
-            <div className="mt-4 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-[#00E0FF]/50 to-transparent opacity-70 mx-auto" />
-          )}
-        </>
-      )}
-    </motion.div>
-  );
-};
 
 // HERO TABS DATA – each with its own MP4 video
 // NOTE: I've added `buttonText` and `buttonHref` to each tab
@@ -162,48 +109,35 @@ const heroTabs = [
 export default function Home() {
   // eslint-disable-next-line no-unused-vars
   const [activeVideo, setActiveVideo] = useState(null);
-
-  // HERO tab state
   const [activeHeroTab, setActiveHeroTab] = useState(heroTabs[0].id);
   const [heroDirection, setHeroDirection] = useState(1);
+  const [progressKey, setProgressKey] = useState(0);
+  const heroTimerRef = useRef(null);
 
-  // progress (underline) animation controller
-  const progressControls = useAnimation();
+  // Auto-cycle hero tabs every 6 seconds
+  const startHeroTimer = () => {
+    if (heroTimerRef.current) clearInterval(heroTimerRef.current);
+    setProgressKey((k) => k + 1);
+    heroTimerRef.current = setInterval(() => {
+      setActiveHeroTab((prev) => {
+        const currentIndex = heroTabs.findIndex((t) => t.id === prev);
+        const nextIndex = (currentIndex + 1) % heroTabs.length;
+        setHeroDirection(1);
+        return heroTabs[nextIndex].id;
+      });
+      setProgressKey((k) => k + 1);
+    }, 6000);
+  };
+
+  useEffect(() => {
+    startHeroTimer();
+    return () => clearInterval(heroTimerRef.current);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // 1) controls for first-fold (Industries) reveal
   const firstFoldControls = useAnimation();
   const firstFoldRef = useRef(null);
   const firstFoldInView = useInView(firstFoldRef, { amount: 0.22 });
-
-  // 5-second auto-rotate, no hover pause
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setHeroDirection(1);
-      setActiveHeroTab((prevId) => {
-        const currentIndex = heroTabs.findIndex((t) => t.id === prevId);
-        const nextIndex = (currentIndex + 1) % heroTabs.length;
-        return heroTabs[nextIndex].id;
-      });
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, [activeHeroTab]);
-
-  // derive active hero & index from the id
-  const activeHero = heroTabs.find((t) => t.id === activeHeroTab);
-  const activeHeroIndex = heroTabs.findIndex((t) => t.id === activeHeroTab);
-
-  // Ensure progress underline animation runs after mount and on every tab change.
-  useEffect(() => {
-    progressControls.set({ scaleX: 0, transformOrigin: 'left' });
-    const t = setTimeout(() => {
-      progressControls.start({
-        scaleX: 1,
-        transition: { duration: 8, ease: 'linear' },
-      });
-    }, 30);
-    return () => clearTimeout(t);
-  }, [activeHeroTab, progressControls]);
 
   // FIRST-FOLD reveal control:
   useEffect(() => {
@@ -236,6 +170,8 @@ export default function Home() {
     const nextIndex = heroTabs.findIndex((t) => t.id === id);
     setHeroDirection(nextIndex > currentIndex ? 1 : -1);
     setActiveHeroTab(id);
+    setProgressKey((k) => k + 1);
+    startHeroTimer(); // reset auto-cycle on manual click
   };
 
   return (
@@ -277,16 +213,19 @@ export default function Home() {
       {/* =============== HERO SECTION – VIDEO BACKGROUND PER TAB =============== */}
       <section className="relative w-full overflow-hidden text-white min-h-[75vh]">
         {/* Background video for current tab */}
-        <div className="absolute inset-0 z-0">
-          <video
-            key={activeHero.video}
-            src={activeHero.video}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="h-full w-full object-cover"
-          />
+        <div className="absolute inset-0 z-0 bg-slate-900">
+          {heroTabs.map((tab) => (
+            <video
+              key={tab.id}
+              src={tab.video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${activeHeroTab === tab.id ? 'opacity-100' : 'opacity-0'
+                }`}
+            />
+          ))}
         </div>
 
         {/* Left-heavy dark overlay */}
@@ -303,146 +242,144 @@ export default function Home() {
         <div className="pointer-events-none absolute left-[-8%] bottom-[-20%] z-10 h-56 w-56 rounded-full bg-indigo-500/30 blur-3xl" />
 
         {/* Content – sits above everything */}
-        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-16 pb-10 lg:pt-20 lg:pb-12">
+        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-8 lg:pt-12 pb-10 lg:pb-12">
           <div className="max-w-3xl">
 
-
-            {/* HERO TABS + UNDERLINE / PROGRESS BAR */}
-            <div className="mb-6">
-              <div className="max-w-4xl lg:mx-0 mx-auto">
-                <div className="grid grid-cols-4 gap-4 text-xs sm:text-sm">
-                  {heroTabs.map((tab) => {
-                    const isActive = tab.id === activeHeroTab;
-                    return (
-                      <button
-                        key={tab.id}
-                        type="button"
-                        onClick={() => handleHeroTabClick(tab.id)}
-                        className={`pb-1 font-medium transition-colors text-left sm:text-center ${isActive
-                          ? 'text-sky-300'
-                          : 'text-slate-300/80 hover:text-white'
-                          }`}
-                      >
-                        {tab.label}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Underline rail with animated segment as progress */}
-                <div className="mt-2 h-[2px] w-full rounded-full bg-slate-700/40 overflow-hidden">
-                  <div className="grid grid-cols-4 h-full">
-                    {heroTabs.map((tab, idx) => (
-                      <div key={tab.id} className="relative">
-                        {idx === activeHeroIndex && (
-                          <motion.div
-                            key={tab.id}
-                            className="absolute inset-0 rounded-full bg-gradient-to-r from-[#00C6FF] via-[#4C8DFF] to-[#0072FF]"
-                            initial={{ scaleX: 0 }}
-                            animate={progressControls}
-                            style={{ transformOrigin: 'left' }}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* MAIN HERO TEXT */}
+            {/* COMPANY NAME BADGE */}
             <motion.div
-              key={activeHero.id}
-              initial={{ opacity: 0, x: heroDirection > 0 ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.45, ease: 'easeOut' }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-1.5 text-xs sm:text-[13px] font-black uppercase tracking-[0.25em] text-sky-300 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,0.15)]"
             >
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
-                {activeHero.title}
-              </h1>
-
-              {/* subtitle made slightly larger for emphasis */}
-              <p className="mt-2 text-base sm:text-lg text-sky-300">
-                {activeHero.tagline}
-              </p>
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
+              Giggs Software Labs
             </motion.div>
 
-            {/* CTAs */}
-            {/* CTAs - stacked layout */}
-            <div className="mt-8 flex flex-col gap-4 text-xs sm:text-sm w-full max-w-xs">
-
-              {/* BUTTON 1 — Pillar CTA */}
-              <Link
-                href={activeHero.buttonHref || '/services'}
-                className="inline-flex items-center justify-center rounded-full
-      bg-gradient-to-r from-[#00C2FF] to-[#0066FF]
-      px-5 py-2.5 font-medium text-black
-      shadow-[0_0_20px_rgba(56,189,248,0.6)]
-      hover:brightness-110 transition w-full"
-              >
-                {activeHero.buttonText || 'Explore our 4 pillars'}
-              </Link>
-
-              {/* BUTTON 2 — Talk to us + Our Product (side by side) */}
-              <div className="flex flex-row items-center gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full
-        bg-gradient-to-r from-[#00C2FF] to-[#0066FF]
-        px-4 py-2 font-medium text-black
-        shadow-[0_0_14px_rgba(56,189,248,0.5)]
-        hover:brightness-110 transition"
-                >
-                  Talk to us
-                </Link>
-
-                {/* "Our Product" — only on Cybersecurity tab */}
-                {activeHero.id === 'cyber' && (
-                  <a
-                    href="https://www.mihawk.tech/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full
-        border border-violet-500/50 bg-violet-500/15
-        px-4 py-2 font-medium text-violet-100
-        hover:bg-violet-500/25 transition"
+            {/* HERO TABS */}
+            <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide">
+              {heroTabs.map((tab) => {
+                const isActive = activeHeroTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleHeroTabClick(tab.id)}
+                    className={`relative whitespace-nowrap px-3 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border overflow-hidden ${isActive
+                      ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,0.25)]'
+                      : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'
+                      }`}
                   >
-                    Our Product →
-                  </a>
-                )}
-              </div>
+                    {tab.label}
+                    {/* Progress bar */}
+                    {isActive && (
+                      <span
+                        key={progressKey}
+                        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
+                        style={{
+                          animation: 'hero-tab-progress 6s linear forwards',
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
 
+            {/* Progress bar keyframes */}
+            <style jsx>{`
+              @keyframes hero-tab-progress {
+                from { width: 0%; }
+                to { width: 100%; }
+              }
+            `}</style>
+
+            {/* ANIMATED TAB CONTENT */}
+            <div className="h-[400px] sm:h-[380px] lg:h-[340px]">
+              {heroTabs.map((tab) => (
+                activeHeroTab === tab.id && (
+                  <motion.div
+                    key={tab.id}
+                    initial={{ opacity: 0, x: heroDirection * 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: heroDirection * -30 }}
+                    transition={{ duration: 0.45, ease: 'easeOut' }}
+                    className="mt-2"
+                  >
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
+                      {tab.title}
+                    </h1>
+                    <p className="mt-4 text-lg sm:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">
+                      {tab.tagline}
+                    </p>
+                    <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+                      At Giggs Software Labs, we combine the power of AI, Automation, Cybersecurity, and
+                      Performance Engineering to help enterprises innovate faster, operate smarter, and scale
+                      securely in the digital era.
+                    </p>
+
+                    {/* CTAs */}
+                    <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 w-full">
+                      <Button
+                        href={tab.buttonHref}
+                        variant="primary"
+                        className="w-full sm:w-auto"
+                      >
+                        {tab.buttonText}
+                      </Button>
+                      <Button
+                        href="/contact"
+                        variant="secondary"
+                        className="w-full sm:w-auto"
+                      >
+                        Talk to an Expert
+                      </Button>
+                    </div>
+                  </motion.div>
+                )
+              ))}
             </div>
 
           </div>
         </div>
+      </section>
 
-        {/* PARTNERS STRIP – static logos */}
-        <div className="absolute bottom-0 left-0 right-0 z-30 w-full py-5">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent pointer-events-none" />
+      {/* =============== END HERO SECTION =============== */}
 
-          <div className="relative flex items-center justify-center gap-14 px-7">
+      {/* =============== CLIENT TRUST BAR =============== */}
+      <section className="relative w-full border-b border-slate-800 bg-slate-900/50 py-8 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-6">
+            Trusted by global organizations across
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm font-bold text-slate-300 md:text-base">
+            <span>India</span>
+            <span className="text-sky-500">•</span>
+            <span>Saudi Arabia</span>
+            <span className="text-sky-500">•</span>
+            <span>Singapore</span>
+            <span className="text-sky-500">•</span>
+            <span>UAE</span>
+            <span className="text-sky-500">•</span>
+            <span>USA</span>
+          </div>
+
+          {/* Optional Client Logos */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             {[
-              { src: '/logo/JioHotstar_transparent_large.png', alt: 'JioHotstar' },
-              { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },
               { src: '/logo/kantarW.png', alt: 'Kantar' },
               { src: '/logo/accentureW.png', alt: 'Accenture' },
-              { src: '/logo/jiostarW.png', alt: 'JioStar' },
+              { src: '/logo/jioW.png', alt: 'Jio' },
+              { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },
             ].map((p) => (
-              <img
-                key={p.alt}
-                src={p.src}
-                alt={p.alt}
-                className="h-7 md:h-9 flex-shrink-0 object-contain opacity-75 hover:opacity-100 transition-opacity duration-300"
-              />
+              <img key={p.alt} src={p.src} alt={p.alt} className="h-6 md:h-8 w-auto object-contain hover:opacity-100 transition-opacity" />
             ))}
           </div>
         </div>
       </section>
-      {/* =============== END HERO SECTION =============== */}
+      {/* =============== END CLIENT TRUST BAR =============== */}
 
       {/* =============== EMPOWERING INTELLIGENCE =============== */}
-      <section className="mx-auto max-w-6xl px-4 pt-16 pb-12 md:px-6">
+      <section className="mx-auto max-w-6xl px-4 pt-12 pb-8 md:px-6">
         <SectionTitle
           eyebrow="Empowering Intelligence"
           title="Empowering Every Industry with Intelligence."
@@ -479,8 +416,8 @@ export default function Home() {
 
 
       {/* =============== FOUR PILLARS OF INNOVATION =============== */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
-        <div className="mb-12">
+      <section className="mx-auto max-w-6xl px-4 pt-10 pb-14 md:px-6">
+        <div className="mb-8">
           <SectionTitle
             eyebrow="Our Expertise. Your Competitive Edge."
             title="The Four Pillars of Innovation"
@@ -489,12 +426,12 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
           {[
             {
-              num: '01',
               title: 'AI and Data Science & Engineering',
               tagline: 'Transforming Data into Intelligence. Intelligence into Action.',
+              video: '/hero/ai.mp4',
               description: 'Our AI and Data Engineering solutions help organizations unlock the full value of their data. We build scalable, intelligent platforms that empower faster decision-making, predictive insights, and end-to-end automation.',
               capabilities: ['Generative AI & ML Models', 'Data Engineering', 'MLOps', 'Advanced Analytics', 'AI Strategy'],
               outcomes: 'Accelerated data-to-insight conversion, predictive decision systems, enterprise-grade scalability.',
@@ -506,9 +443,9 @@ export default function Home() {
               href: '/services/ai-data',
             },
             {
-              num: '02',
               title: 'AI-driven Cybersecurity',
               tagline: 'Securing the Future Through Intelligence.',
+              video: '/hero/cyber.mp4',
               description: 'With cyber threats growing more sophisticated, Giggs Software Labs integrates AI into every layer of security. Our intelligent cybersecurity framework enables proactive threat detection, automated response, and continuous compliance.',
               capabilities: ['AI Threat Detection', 'Predictive Defense', 'SOC Automation', 'Cloud Security', 'Zero Trust Architecture'],
               outcomes: 'Real-time visibility, faster breach detection, reduced false positives.',
@@ -520,9 +457,9 @@ export default function Home() {
               href: '/services/cybersecurity',
             },
             {
-              num: '03',
               title: 'Performance Engineering',
               tagline: 'Delivering Reliability, Speed, and Scalability.',
+              video: '/hero/performance.mp4',
               description: 'We engineer systems that perform flawlessly under pressure. Our Performance Engineering practice optimizes applications, infrastructure, and cloud environments to ensure consistent, cost-effective, and scalable performance.',
               capabilities: ['App & Infra Optimization', 'APM', 'Load Testing', 'Cloud Cost Optimization', 'CI/CD Automation'],
               outcomes: 'Sub-second response times, improved efficiency, lower cloud costs.',
@@ -534,9 +471,10 @@ export default function Home() {
               href: '/services/performance',
             },
             {
-              num: '04',
+
               title: 'Automation',
               tagline: 'Automating the Enterprise for Speed, Efficiency, and Scale.',
+              video: '/hero/automation.mp4',
               description: 'Our Automation solutions eliminate inefficiencies across business and IT operations. From process digitization to DevOps and infrastructure automation, we enable a faster, error-free, and adaptive enterprise.',
               capabilities: ['RPA', 'Test Automation', 'IaC', 'Workflow Orchestration', 'Hyperautomation'],
               outcomes: 'Reduced manual effort, faster go-to-market, unified governance.',
@@ -562,10 +500,7 @@ export default function Home() {
 
                 <div className="relative flex flex-col h-full">
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className={`flex items-center justify-center h-8 w-8 rounded-full border border-sky-500/30 bg-sky-500/10 text-xs font-bold ${pillar.accentText}`}>{pillar.num}</span>
-                    </div>
+                  <div className="flex items-center justify-end mb-4">
                     <div className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
                   </div>
 
@@ -576,6 +511,21 @@ export default function Home() {
                   <p className={`text-sm font-medium mb-4 ${pillar.accentText}`}>
                     {pillar.tagline}
                   </p>
+
+                  {/* Visual — looping video */}
+                  {pillar.video && (
+                    <div className="relative mb-5 overflow-hidden rounded-2xl aspect-video">
+                      <video
+                        src={pillar.video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="h-full w-full object-cover opacity-60 transition-opacity duration-500 group-hover:opacity-90"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
+                    </div>
+                  )}
 
                   {/* Description */}
                   <p className="text-sm text-slate-400 leading-relaxed mb-6">
@@ -614,272 +564,235 @@ export default function Home() {
         </div>
       </section>
 
-
-      {/* =============== INSIGHTS & THOUGHT LEADERSHIP =============== */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
-        <SectionTitle
-          eyebrow="Insights & Thought Leadership"
-          title="Ideas that Inspire Digital Transformation."
-          subtitle="Explore our blogs, whitepapers, and case studies to discover how enterprises are reimagining the future with AI, Data, and Automation."
-          align="center"
-        />
-
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { title: 'AI & Data Innovation', icon: BrainCircuit, desc: 'Intelligent data ecosystems, generative AI, and predictive analytics insights.' },
-            { title: 'Cybersecurity Trends', icon: ShieldCheck, desc: 'Zero-trust patterns, AI-driven threat detection, and compliance strategies.' },
-            { title: 'Performance Engineering', icon: Zap, desc: 'Best practices for reliability, scalability, and cloud cost optimization.' },
-            { title: 'Automation Playbooks', icon: Bot, desc: 'RPA, workflow orchestration, and hyperautomation reference architectures.' },
-          ].map((topic) => (
-            <motion.div
-              key={topic.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.4 }}
-              className="group rounded-3xl border border-slate-800 bg-slate-950/80 p-5 md:p-6 shadow-[0_0_30px_rgba(15,23,42,0.9)] transition-all duration-300 hover:border-sky-500/40"
-            >
-              <div className="mb-4 text-sky-400 transition-transform duration-300 group-hover:scale-110 group-hover:text-white">
-                <topic.icon size={32} strokeWidth={1.5} />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-50 mb-2">{topic.title}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">{topic.desc}</p>
-              <Link
-                href="/blog"
-                className="mt-3 inline-flex items-center text-xs font-medium text-sky-400 hover:text-sky-300"
-              >
-                Read more →
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-
-
-      {/* HOW WE WORK */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
-        <div className="mb-8">
-          <SectionTitle
-            eyebrow="Process"
-            title="How we work"
-            subtitle="A simple, transparent process — from first call to production rollout."
-            align="center"
-          />
+      {/* ENTERPRISE TRANSFORMATION SECTION */}
+      <section className="mx-auto max-w-7xl px-4 pb-14 pt-8 md:px-6">
+        <div className="mb-10 grid lg:grid-cols-2 gap-10 items-end">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6">
+              Engineering Digital <br className="hidden lg:block" /> Transformation at Scale
+            </h2>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed">
+              Giggs Software Labs combines engineering precision with AI-powered innovation to help enterprises transform faster, operate smarter, and scale securely.
+            </p>
+          </div>
+          {/* Optional illustration/visual side mentioned in blueprint */}
+          <div className="hidden lg:flex justify-end pr-8">
+            <div className="relative h-32 w-32">
+              <div className="absolute inset-0 rounded-full border border-sky-500/30 animate-[spin_10s_linear_infinite]" />
+              <div className="absolute inset-4 rounded-full border border-indigo-500/30 animate-[spin_15s_linear_infinite_reverse]" />
+              <div className="absolute inset-8 rounded-full bg-gradient-to-tr from-sky-500/20 to-indigo-500/20 blur-md" />
+            </div>
+          </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-4">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {[
             {
-              step: '01',
-              title: 'Discovery',
-              desc: 'We understand your product, constraints, and success metrics in detail.',
+              title: 'Speed',
+              desc: 'Accelerate digital product delivery',
+              icon: (
+                <svg className="h-6 w-6 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              ),
+              border: 'border-sky-500/30',
+              bg: 'bg-sky-500/5',
             },
             {
-              step: '02',
-              title: 'Architecture',
-              desc: 'We design the system, choose the stack, and map out milestones.',
+              title: 'Intelligence',
+              desc: 'Leverage AI and advanced analytics',
+              icon: (
+                <svg className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              ),
+              border: 'border-indigo-500/30',
+              bg: 'bg-indigo-500/5',
             },
             {
-              step: '03',
-              title: 'Build & iterate',
-              desc: 'We ship in short cycles with regular demos and clear communication.',
+              title: 'Security',
+              desc: 'Build resilient and secure digital ecosystems',
+              icon: (
+                <svg className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              ),
+              border: 'border-blue-500/30',
+              bg: 'bg-blue-500/5',
             },
-            {
-              step: '04',
-              title: 'Deploy & support',
-              desc: 'We help roll out, monitor, and stabilize the system in production.',
-            },
-          ].map((p) => (
+          ].map((col) => (
             <div
-              key={p.step}
-              className="relative rounded-3xl border border-slate-800 bg-slate-950/80 p-5"
+              key={col.title}
+              className={`relative overflow-hidden rounded-2xl border ${col.border} ${col.bg} p-8 backdrop-blur-sm transition hover:bg-slate-900/60`}
             >
-              <div className="text-[11px] font-mono text-sky-400">{p.step}</div>
-              <h3 className="mt-2 text-sm font-semibold text-slate-50">
-                {p.title}
-              </h3>
-              <p className="mt-2 text-xs text-slate-400">{p.desc}</p>
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950/50 shadow-inner border border-slate-800">
+                {col.icon}
+              </div>
+              <h3 className="mb-3 text-xl font-bold text-white">{col.title}</h3>
+              <p className="text-sm text-slate-400 leading-relaxed max-w-xs">{col.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
-        <div className="mb-8">
+      {/* INDUSTRIES SECTION */}
+      <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
+        <div className="mb-10 text-center max-w-3xl mx-auto">
           <SectionTitle
-            eyebrow="Signal from the field"
-            title="What our clients say"
-            subtitle="Early feedback from founders and engineering leaders we’ve partnered with."
+            eyebrow="Domains"
+            title="Industries We Serve"
+            subtitle="Deep domain expertise paired with intelligent engineering."
             align="center"
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
-              quote:
-                'They treated our product like their own. We went from prototype to a stable v1 in under two months.',
-              name: 'Product Lead',
-              role: 'Fintech startup',
+              name: 'Fintech',
+              icon: (
+                <svg className="h-8 w-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ),
+              solve: 'Intelligent risk modeling, AI compliance, and fraud analytics.',
             },
             {
-              quote:
-                'The team understood our data and reliability requirements immediately. Our pipelines are finally observable and predictable.',
-              name: 'Head of Data',
-              role: 'Analytics company',
+              name: 'Health Tech',
+              icon: (
+                <svg className="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              ),
+              solve: 'Predictive diagnostics, data interoperability, and patient intelligence.',
             },
             {
-              quote:
-                'Clean communication, strong technical decisions, and no surprises during rollout. Exactly what we needed.',
-              name: 'CTO',
-              role: 'SaaS platform',
+              name: 'Retail Tech',
+              icon: (
+                <svg className="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              ),
+              solve: 'Customer analytics, recommendation engines, and demand forecasting.',
             },
-          ].map((t, i) => (
+          ].map((industry) => (
             <div
-              key={i}
-              className="group relative rounded-3xl border border-slate-800 bg-slate-950/80 p-5 shadow-[0_0_25px_rgba(15,23,42,0.9)] transition-colors duration-300 hover:border-[#00E0FF]/60"
+              key={industry.name}
+              className="group relative rounded-3xl bg-slate-900 border border-slate-800 p-8 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,0.2)] hover:border-sky-500/30"
             >
-              <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-sky-500/5 via-transparent to-indigo-500/10 opacity-0 group-hover:opacity-100 transition" />
-
-              <p className="text-sm text-slate-200 italic">“{t.quote}”</p>
-              <div className="mt-4 text-xs text-slate-400">
-                <div className="font-semibold text-slate-100">{t.name}</div>
-                <div>{t.role}</div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950/50 border border-slate-800 shadow-inner">
+                  {industry.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{industry.name}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  {industry.solve}
+                </p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* COMPANY METRICS + MAP — High Impact Redesign */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 md:px-6">
+      {/* CASE STUDIES */}
+      <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <SectionTitle
+            eyebrow="Proof of Work"
+            title="Real Impact. Real Results."
+            subtitle="How we engineer transformative outcomes for global enterprises."
+            align="left"
+          />
+          <Button href="/insights#case-studies" variant="secondary" className="shrink-0 max-w-max">
+            View All Case Studies
+          </Button>
+        </div>
+
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+          {[
+            {
+              category: 'Retail AI Platform',
+              metric: 'Reduced forecasting errors by 35%',
+              desc: 'Built an intelligent demand forecasting engine processing billions of data points in real time.',
+              color: 'sky',
+            },
+            {
+              category: 'Cybersecurity Automation',
+              metric: 'Detected threats 5x faster',
+              desc: 'Deployed a predictive defense system and automated SOC triaging using advanced behavioral analytics.',
+              color: 'indigo',
+            },
+            {
+              category: 'Performance Optimization',
+              metric: 'Improved system speed by 40%',
+              desc: 'Engineered a highly available cloud-native architecture capable of handling extreme peak traffic.',
+              color: 'blue',
+            },
+          ].map((study) => (
+            <div key={study.category} className="group relative rounded-3xl bg-slate-900 border border-slate-800 p-8 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,0.2)] hover:border-sky-500/30">
+              <div className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
+                {study.category}
+              </div>
+              <div className={`mb-4 text-2xl md:text-3xl font-black text-${study.color}-400 leading-tight`}>
+                {study.metric}
+              </div>
+              <p className="text-sm text-slate-400 leading-relaxed mb-8">
+                {study.desc}
+              </p>
+              <div className="mt-auto flex items-center text-sm font-bold text-slate-300 group-hover:text-white transition-colors">
+                Read the case study <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* GLOBAL PRESENCE */}
+      <section className="mx-auto max-w-6xl px-4 pb-14 md:px-6">
         <div className="relative overflow-hidden rounded-[3rem] border border-slate-800/60 bg-slate-950/40 p-1 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           {/* Subtle background glow */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(56,189,248,0.08),_transparent_70%)]" />
 
           <div className="relative z-10 p-6 md:p-10">
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between mb-12">
+            <div className="mb-8 md:mb-12">
               <SectionTitle
-                eyebrow="Proven performance"
-                title="By the numbers"
-                subtitle="Quantifiable signals of our engineering standards and global delivery capabilities."
-                align="left"
+                eyebrow="Reach"
+                title="Global Engineering Presence"
+                subtitle="Collaborating with organizations across the world."
+                align="center"
               />
-
-              <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                <span className="flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/50 px-4 py-2">
-                  <span className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
-                  Live Systems
-                </span>
-                <span className="flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/50 px-4 py-2">
-                  <span className="h-1 w-1 rounded-full bg-cyan-500 animate-pulse" />
-                  Global Reach
-                </span>
-              </div>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-              {/* Map Card */}
-              <div className="relative group overflow-hidden rounded-[2.5rem] border border-slate-800/50 bg-slate-900/20 p-6 transition-all duration-500 hover:border-slate-700">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            {/* Map Card */}
+            <div className="relative group overflow-hidden rounded-[2.5rem] border border-slate-800/50 bg-slate-900/20 p-2 md:p-6 transition-all duration-500 hover:border-slate-700">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
-                <div className="relative z-10">
-                  <div className="mb-6">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 mb-1">Collaborative Reach</div>
-                    <h3 className="text-xl font-bold text-slate-50">Global offerings</h3>
-                    <p className="text-sm text-slate-400 mt-2 max-w-md">
-                      HQ in Noida, India with active collaborations across Europe, USA, and Saudi Arabia.
-                    </p>
-                  </div>
+              <div className="relative z-10">
+                <div className="relative h-64 md:h-[28rem] w-full overflow-hidden rounded-3xl bg-slate-950/50 border border-slate-800/40">
+                  <img
+                    src="/regions-map.png"
+                    alt="World map"
+                    className="h-full w-full object-cover opacity-80"
+                    style={{ filter: 'brightness(1.1) grayscale(0.2)' }}
+                  />
 
-                  <div className="relative h-64 md:h-80 w-full overflow-hidden rounded-3xl bg-slate-950/50 border border-slate-800/40">
-                    <img
-                      src="/regions-map.png"
-                      alt="World map"
-                      className="h-full w-full object-cover opacity-80"
-                      style={{ filter: 'brightness(1.1) grayscale(0.2)' }}
-                    />
-
-                    {/* Pulsing Location Markers */}
-                    {[
-                      { l: '12%', t: '22%', n: 'USA', c: 'cyan' },
-                      { l: '52%', t: '12%', n: 'Europe', c: 'sky' },
-                      { l: '82%', t: '40%', n: 'India', c: 'indigo' },
-                      { l: '70%', t: '44%', n: 'Saudi Arabia', c: 'sky' },
-                    ].map((loc) => (
-                      <div key={loc.n} className="absolute" style={{ left: loc.l, top: loc.t }}>
-                        <div className={`h-8 w-8 rounded-full bg-${loc.c}-500/20 blur-md animate-pulse`} />
-                        <div className={`absolute inset-0 m-auto h-2 w-2 rounded-full bg-${loc.c}-400 shadow-[0_0_12px_#38bdf8]`} />
-                        <div className="mt-2 -translate-x-1/2 rounded-md bg-slate-950/90 border border-slate-800 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-sm">
-                          {loc.n}
-                        </div>
+                  {/* Pulsing Location Markers */}
+                  {[
+                    { l: '12%', t: '22%', n: 'USA', c: 'cyan' },
+                    { l: '70%', t: '44%', n: 'Saudi Arabia', c: 'sky' },
+                    { l: '84%', t: '42%', n: 'India', c: 'indigo' },
+                    { l: '74%', t: '46%', n: 'UAE', c: 'blue' },
+                    { l: '92%', t: '55%', n: 'Singapore', c: 'sky' },
+                  ].map((loc) => (
+                    <div key={loc.n} className="absolute" style={{ left: loc.l, top: loc.t }}>
+                      <div className={`h-6 w-6 md:h-8 md:w-8 rounded-full bg-${loc.c}-500/20 blur-md animate-pulse`} />
+                      <div className={`absolute inset-0 m-auto h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-${loc.c}-400 shadow-[0_0_12px_#38bdf8]`} />
+                      <div className="mt-1 md:mt-2 -translate-x-1/2 rounded-md bg-slate-950/90 border border-slate-800 px-1.5 md:px-2 py-0.5 text-[8px] md:text-[9px] font-bold text-white backdrop-blur-sm whitespace-nowrap">
+                        {loc.n}
                       </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {['India HQ', 'Saudi Arabia', 'UK/US Overlap', 'Remote-First'].map(tag => (
-                      <span key={tag} className="text-[10px] font-medium text-slate-500 border border-slate-800/50 rounded-lg px-3 py-1 bg-slate-950/40">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-
-              {/* KPI Grid */}
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                {[
-                  { label: 'Scale', val: '10', suffix: '+', sub: 'Global Deployments', icon: '🌐', color: 'cyan' },
-                  { label: 'Reliability', val: '99.9', suffix: '%', decimals: 1, sub: 'Target Uptime', icon: '⚡', color: 'emerald' },
-                  { label: 'Security', val: '0', sub: 'Critical Breaches', icon: '🛡️', color: 'violet' },
-                  { label: 'Velocity', val: 'Weekly', sub: 'Release Cycles', icon: '🚀', color: 'amber' },
-                ].map((kpi, i) => (
-                  <motion.div
-                    key={kpi.label}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group relative overflow-hidden rounded-[2rem] border border-slate-800/60 bg-slate-900/10 p-5 transition-all hover:border-slate-700 hover:bg-slate-900/30"
-                  >
-                    {/* Abstract Background Pattern */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-700"
-                      style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-
-                    <div className="relative z-10 flex items-center justify-between">
-                      <div>
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">{kpi.label}</div>
-                        <div className={`text-4xl font-black text-slate-50 tracking-tighter group-hover:text-${kpi.color}-400 transition-colors`}>
-                          {isNaN(parseFloat(kpi.val)) ? (
-                            kpi.val
-                          ) : (
-                            <StatCounter value={kpi.val} suffix={kpi.suffix} decimals={kpi.decimals || 0} />
-                          )}
-                        </div>
-                        <div className="text-xs text-slate-500 mt-1 font-medium">{kpi.sub}</div>
-                      </div>
-                      <div className="relative">
-                        <div className={`absolute inset-0 blur-xl opacity-0 group-hover:opacity-20 ${kpi.color === 'cyan' ? 'bg-cyan-500' : kpi.color === 'emerald' ? 'bg-emerald-500' : kpi.color === 'violet' ? 'bg-violet-500' : 'bg-amber-500'} transition-opacity duration-500`} />
-                        <span className="relative text-3xl grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110 inline-block">
-                          {kpi.icon}
-                        </span>
-                      </div>
-                    </div>
-                    {/* Animated performance bar */}
-                    <div className="mt-5 h-1 w-full bg-slate-800/50 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: '100%' }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, delay: 0.5 }}
-                        className={`h-full bg-gradient-to-r from-transparent via-${kpi.color}-500/40 to-${kpi.color}-500/80`}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
               </div>
             </div>
           </div>
@@ -891,13 +804,72 @@ export default function Home() {
 
 
 
+      {/* INSIGHTS & THOUGHT LEADERSHIP */}
+      <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full">
+          <SectionTitle
+            eyebrow="Thought Leadership"
+            title="Insights from Giggs Experts"
+            subtitle="Explore our blogs, whitepapers, and case studies to discover how enterprises are reimagining the future with AI, Data, and Automation."
+            align="left"
+          />
+          <Button href="/insights" variant="secondary" className="shrink-0 max-w-max">
+            Explore Insights
+          </Button>
+        </div>
+
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+          {[
+            {
+              type: 'Blog',
+              title: 'The Rise of AI-Driven Cybersecurity',
+              desc: 'How predictive behavioral analytics are replacing signature-based detection models in modern enterprise SOCs.',
+              date: 'Mar 12, 2024',
+              color: 'sky',
+            },
+            {
+              type: 'Whitepaper',
+              title: 'Building Intelligent Data Platforms',
+              desc: 'A comprehensive guide to transitioning from legacy data warehouses to scalable, real-time AI data lakes.',
+              date: 'Feb 28, 2024',
+              color: 'indigo',
+            },
+            {
+              type: 'Article',
+              title: 'Performance Engineering in Cloud Native Systems',
+              desc: 'Techniques for ensuring sub-second response times and extreme scalability in distributed microservices architectures.',
+              date: 'Feb 15, 2024',
+              color: 'blue',
+            },
+          ].map((insight) => (
+            <Link key={insight.title} href="/insights" className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 p-8 transition-all hover:-translate-y-2 hover:bg-slate-900 hover:border-sky-500/30 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,0.15)]">
+              <div>
+                <div className={`mb-4 inline-flex items-center rounded-full border border-${insight.color}-500/30 bg-${insight.color}-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-${insight.color}-300`}>
+                  {insight.type}
+                </div>
+                <h3 className="mb-3 text-xl font-bold text-slate-100 group-hover:text-white transition-colors">
+                  {insight.title}
+                </h3>
+                <p className="text-sm text-slate-400 leading-relaxed mb-6">
+                  {insight.desc}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mt-6 pt-6 border-t border-slate-800/50">
+                <span>{insight.date}</span>
+                <span className="text-sky-400 group-hover:translate-x-1 transition-transform">Read →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* OUR PARTNERS - Moved to bottom and shrunk */}
-      <section className="mx-auto max-w-5xl px-4 pb-20 md:px-6">
+      <section className="mx-auto max-w-5xl px-4 pb-14 md:px-6">
         <div className="mb-10">
           <SectionTitle
-            eyebrow="Collaborations"
-            title="Our partners"
-            subtitle="Teams we've collaborated with across engineering, analytics, and platform development."
+            eyebrow="Trust"
+            title="Trusted by global organizations"
+            subtitle=""
             align="center"
           />
         </div>
@@ -933,32 +905,24 @@ export default function Home() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
-        <div className="relative overflow-hidden rounded-3xl border border-[#00E0FF]/40 bg-slate-950/90 p-6 md:p-8 shadow-[0_0_40px_rgba(56,189,248,0.4)]">
-          <div className="pointer-events-none absolute inset-y-0 right-[-20%] w-1/2 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.35),_transparent_60%)] blur-3xl" />
-          <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-slate-50 md:text-2xl">
-                Ready to build your next platform?
-              </h2>
-              <p className="mt-2 text-sm text-slate-300">
-                Tell us what you’re working on, and we’ll map out a lean,
-                production-first approach — usually within 24–48 hours.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#00C2FF] to-[#0066FF] px-5 py-2.5 text-sm font-medium text-slate-950 shadow-[0_0_25px_rgba(56,189,248,0.5)] hover:brightness-110 transition"
-              >
-                Start a project
-              </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700/80 bg-slate-950/60 px-5 py-2.5 text-sm font-medium text-slate-100 hover:border-slate-500 hover:bg-slate-900/80 transition"
-              >
-                View case studies
-              </Link>
+      <section className="mx-auto max-w-6xl px-4 pb-16 md:px-6">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-sky-500/30 bg-slate-900 p-8 md:p-14 shadow-[0_0_50px_rgba(56,189,248,0.15)] text-center">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.1),_transparent_60%)] blur-2xl" />
+
+          <div className="relative z-10 flex flex-col items-center max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6">
+              Start Your Digital Transformation Journey
+            </h2>
+            <p className="text-base md:text-lg text-slate-300 leading-relaxed mb-10">
+              Speak with Giggs experts to explore how AI, automation and intelligent engineering can transform your business.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <Button href="/contact" variant="primary" className="w-full sm:w-auto px-8 py-4 text-base">
+                Schedule Consultation
+              </Button>
+              <Button href="/contact" variant="secondary" className="w-full sm:w-auto px-8 py-4 text-base">
+                Contact Us
+              </Button>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 /* styles/global.css (replace entire file with this) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import 'highlight.js/styles/github-dark.css';
 
 @tailwind base;
@@ -7,13 +8,16 @@
 
 /* color vars */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F7F9FC;
+  /* brand-bg */
+  --foreground: #0B1F3B;
+  /* brand-primary */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
+    /* keeping dark mode as is for now, maybe deep tech blue later if specified */
     --foreground: #ededed;
   }
 }
@@ -50,17 +54,18 @@ a {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  @apply font-inter antialiased;
 }
 
 /* headings */
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 .futuristic {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  letter-spacing: 0.04em;
+  @apply font-space-grotesk tracking-wide;
 }
 
 /* === compositing / rendering fixes ===

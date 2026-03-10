@@ -1,7 +1,5 @@
 import os
 import re
-import requests
-import base64
 import PyPDF2
 import io
 from rest_framework import generics
@@ -12,6 +10,7 @@ from rest_framework.views import APIView
 from .models import ContactMessage, JobApplication, Post, JobOpening, Service
 from .serializers import ContactMessageSerializer, JobApplicationSerializer, PostSerializer, JobOpeningSerializer, ServiceSerializer
 from django.conf import settings
+from django.core.mail import EmailMessage
 from rest_framework.permissions import IsAdminUser
 
 
@@ -51,6 +50,7 @@ class ResumeParseView(APIView):
             'linkedin': '',
             'qualification': '',
             'experience': '',
+            'address': '',
         }
 
         # Email
@@ -81,15 +81,36 @@ class ResumeParseView(APIView):
                 data['name'] = line.strip()
                 break
 
-        # Qualification / Education
-        edu_patterns = [
-            r'(?:B\.?Tech|B\.?E\.?|M\.?Tech|M\.?E\.?|B\.?Sc|M\.?Sc|MBA|BCA|MCA|Ph\.?D|B\.?Com|M\.?Com|B\.?A\.?|M\.?A\.?)[\s.,]*(?:in\s+)?[A-Za-z\s,()]*',
-            r'(?:Bachelor|Master|Doctor)(?:\'?s?)?\s+(?:of|in)\s+[A-Za-z\s,()]+',
+        # Address — look for lines with PIN/ZIP codes or address keywords
+        address_patterns = [
+            # Line containing a 6-digit Indian PIN code
+            r'.*\b\d{6}\b.*',
+            # Line containing a 5-digit US ZIP code
+            r'.*\b\d{5}(?:-\d{4})?\b.*',
         ]
-        for pat in edu_patterns:
-            edu_match = re.search(pat, text, re.IGNORECASE)
-            if edu_match:
-                data['qualification'] = edu_match.group().strip()[:200]
+        address_keywords = ['address', 'city', 'state', 'district', 'nagar', 'colony',
+                            'street', 'road', 'lane', 'sector', 'block', 'plot',
+                            'apartment', 'flat', 'floor', 'tower', 'phase',
+                            'delhi', 'mumbai', 'bangalore', 'hyderabad', 'chennai',
+                            'kolkata', 'pune', 'noida', 'gurgaon', 'gurugram',
+                            'india', 'maharashtra', 'karnataka', 'tamil nadu',
+                            'uttar pradesh', 'haryana', 'rajasthan', 'kerala']
+
+        for line in lines:
+            line_lower = line.lower()
+            # Skip lines that are clearly not addresses
+            if '@' in line or 'linkedin' in line_lower or 'http' in line_lower:
+                continue
+            # Check for PIN/ZIP code patterns
+            for pat in address_patterns:
+                if re.match(pat, line):
+                    data['address'] = line.strip()[:300]
+                    break
+            if data['address']:
+                break
+            # Check for address keywords
+            if any(kw in line_lower for kw in address_keywords):
+                data['address'] = line.strip()[:300]
                 break
 
         # Experience
@@ -107,56 +128,34 @@ class ResumeParseView(APIView):
         return data
 
 
-RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
-HR_EMAIL = os.getenv('HR_EMAIL_RECEIVER', 'ayush.bhatt@giggslab.com')
 ALLOWED_RESUME_EXTENSIONS = ['.pdf']
 
 
-def send_email_via_resend(to_email, subject, html_body, attachments=None):
-    """Send email using the Resend API with JSON payload and base64 attachments."""
-    if not RESEND_API_KEY:
-        print(f"[DEV] Email would be sent to {to_email}: {subject}")
+def send_email(subject, html_body, attachments=None):
+    """Send email via Django's SMTP backend to all configured receivers."""
+    recipients = getattr(settings, 'EMAIL_RECEIVERS', [])
+    if not recipients:
+        print("[Email] No EMAIL_RECEIVERS configured in .env")
         return False
 
-    payload = {
-        'from': 'Giggs Careers <onboarding@resend.dev>',
-        'to': [to_email],
-        'subject': subject,
-        'html': html_body,
-    }
-
-    if attachments:
-        resend_attachments = []
-        for att in attachments:
-            content_base64 = base64.b64encode(att['content']).decode('utf-8')
-            resend_attachments.append({
-                'filename': att['filename'],
-                'content': content_base64,
-            })
-        payload['attachments'] = resend_attachments
-
     try:
-        resp = requests.post(
-            'https://api.resend.com/emails',
-            headers={
-                'Authorization': f'Bearer {RESEND_API_KEY}',
-                'Content-Type': 'application/json',
-            },
-            json=payload,
+        email = EmailMessage(
+            subject=subject,
+            body=html_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=recipients,
         )
+        email.content_subtype = 'html'  # send as HTML
 
-        print(f"[Resend] API Response Status: {resp.status_code}")
-        print(f"[Resend] API Response Body: {resp.text}")
-        print(f"[Resend] Sending to: {to_email}")
-        print(f"[Resend] From: {payload.get('from')}")
-        if resp.status_code in (200, 201):
-            print("[Resend] Email sent successfully.")
-            return True
-        else:
-            print(f"[Resend] Error Response: {resp.text}")
-            return False
+        if attachments:
+            for att in attachments:
+                email.attach(att['filename'], att['content'], att.get('type', 'application/octet-stream'))
+
+        email.send(fail_silently=False)
+        print(f"[Email] Sent to {recipients}")
+        return True
     except Exception as e:
-        print(f"[Resend] Exception during send: {e}")
+        print(f"[Email] Error: {e}")
         return False
 
 
@@ -176,8 +175,7 @@ class ContactCreateView(generics.CreateAPIView):
             <h3>Message</h3>
             <p>{instance.message}</p>
             """
-            send_email_via_resend(
-                to_email=HR_EMAIL,
+            send_email(
                 subject=f"[Giggs] New contact from {instance.name}",
                 html_body=html,
             )
@@ -204,7 +202,7 @@ class JobApplicationCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        # Send email with resume attachment via Resend
+        # Send email with resume attachment via Gmail SMTP
         try:
             html = f"""
             <h2>📋 New Job Application</h2>
@@ -237,8 +235,7 @@ class JobApplicationCreateView(generics.CreateAPIView):
                     'type': 'application/pdf',
                 })
 
-            send_email_via_resend(
-                to_email=HR_EMAIL,
+            send_email(
                 subject=f"[Giggs Careers] Application: {instance.name} — {instance.job_title}",
                 html_body=html,
                 attachments=attachments if attachments else None,

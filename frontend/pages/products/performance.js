@@ -26,28 +26,28 @@ export default function PerformanceProductPage() {
                         transition={{ duration: 0.8 }}
                         className="space-y-8"
                     >
-                        <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-sky-400 backdrop-blur-md">
-                            <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8] animate-pulse" />
+                        <div className="inline-flex items-center gap-2 rounded-full border border-[#1E7BFF]/30 bg-[#1E7BFF]/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2ED6FF] backdrop-blur-md">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#2ED6FF] shadow-[0_0_8px_#2ED6FF] animate-pulse" />
                             Performance Product
                         </div>
 
                         <div className="flex justify-center">
-                            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500/10 to-blue-500/5 border border-sky-500/20">
-                                <Gauge size={40} strokeWidth={1.5} className="text-sky-400" />
+                            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1E7BFF]/10 to-blue-500/5 border border-[#1E7BFF]/20">
+                                <Gauge size={40} strokeWidth={1.5} className="text-[#1E7BFF]" />
                             </div>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-50">
-                            Coming <span className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent italic">Soon.</span>
+                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white futuristic">
+                            Coming <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] italic">Soon.</span>
                         </h1>
 
-                        <p className="mx-auto max-w-2xl text-lg text-slate-300 leading-relaxed font-medium">
+                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed font-medium">
                             Our Performance Engineering suite is currently under development. We are building tools to deliver reliability, speed, and scale at your fingertips.
                         </p>
 
                         <div className="flex justify-center pt-4">
-                            <Link href="/products" className="group inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-950/60 px-8 py-3.5 text-sm font-black uppercase tracking-widest text-slate-100 hover:border-slate-500 hover:bg-slate-900/80 transition-all">
-                                <ArrowLeft size={16} />
+                            <Link href="/products" className="inline-flex items-center justify-center bg-transparent border border-[#1E7BFF] text-[#1E7BFF] hover:bg-[#1E7BFF]/10 font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">
+                                <ArrowLeft size={16} className="mr-2" />
                                 Back to Products
                             </Link>
                         </div>

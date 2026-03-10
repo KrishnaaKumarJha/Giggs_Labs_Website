@@ -130,7 +130,7 @@ export default function ServicesPage() {
           <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
           {serviceAreas.map((area, i) => (
             <motion.div
               key={area.href}
@@ -197,7 +197,7 @@ export default function ServicesPage() {
           <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
           {coreServices.map((svc, i) => (
             <motion.article
               key={svc.title}
@@ -238,7 +238,7 @@ export default function ServicesPage() {
           <div className="mt-4 h-1 w-12 bg-cyan-500 mx-auto" />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {processSteps.map((p, i) => (
             <motion.div
               key={p.step}
@@ -266,7 +266,7 @@ export default function ServicesPage() {
           <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {engagementModels.map((model, i) => (
             <motion.div
               key={model.title}

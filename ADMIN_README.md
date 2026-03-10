@@ -2,35 +2,24 @@
 
 ## 🔐 Accessing the Admin Dashboard
 
-The admin panel is hidden behind a secret URL key. Normal visitors cannot find it.
+The admin panel is hidden from regular visitors. There are two ways to access it:
 
-**Admin Login URL:**
+**Option 1 — Keyboard Shortcut (from any page):**
+Press `Ctrl + Shift + A` anywhere on the website. This will take you to the admin login page.
+
+**Option 2 — Direct URL:**
 ```
-http://localhost:3000/admin/login?key=giggs2026secure
+http://localhost:3000/admin/login
 ```
 
-> Bookmark this URL. Without the `?key=giggs2026secure` parameter, the page returns a 404.
-
-After logging in, you'll land on the **Admin Dashboard** with access to:
+After logging in with your Django username and password, you'll land on the **Admin Dashboard** with access to:
 - **Job Openings** — Create, edit, delete job listings (shown on Careers page)
 - **Services** — Create, edit, delete service offerings (shown on Services page)
 - **Insights / Blog** — Create, edit, delete blog posts with markdown, images, and publish toggle
 - **Applications** — View job applications (read-only)
 - **Messages** — View contact form messages (read-only)
 
----
-
-## 🔑 Changing the Secret URL Key
-
-Edit `frontend/.env.local` and change the value:
-```
-ADMIN_SECRET_KEY=your_new_secret_key_here
-```
-Then **restart the Next.js dev server** for changes to take effect:
-```
-cd frontend
-npm run dev
-```
+> **Security:** The login is protected by Django's JWT authentication. Only users created with `createsuperuser` can access the dashboard. There is no visible link anywhere on the website.
 
 ---
 
@@ -92,7 +81,7 @@ Runs on `http://localhost:3000`
 
 | File | Purpose |
 |---|---|
-| `frontend/.env.local` | Secret URL key for admin access |
+| `frontend/pages/_app.js` | Contains the hidden Ctrl+Shift+A shortcut |
 | `frontend/pages/admin/login.js` | Admin login page |
 | `frontend/pages/admin/dashboard.js` | Admin dashboard hub |
 | `frontend/pages/admin/jobs.js` | Job openings CRUD |

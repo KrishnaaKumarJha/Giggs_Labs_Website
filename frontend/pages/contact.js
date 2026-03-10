@@ -36,12 +36,57 @@ const offices = [
 ];
 
 const countries = [
-  { name: 'India', role: 'HQ & Engineering' },
-  { name: 'United States', role: 'Strategic Sales' },
-  { name: 'Saudi Arabia', role: 'MENA Operations' },
-  { name: 'United Kingdom', role: 'Regional Support' },
-  { name: 'Singapore', role: 'APAC Gateway' },
+  { name: 'India' },
+  { name: 'United States' },
+  { name: 'Saudi Arabia' },
+  { name: 'UAE' },
+  { name: 'Singapore' },
 ];
+
+const companyLocations = {
+  noida: {
+    name: 'HQ Location',
+    city: 'Noida (U.P), India',
+    badge: 'Open to remote projects · IST (UTC+5:30)',
+    description: 'Our studio is located in a well-connected tech hub, close to major corporate campuses and infrastructure. Most of our work happens remotely with structured communication and clear handoffs.',
+    addressTitle: 'HQ address',
+    address: (
+      <>
+        Giggs Software Labs
+        <br />
+        114, Block A, Logix Technova, Sector-132, Noida, Uttar Pradesh, India
+      </>
+    ),
+    bullets: [
+      'Remote-first, with optional on-site collaboration.',
+      'Comfortable working with US, EU, and APAC teams.',
+      'Calls typically scheduled between 11:00–21:00 IST.'
+    ],
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.037489042097!2d77.37679877408867!3d28.508519789703996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce9007ae07f77%3A0xe81ebb50e203f693!2sGiggs%20Software%20Labs!5e0!3m2!1sen!2sin!4v1764838008660!5m2!1sen!2sin"
+  },
+  bangalore: {
+    name: 'Bangalore Office',
+    city: 'Bengaluru, Karnataka',
+    badge: 'Engineering Hub · IST (UTC+5:30)',
+    description: "Our Bengaluru office sits right in the heart of India's Silicon Valley, enabling closely integrated engineering capabilities and strategic growth for our technology operations.",
+    addressTitle: 'Office address',
+    address: (
+      <>
+        Giggs Software Labs
+        <br />
+        4th Floor, Jupiter Block, Prestige Tech Park,
+        <br />
+        Kadubeesanahalli, Bengaluru, Karnataka 560103
+      </>
+    ),
+    bullets: [
+      'High-performance engineering center.',
+      'Deeply connected with regional talent pools.',
+      'Modern infrastructure tailored for agile teams.'
+    ],
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.460406514485!2d77.69234587454615!3d12.942364315519656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae13b3c22f1c0b%3A0x702469bf9a247c88!2sJUPITER%20BLOCK%2C%208th%20Floor%2C%20JUPITER%20BLOCK%2C%20PRESTIGE%20TECH%20PARK%2C%20Kadubeesanahalli%2C%20Bellandur%20Amanikere%2C%20Bengaluru%2C%20Karnataka%20560103!5e0!3m2!1sen!2sin!4v1772088341358!5m2!1sen!2sin"
+  }
+};
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -81,8 +126,8 @@ export default function ContactPage() {
 
   return (
     <PageShell
-      title="Get in touch"
-      description="Have a question or a project idea? We'd love to hear from you."
+      title="Let's Build the Future Together"
+      description="Whether you're exploring AI transformation, scaling digital platforms, or automating enterprise workflows, our experts are here to help you move faster and smarter."
       videoSrc="/hero/cyber.mp4"
       videoOpacity={0.85}
       overlayOpacity={0.2}
@@ -106,7 +151,7 @@ export default function ContactPage() {
                   <h2 className="text-xl font-bold text-white tracking-tight">Send a message</h2>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 mb-6">
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 mb-6">
                   <div>
                     <label className={labelCls}>Full name</label>
                     <input
@@ -131,7 +176,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 mb-6">
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 mb-6">
                   <div>
                     <label className={labelCls}>Company</label>
                     <input
@@ -241,7 +286,7 @@ export default function ContactPage() {
               className="space-y-6"
             >
               {/* Contact Cards */}
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1">
                 <a href="mailto:hello@giggssoftwarelab.com" className="group rounded-3xl border border-slate-800 bg-slate-900/10 p-6 transition-all hover:bg-slate-900/20 hover:border-slate-700">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition-transform">
@@ -249,7 +294,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Email us</div>
-                      <div className="text-sm font-bold text-slate-100">hello@giggssoftwarelab.com</div>
+                      <div className="text-sm font-bold text-slate-100">sales@giggslab.com</div>
                     </div>
                   </div>
                 </a>
@@ -261,7 +306,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Call us</div>
-                      <div className="text-sm font-bold text-slate-100">+91 (816) 948-3800</div>
+                      <div className="text-sm font-bold text-slate-100">+1 (408) 724 7544</div>
                     </div>
                   </div>
                 </a>
@@ -285,7 +330,7 @@ export default function ContactPage() {
                   <Globe className="w-5 h-5 text-cyan-400" />
                   <h3 className="font-bold text-slate-100 uppercase tracking-widest text-xs">Global Presence</h3>
                 </div>
-                <div className="grid grid-cols-2 gap-y-4 gap-x-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
                   {countries.map(c => (
                     <div key={c.name}>
                       <div className="text-[11px] font-bold text-slate-200 mb-0.5">{c.name}</div>
@@ -306,59 +351,27 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* ─── OUR HQ — MAP ─── */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="relative rounded-[32px] border border-[#00E0FF]/30 bg-slate-950/90 p-[1px] shadow-[0_0_45px_rgba(56,189,248,0.45)]">
-          <div className="rounded-[30px] bg-gradient-to-br from-slate-950 via-slate-950 to-slate-950/80 px-5 py-6 md:px-7 md:py-7">
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h2 className="text-lg md:text-xl font-semibold text-slate-50 futuristic">
-                  Our location
-                </h2>
-                <p className="mt-1 text-xs md:text-sm text-slate-300">
-                  Based in{' '}
-                  <span className="text-slate-100 font-semibold">
-                    Noida (U.P), India
-                  </span>
-                  , collaborating with teams across time zones.
-                </p>
-              </div>
-              <div className="mt-2 inline-flex items-center rounded-full border border-[#00E0FF]/40 bg-slate-950/80 px-3 py-1 text-[11px] text-slate-200 shadow-[0_0_20px_rgba(56,189,248,0.4)] md:mt-0">
-                <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#00E0FF]" />
-                <span className="ml-2">
-                  Open to remote projects · IST (UTC+5:30)
-                </span>
-              </div>
-            </div>
+      {/* ─── OUR LOCATIONS — SIDE BY SIDE ─── */}
+      <section className="container mx-auto px-4 py-14">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800 to-slate-800" />
+          <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 px-4 whitespace-nowrap">Our Offices</h2>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
+        </div>
 
-            <div className="mt-4 grid gap-5 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)] md:items-stretch">
-              <div className="space-y-3 text-xs md:text-sm text-slate-300">
-                <p>
-                  Our studio is located in a well-connected tech hub, close to
-                  major corporate campuses and infrastructure. Most of our work
-                  happens remotely with structured communication and clear
-                  handoffs.
-                </p>
-                <div className="rounded-2xl border border-slate-800/80 bg-slate-950/80 p-3">
-                  <div className="text-[11px] uppercase tracking-wide text-slate-500">
-                    HQ address
-                  </div>
-                  <p className="mt-1 text-[13px] text-slate-100">
-                    Giggs Software Labs
-                    <br />
-                    144, Block A, Logix Technova, Sector-132, Noida, Uttar Pradesh, India
-                  </p>
-                </div>
-                <ul className="space-y-1 text-[12px] text-slate-400">
-                  <li>• Remote-first, with optional on-site collaboration.</li>
-                  <li>• Comfortable working with US, EU, and APAC teams.</li>
-                  <li>• Calls typically scheduled between 11:00–21:00 IST.</li>
-                </ul>
-              </div>
-
-              <div className="h-64 md:h-80 lg:h-96 overflow-hidden rounded-3xl border border-[#00E0FF]/45 bg-slate-950/90 shadow-[0_0_40px_rgba(56,189,248,0.5)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {Object.entries(companyLocations).map(([key, loc]) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="rounded-[2rem] border border-slate-800/80 bg-slate-950/90 overflow-hidden"
+            >
+              {/* Map */}
+              <div className="h-52 overflow-hidden border-b border-slate-800/60">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.037489042097!2d77.37679877408867!3d28.508519789703996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce9007ae07f77%3A0xe81ebb50e203f693!2sGiggs%20Software%20Labs!5e0!3m2!1sen!2sin!4v1764838008660!5m2!1sen!2sin"
+                  src={loc.mapSrc}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -367,8 +380,35 @@ export default function ContactPage() {
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
-            </div>
-          </div>
+
+              {/* Info */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{loc.name}</h3>
+                    <p className="text-xs text-slate-400 mt-0.5">{loc.city}</p>
+                  </div>
+                  <div className="inline-flex items-center rounded-full border border-[#00E0FF]/30 bg-slate-900/80 px-3 py-1 text-[10px] text-slate-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00E0FF] mr-2" />
+                    {loc.badge}
+                  </div>
+                </div>
+
+                <p className="text-xs text-slate-400 leading-relaxed">{loc.description}</p>
+
+                <div className="rounded-xl border border-slate-800/80 bg-slate-900/50 p-3">
+                  <div className="text-[10px] uppercase tracking-wide text-slate-500 mb-1">{loc.addressTitle}</div>
+                  <p className="text-[12px] text-slate-200 leading-relaxed">{loc.address}</p>
+                </div>
+
+                <ul className="space-y-1">
+                  {loc.bullets.map((bullet, idx) => (
+                    <li key={idx} className="text-[11px] text-slate-500">• {bullet}</li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
     </PageShell>

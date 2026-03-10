@@ -74,7 +74,7 @@ export default function PerformancePage() {
                     <h2 className="text-xs font-black uppercase tracking-[0.2em] text-sky-400/80">Core Capabilities</h2>
                     <div className="mt-2 h-0.5 w-12 bg-gradient-to-r from-sky-500 to-transparent" />
                 </div>
-                <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                     {capabilities.map((cap, i) => (
                         <motion.div
                             key={cap.name}
@@ -105,7 +105,7 @@ export default function PerformancePage() {
                 </div>
                 <div className="relative">
                     <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-sky-500/20 via-sky-500/10 to-sky-500/20 -translate-y-1/2" />
-                    <div className="grid gap-5 md:grid-cols-4 relative z-10">
+                    <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10">
                         {methodology.map((m, i) => (
                             <motion.div
                                 key={m.step}
@@ -130,7 +130,7 @@ export default function PerformancePage() {
             </section>
 
             {/* ─── USE CASES + TECH ─── */}
-            <section className="mb-20 grid gap-5 md:grid-cols-2">
+            <section className="mb-20 grid gap-5 grid-cols-1 md:grid-cols-2">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}

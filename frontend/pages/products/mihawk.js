@@ -256,7 +256,7 @@ export default function MihawkProductPage() {
 
             {/* ═══════ STATS ═══════ */}
             <section className="relative z-10 mx-auto max-w-6xl px-4 md:px-6 mb-24">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     {stats.map((stat, i) => (
                         <motion.div
                             key={stat.label}
@@ -268,11 +268,11 @@ export default function MihawkProductPage() {
                         >
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.06),_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <div className="relative">
-                                <div className="text-2xl md:text-3xl font-black bg-gradient-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent">
+                                <div className="text-2xl md:text-3xl font-space-grotesk font-bold bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] bg-clip-text text-transparent">
                                     {stat.value}
                                 </div>
-                                <div className="mt-1 text-[11px] font-black uppercase tracking-widest text-slate-200">{stat.label}</div>
-                                <div className="text-[10px] text-slate-500 font-medium">{stat.sub}</div>
+                                <div className="mt-1 text-[11px] font-inter font-bold uppercase tracking-widest text-slate-200">{stat.label}</div>
+                                <div className="text-[10px] font-roboto text-slate-500 font-medium">{stat.sub}</div>
                             </div>
                         </motion.div>
                     ))}
@@ -282,14 +282,14 @@ export default function MihawkProductPage() {
             {/* ═══════ CORE CAPABILITIES ═══════ */}
             <section className="relative z-10 mx-auto max-w-6xl px-4 md:px-6 mb-24">
                 <div className="mb-12">
-                    <div className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Security Ecosystem</div>
-                    <h2 className="mt-2 text-3xl md:text-4xl font-black tracking-tighter text-slate-50">
-                        Enterprise security, <span className="bg-gradient-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent">fully managed</span>
+                    <div className="text-[11px] font-inter font-bold uppercase tracking-[0.3em] text-[#1E7BFF]">Security Ecosystem</div>
+                    <h2 className="mt-2 font-space-grotesk text-[36px] md:text-[42px] font-bold tracking-tight text-white mb-4">
+                        Enterprise security, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF]">fully managed</span>
                     </h2>
-                    <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-sky-500 to-blue-500" />
+                    <div className="mt-4 h-1.5 w-24 rounded-full bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF]" />
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
                     {features.map((f, i) => (
                         <FeatureCard key={f.title} feature={f} index={i} />
                     ))}
@@ -305,8 +305,8 @@ export default function MihawkProductPage() {
                     transition={{ duration: 0.6 }}
                     className="rounded-[3rem] border border-slate-800/50 bg-gradient-to-br from-slate-950/60 to-sky-950/10 p-8 md:p-12 backdrop-blur-md shadow-2xl"
                 >
-                    <div className="text-[10px] font-black uppercase tracking-[0.4em] text-sky-400 mb-6">Security Stack</div>
-                    <h3 className="text-2xl font-black text-slate-50 mb-8 tracking-tight">Advanced Defense Technologies</h3>
+                    <div className="text-[10px] font-inter font-bold uppercase tracking-[0.4em] text-[#1E7BFF] mb-6">Security Stack</div>
+                    <h3 className="font-space-grotesk text-[36px] font-bold text-white mb-8 tracking-tight">Advanced Defense Technologies</h3>
                     <div className="flex flex-wrap gap-3">
                         {techStack.map((tech) => (
                             <span
@@ -323,13 +323,13 @@ export default function MihawkProductPage() {
             {/* ═══════ USE CASES ═══════ */}
             <section className="relative z-10 mx-auto max-w-6xl px-4 md:px-6 mb-24">
                 <div className="mb-12">
-                    <div className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Industry Verticals</div>
-                    <h2 className="mt-2 text-3xl md:text-4xl font-black tracking-tighter text-slate-50">
-                        Built for <span className="bg-gradient-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent">Scale</span>
+                    <div className="text-[11px] font-inter font-bold uppercase tracking-[0.3em] text-[#1E7BFF]">Industry Verticals</div>
+                    <h2 className="mt-2 font-space-grotesk text-[36px] md:text-[42px] font-bold tracking-tight text-white">
+                        Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF]">Scale</span>
                     </h2>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {useCases.map((uc, i) => (
                         <motion.div
                             key={uc.title}
@@ -360,8 +360,8 @@ export default function MihawkProductPage() {
                 >
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.1),_transparent_70%)]" />
                     <div className="relative z-10">
-                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-50 mb-6">
-                            Deployment in <span className="bg-gradient-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent pb-2 inline-block">48 Hours</span>
+                        <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold tracking-tight text-white mb-6">
+                            Deployment in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] pb-2 inline-block">48 Hours</span>
                         </h2>
                         <p className="mt-4 text-base md:text-lg text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed mb-10">
                             Get an enterprise-ready security assessment and launch your hardened infrastructure in less than 48 hours.

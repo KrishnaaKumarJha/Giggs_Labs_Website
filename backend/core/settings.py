@@ -107,8 +107,17 @@ else:
         # add your production domain here
     ]
 
-# Email — using Resend API directly in views.py
-# RESEND_API_KEY and HR_EMAIL_RECEIVER are read from .env in views.py
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Giggs Software Labs <noreply@giggslab.com>'
+# Email — Gmail SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = f'Giggs Software Labs <{EMAIL_HOST_USER}>'
+
+# Comma-separated list of recipient emails (read from .env)
+EMAIL_RECEIVERS = [
+    e.strip() for e in os.getenv('EMAIL_RECEIVERS', '').split(',') if e.strip()
+]
 

@@ -288,10 +288,60 @@ export default function CareersPage({ jobs = [] }) {
   return (
     <PageShell
       eyebrow="Careers"
-      title="Join the mission"
-      description="Building the next generation of digital infrastructure. Explore our open roles and apply today."
+      title="Build the Future with Giggs"
+      description="We're building the next generation of intelligent digital systems. Join a team of engineers, data scientists, and innovators shaping the future of enterprise technology."
     >
       <div className="max-w-4xl mx-auto px-4 py-12">
+
+        {/* ─── LIFE AT GIGGS ─── */}
+        <section className="mb-14">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800 to-slate-800" />
+            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 px-4 whitespace-nowrap">Life at Giggs</h2>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
+          </div>
+
+          <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-2xl">
+            At Giggs, we believe great engineering happens when brilliant minds are given the freedom to innovate, the tools to excel, and a culture that values impact over process.
+          </p>
+
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2">
+            {[
+              {
+                emoji: '🚀',
+                title: 'Engineering-First Culture',
+                desc: 'Work on cutting-edge AI, cybersecurity, and cloud-native systems with a team that values deep technical craft.',
+              },
+              {
+                emoji: '🌍',
+                title: 'Remote-First, Global Team',
+                desc: 'Collaborate with engineers across India, Saudi Arabia, Singapore, UAE, and the USA — work from anywhere.',
+              },
+              {
+                emoji: '📈',
+                title: 'Growth & Learning',
+                desc: 'Continuous learning through mentorship, conference sponsorship, internal tech talks, and hands-on R&D projects.',
+              },
+              {
+                emoji: '🤝',
+                title: 'Impact That Matters',
+                desc: 'Ship solutions that power enterprises at scale — your work directly transforms how global businesses operate.',
+              },
+            ].map((perk) => (
+              <motion.div
+                key={perk.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group rounded-3xl border border-slate-800 bg-slate-900/40 p-6 transition-all hover:border-[#00E0FF]/30 hover:bg-slate-900/60"
+              >
+                <div className="text-2xl mb-3">{perk.emoji}</div>
+                <h3 className="text-base font-bold text-white mb-2">{perk.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{perk.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
         <AnimatePresence mode="wait">
           {!selectedJob ? (
             /* ========== JOB LISTINGS ========== */
@@ -444,7 +494,7 @@ export default function CareersPage({ jobs = [] }) {
                         </button>
                       </div>
 
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Auto-fill option */}
                         <motion.button
                           type="button"
@@ -505,20 +555,7 @@ export default function CareersPage({ jobs = [] }) {
                         ← Change fill mode
                       </button>
 
-                      {/* Auto-fill notice */}
-                      {autoFilledKeys.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="flex items-center gap-2 p-3 mb-5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl"
-                        >
-                          <span className="text-cyan-400 text-sm">✨</span>
-                          <span className="text-cyan-300 text-sm">
-                            {autoFilledKeys.length} field{autoFilledKeys.length > 1 ? 's' : ''} auto-filled from your resume.{' '}
-                            <span className="text-cyan-400/60">Fields with a cyan glow were extracted — feel free to edit them.</span>
-                          </span>
-                        </motion.div>
-                      )}
+
 
                       {/* Resume badge */}
                       <div className="flex items-center gap-3 p-3 mb-5 bg-slate-800/50 border border-slate-700 rounded-xl">
@@ -530,7 +567,7 @@ export default function CareersPage({ jobs = [] }) {
                       <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Section: Personal Info */}
                         <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">Personal Information</p>
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <input required placeholder="Full Name *" className={inputClass('name')} value={form.name} onChange={set('name')} />
                           <input required type="email" placeholder="Email *" className={inputClass('email')} value={form.email} onChange={set('email')} />
                         </div>
@@ -543,7 +580,7 @@ export default function CareersPage({ jobs = [] }) {
                           required
                           placeholder="Full Address *"
                           rows="2"
-                          className={`${inputCls} resize-none`}
+                          className={`${inputClass('address')} resize-none`}
                           value={form.address}
                           onChange={set('address')}
                         />
@@ -555,7 +592,7 @@ export default function CareersPage({ jobs = [] }) {
                           <input required placeholder="Current CTC * (e.g. 5 LPA)" className={inputCls} value={form.current_ctc} onChange={set('current_ctc')} />
                           <input required placeholder="Expected CTC * (e.g. 8 LPA)" className={inputCls} value={form.expected_ctc} onChange={set('expected_ctc')} />
                         </div>
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <input placeholder="LinkedIn URL (Optional)" className={inputClass('linkedin')} value={form.linkedin} onChange={set('linkedin')} />
                           <input placeholder="Portfolio URL (Optional)" className={inputCls} value={form.portfolio} onChange={set('portfolio')} />
                         </div>

@@ -27,6 +27,7 @@ urlpatterns = [
     path('applications/', JobApplicationListView.as_view(), name='api-applications'),  # GET list (admin)
     path('parse-resume/', ResumeParseView.as_view(), name='api-parse-resume'),  # POST
 
+
     # Blog/Post endpoints (public)
     path('posts/', PostListView.as_view(), name='api-posts'),
     path('posts/<slug:slug>/', PostDetailView.as_view(), name='api-post-detail'),

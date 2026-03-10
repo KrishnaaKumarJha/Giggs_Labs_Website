@@ -223,7 +223,7 @@ export default function ProductsPage() {
 
       {/* ═══════ STATS ═══════ */}
       <section className="mx-auto max-w-6xl px-4 md:px-6 mb-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -256,7 +256,7 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
           {features.map((f, i) => (
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}
@@ -295,7 +295,7 @@ export default function ProductsPage() {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {useCases.map((uc, i) => (
             <motion.div
               key={uc.title}
@@ -321,7 +321,7 @@ export default function ProductsPage() {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { step: '01', title: 'Discovery', desc: 'We map your attack surface, assets, and compliance requirements.' },
             { step: '02', title: 'Deploy', desc: 'Agents and integrations are deployed across your infrastructure — zero downtime.' },

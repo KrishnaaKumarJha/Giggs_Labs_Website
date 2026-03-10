@@ -73,7 +73,7 @@ export default function InsightsHub({ posts }) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="group relative grid md:grid-cols-2 gap-8 items-center rounded-[2rem] border border-slate-800/80 bg-slate-900/40 p-1 overflow-hidden hover:border-[#00E0FF]/40 transition-all cursor-pointer"
+                className="group relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center rounded-[2rem] border border-slate-800/80 bg-slate-900/40 p-1 overflow-hidden hover:border-[#00E0FF]/40 transition-all cursor-pointer"
               >
                 <div className="relative aspect-[16/10] md:aspect-square overflow-hidden rounded-[1.8rem]">
                   <img
@@ -110,7 +110,7 @@ export default function InsightsHub({ posts }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           >
             {otherPosts.length === 0 && posts.length > 0 && activeCategory !== 'All' ? (
               <div className="col-span-full py-20 text-center">
@@ -135,8 +135,8 @@ export default function InsightsHub({ posts }) {
                       />
                       <div className="absolute top-3 left-3">
                         <span className={`text-[9px] font-bold px-2 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10 uppercase tracking-widest ${post.category === 'Case Study' ? 'text-amber-400' :
-                            post.category === 'Whitepaper' ? 'text-emerald-400' :
-                              post.category === 'Tech Report' ? 'text-violet-400' : 'text-[#00C2FF]'
+                          post.category === 'Whitepaper' ? 'text-emerald-400' :
+                            post.category === 'Tech Report' ? 'text-violet-400' : 'text-[#00C2FF]'
                           }`}>
                           {post.category}
                         </span>

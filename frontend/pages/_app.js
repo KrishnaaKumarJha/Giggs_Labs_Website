@@ -19,6 +19,8 @@ function MyApp({ Component, pageProps }) {
       window.history.scrollRestoration = 'manual';
     }
 
+    // Admin panel: navigate to /admin/login in the browser URL bar
+
     // Nudge observers after initial mount and after route changes.
     const handleScrollTop = () => {
       window.scrollTo(0, 0);
@@ -44,7 +46,7 @@ function MyApp({ Component, pageProps }) {
       router.events.off('routeChangeStart', handleScrollTop);
       router.events.off('routeChangeComplete', nudge);
     };
-  }, [router.events]);
+  }, [router, router.events]);
 
   return (
     <>

@@ -50,7 +50,7 @@ export default function ProductsIndexPage() {
     return (
         <PageShell fluid={true}>
             {/* ─── 1. HIGH-IMPACT HERO ─── */}
-            <section className="relative -mt-20 flex min-h-[80vh] items-center justify-center overflow-visible">
+            <section className="relative -mt-20 pt-[120px] pb-4 md:pt-[140px] md:pb-6 overflow-hidden border-b border-[#0B1F3B]/30 flex flex-col items-center justify-start min-h-[50vh]">
                 {/* Background video */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                     <video
@@ -58,44 +58,39 @@ export default function ProductsIndexPage() {
                         autoPlay muted loop playsInline
                         className="h-full w-full object-cover opacity-50"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/30 to-slate-950" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.06),_transparent_70%)]" />
+                    <div className="absolute inset-0 bg-slate-950/80 z-10" />
                 </div>
 
-                <div className="container relative z-10 mx-auto px-4 text-center">
+                <div className="container relative z-10 mx-auto px-4 text-center max-w-5xl">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="space-y-8"
+                        className="space-y-6"
                     >
-                        <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-sky-400 backdrop-blur-md">
-                            <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8] animate-pulse" />
-                            GIGGS SOFTWARE LABS PRODUCTS
-                        </div>
-
-                        <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-slate-50 leading-[1.1]">
-                            Engineering <br />
-                            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-400 bg-clip-text text-transparent italic pb-3 inline-block">The Future.</span>
+                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white futuristic leading-[1.1]">
+                            Engineering.{' '}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] italic pb-3 inline-block">The Future.</span>
                         </h1>
 
-                        <p className="mx-auto max-w-2xl text-xl text-slate-200 leading-relaxed font-medium backdrop-blur-sm px-4">
+                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed font-medium">
                             Flagship platforms and specialized toolsets designed to solve complex challenges in security, data, and performance.
                         </p>
 
-                        <div className="flex justify-center gap-4">
-                            <button onClick={() => document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })} className="rounded-full bg-white px-8 py-4 text-sm font-black uppercase tracking-widest text-slate-950 transition-all hover:bg-sky-400 hover:text-white hover:shadow-[0_0_30px_rgba(56,189,248,0.4)]">
+                        <div className="flex justify-center gap-4 pt-4">
+                            <button
+                                onClick={() => document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })}
+                                className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all"
+                            >
                                 Explore Our Products
                             </button>
                         </div>
                     </motion.div>
                 </div>
-
-                <div className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
             </section>
 
             {/* ─── 2. PRODUCT GRID ─── */}
-            <section id="product-grid" className="relative z-20 py-24 px-4">
+            <section id="product-grid" className="relative z-20 pt-8 pb-24 px-4">
                 <div className="mx-auto max-w-6xl">
                     <div className="flex items-center gap-4 mb-20">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800 to-slate-800" />
@@ -103,7 +98,7 @@ export default function ProductsIndexPage() {
                         <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
                     </div>
 
-                    <div className="grid gap-10 md:grid-cols-3">
+                    <div className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {products.map((product, i) => (
                             <motion.div
                                 key={product.href}
@@ -113,23 +108,23 @@ export default function ProductsIndexPage() {
                                 transition={{ delay: i * 0.1, duration: 0.6 }}
                             >
                                 <Link href={product.href} className="group block h-full">
-                                    <article className={`relative h-full overflow-hidden rounded-[3rem] border border-slate-800/80 bg-gradient-to-br from-slate-900/40 to-slate-950/60 p-10 transition-all duration-500 hover:border-slate-700/80 hover:bg-slate-900/60 shadow-2xl ${product.glow}`}>
+                                    <article className={`relative h-full overflow-hidden rounded-[2.5rem] border border-[#0B1F3B] bg-[#0B1F3B]/40 p-10 transition-all duration-500 hover:border-[#1E7BFF]/50 hover:bg-[#0B1F3B]/60 shadow-2xl ${product.glow}`}>
                                         <div className={`absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br ${product.color} opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-[0.06]`} />
 
                                         <div className="relative z-10">
-                                            <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-[1.5rem] border border-slate-800 bg-gradient-to-br from-slate-950/80 to-slate-900/30 group-hover:scale-110 transition-all duration-500">
-                                                <product.Icon size={36} strokeWidth={1.5} className={product.accent} />
+                                            <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-[1.5rem] border border-[#1E7BFF]/20 bg-[#1E7BFF]/5 group-hover:scale-110 transition-all duration-500">
+                                                <product.Icon size={36} strokeWidth={1.5} className="text-[#1E7BFF]" />
                                             </div>
 
-                                            <div className={`text-[10px] font-black uppercase tracking-[0.2em] ${product.accent} mb-3`}>
+                                            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2ED6FF] mb-3">
                                                 {product.tagline}
                                             </div>
 
-                                            <h3 className="text-3xl font-black text-slate-50 tracking-tighter mb-4 transition-colors group-hover:text-white">
+                                            <h3 className="font-space-grotesk text-[36px] font-bold text-white tracking-tighter mb-4 transition-colors group-hover:text-[#1E7BFF]">
                                                 {product.title}
                                             </h3>
 
-                                            <p className="text-sm text-slate-400 leading-relaxed font-medium mb-8">
+                                            <p className="font-roboto text-[16px] text-slate-300 leading-relaxed font-medium mb-8">
                                                 {product.description}
                                             </p>
 
@@ -158,15 +153,15 @@ export default function ProductsIndexPage() {
             <section className="py-32 relative overflow-hidden">
                 <div className="absolute inset-0 bg-slate-900/20" />
                 <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-                    <div className="grid md:grid-cols-2 gap-20 items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
                         <div>
                             <div className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400 mb-6">
                                 Core Philosophy
                             </div>
-                            <h2 className="text-4xl md:text-6xl font-black text-slate-50 tracking-tighter leading-[0.95] mb-8">
+                            <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold text-white tracking-tighter leading-[0.95] mb-8">
                                 How we build <span className="text-slate-500">Value.</span>
                             </h2>
-                            <p className="text-lg text-slate-400 leading-relaxed mb-10">
+                            <p className="font-roboto text-[18px] text-slate-300 leading-relaxed mb-10">
                                 Every product at Giggs Labs is forged from real-world engineering challenges.
                                 We don&apos;t build features; we build solutions that survive the rigors of scale and security.
                             </p>
@@ -185,8 +180,8 @@ export default function ProductsIndexPage() {
                                         <item.Icon size={28} strokeWidth={1.5} className="text-sky-400" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-slate-50 mb-1">{item.title}</h3>
-                                        <p className="text-sm text-slate-400 font-medium">{item.desc}</p>
+                                        <h3 className="font-inter text-[22px] font-bold text-white mb-1">{item.title}</h3>
+                                        <p className="font-roboto text-[16px] text-slate-400 font-medium">{item.desc}</p>
                                     </div>
                                 </motion.div>
                             ))}
@@ -196,37 +191,37 @@ export default function ProductsIndexPage() {
             </section>
 
             {/* ─── 4. BOTTOM CTA ─── */}
-            <section className="pb-32 px-4" style={{ overflow: 'visible' }}>
+            <section className="pb-16 px-4" style={{ overflow: 'visible' }}>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.98 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="mx-auto max-w-6xl relative rounded-3xl border border-slate-800/60 bg-slate-950/40 text-center shadow-[0_0_100px_rgba(56,189,248,0.15)]"
+                    className="mx-auto max-w-4xl relative rounded-3xl border border-slate-800/60 bg-slate-950/40 text-center shadow-[0_0_60px_rgba(56,189,248,0.12)]"
                     style={{ overflow: 'visible' }}
                 >
                     <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ overflow: 'hidden' }}>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.15),_transparent_70%)]" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.10),_transparent_70%)]" />
                     </div>
 
-                    <div className="relative z-10 px-8 py-20 md:px-24 md:py-32" style={{ overflow: 'visible' }}>
-                        <h2 className="text-4xl md:text-7xl font-black tracking-tighter text-slate-50 mb-8" style={{ lineHeight: '1.15', overflow: 'visible' }}>
+                    <div className="relative z-10 px-8 py-12 md:px-16 md:py-16" style={{ overflow: 'visible' }}>
+                        <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold text-white mb-4" style={{ lineHeight: '1.3' }}>
                             Ready to <br />
-                            <span className="italic bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent pb-3 inline-block">Power Up?</span>
+                            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] pb-3 pr-1 inline-block">Power Up?</span>
                         </h2>
-                        <p className="mx-auto max-w-xl text-lg text-slate-300 font-medium mb-12">
+                        <p className="mx-auto max-w-xl font-roboto text-[18px] text-slate-300 font-medium mb-8">
                             Deploy our flagship platforms today and start transforming your technical debt into strategic advantage.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-6">
-                            <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-sky-500 px-10 py-5 text-sm font-black uppercase tracking-widest text-black transition-all hover:bg-sky-400 hover:shadow-[0_0_35px_rgba(34,211,238,0.5)] active:scale-95">
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">
                                 Secure a Demo
                             </Link>
-                            <Link href="/services" className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-950/60 px-10 py-5 text-sm font-black uppercase tracking-widest text-slate-50 hover:bg-slate-900 transition-all active:scale-95">
+                            <Link href="/services" className="inline-flex items-center justify-center bg-transparent border border-[#1E7BFF] text-[#1E7BFF] hover:bg-[#1E7BFF]/10 font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">
                                 Explore Services
                             </Link>
                         </div>
                     </div>
                 </motion.div>
             </section>
-        </PageShell>
+        </PageShell >
     );
 }

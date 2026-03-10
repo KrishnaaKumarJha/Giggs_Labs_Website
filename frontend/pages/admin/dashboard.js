@@ -17,8 +17,7 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         const token = localStorage.getItem('adminAccessToken');
-        const key = localStorage.getItem('adminSecretKey');
-        if (!token || !key) {
+        if (!token) {
             router.replace('/');
             return;
         }
@@ -28,7 +27,6 @@ export default function AdminDashboard() {
     function handleLogout() {
         localStorage.removeItem('adminAccessToken');
         localStorage.removeItem('adminRefreshToken');
-        localStorage.removeItem('adminSecretKey');
         router.replace('/');
     }
 

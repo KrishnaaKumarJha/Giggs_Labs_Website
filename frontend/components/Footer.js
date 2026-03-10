@@ -1,12 +1,13 @@
 // frontend/components/Footer.js
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
   { href: '/products', label: 'Products' },
-  { href: '/blog', label: 'Blog' },
   { href: '/careers', label: 'Careers' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -53,188 +54,175 @@ const socials = [
 export default function Footer() {
   return (
     <motion.footer
-      className="relative mt-16 overflow-hidden border-t border-sky-100 bg-white/95 text-sky-900/80 backdrop-blur-xl shadow-[0_-8px_32px_rgba(0,163,255,0.05)]"
+      className="relative mt-8 overflow-hidden border-t border-gray-200 bg-white text-slate-600"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="relative mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+
+      <div className="relative mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
         {/* ── Main Grid ── */}
-        <div className="grid gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
+        <div className="grid gap-x-8 gap-y-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
 
           {/* ── Brand Column ── */}
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="relative transition-all duration-300" style={{ filter: 'brightness(0.9) contrast(1.1) saturate(1.2)' }}>
+          <div className="lg:col-span-4 flex flex-col pr-8">
+            <div className="flex flex-col items-center self-start gap-3 mb-6">
+              <div className="relative transition-all duration-300">
                 <img
                   src="/logo/logo.png"
                   alt="Giggs Software Lab Logo"
                   className="h-10 md:h-12 w-auto object-contain shrink-0"
                 />
               </div>
-              <div>
-                <span className="text-base font-bold tracking-tight text-sky-950">
-                  Giggs Software Lab
+              <div className="flex flex-col gap-1.5 text-center">
+                <span className="text-xl font-black tracking-tight text-sky-600">
+                  Giggs Software Labs
                 </span>
-                <div className="text-[10px] uppercase tracking-[0.2em] font-black text-sky-500">
-                  Engineering Intelligence
+              </div>
+            </div>
+
+            <p className="max-w-sm text-sm leading-relaxed text-slate-500 mb-5">
+              We design and build production-grade platforms: real-time systems, ML-powered products, and rock-solid architectures for teams that care about precision and scale.
+            </p>
+
+            <div className="flex flex-col gap-4 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="flex gap-2 items-start">
+                <MapPin className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">A-114, Logix Technova, Sector 132,<br />Noida (U.P), India</span>
+              </div>
+              <div className="flex gap-2 items-start">
+                <MapPin className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">4th Floor, Jupiter Block, Prestige Tech Park,<br />Kadubeesanahalli, Bengaluru (K.A), India</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Links Columns ── */}
+          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+
+            {/* Solutions */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-4">
+                Solutions
+              </h3>
+              <ul className="space-y-4 text-sm">
+                {[
+                  { label: 'AI & Data Science', href: '/solutions/ai-data' },
+                  { label: 'AI Cybersecurity', href: '/solutions/cybersecurity' },
+                  { label: 'Performance Eng.', href: '/solutions/performance' },
+                  { label: 'Automation', href: '/solutions/automation' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-slate-500 hover:text-sky-600 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Industries */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-4">
+                Industries
+              </h3>
+              <ul className="space-y-4 text-sm">
+                {[
+                  { label: 'Banking & Financial', href: '/industries/banking' },
+                  { label: 'Healthcare', href: '/industries/healthcare' },
+                  { label: 'Retail & E-commerce', href: '/industries/retail' },
+                  { label: 'Manufacturing', href: '/industries/manufacturing' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-slate-500 hover:text-sky-600 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-4">
+                Company
+              </h3>
+              <ul className="space-y-4 text-sm">
+                {[
+                  { label: 'About Us', href: '/about' },
+                  { label: 'Careers', href: '/careers' },
+                  { label: 'Insights', href: '/insights' },
+                  { label: 'Contact', href: '/contact' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-slate-500 hover:text-sky-600 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-4">
+                Contact
+              </h3>
+              <div className="space-y-4 text-sm text-slate-500">
+                <a href="mailto:sales@giggslab.com" className="hover:text-sky-600 transition-colors block mb-4">
+                  sales@giggslab.com
+                </a>
+
+                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mt-8 mb-4">
+                  Stay Updated
+                </h3>
+                <form
+                  className="flex flex-col gap-3 group"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    alert('Thanks! Newsletter coming soon 🚀');
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter email address"
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-sky-500"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 px-4 py-2 text-xs font-bold uppercase tracking-widest text-sky-600 transition-all"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+
+                {/* Social Icons moved under Contact */}
+                <div className="mt-8 flex items-center gap-4">
+                  {socials.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={item.label}
+                      className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-slate-500 transition-all duration-300 hover:border-sky-500/50 hover:text-sky-600 hover:shadow-[0_8px_20px_rgba(56,189,248,0.15)] hover:-translate-y-1"
+                    >
+                      <item.icon />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-sky-900/70 font-medium">
-              We design and build production-grade platforms: realtime systems,
-              ML-powered products, and rock-solid backends for teams that care
-              about quality.
-            </p>
-
-            <div className="mt-5 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-wider">
-              <span className="rounded-full border border-sky-100 bg-white/60 px-3 py-1.5 backdrop-blur-sm text-sky-800">
-                📍 Noida (U.P), India
-              </span>
-              <span className="rounded-full border border-sky-100 bg-white/60 px-3 py-1.5 backdrop-blur-sm text-sky-800">
-                🌐 Remote-first · IST (UTC+5:30)
-              </span>
-            </div>
-
-            {/* Newsletter */}
-            <form
-              className="mt-6 flex max-w-xs items-center gap-2 group"
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert('Thanks! Newsletter coming soon 🚀');
-              }}
-            >
-              <div className="relative flex-1">
-                <input
-                  type="email"
-                  required
-                  placeholder="Your email"
-                  className="
-                    w-full rounded-full border border-sky-200 bg-white/80
-                    px-4 py-2.5 text-xs text-sky-900 placeholder-sky-300 outline-none
-                    backdrop-blur-sm transition-all duration-300
-                    focus:border-sky-400
-                    focus:shadow-[0_0_20px_rgba(14,165,233,0.1)]
-                  "
-                />
-              </div>
-              <button
-                type="submit"
-                className="
-                  rounded-full bg-sky-500
-                  px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white
-                  shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all duration-300
-                  hover:bg-sky-600 hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] hover:-translate-y-[1px]
-                "
-              >
-                Join
-              </button>
-            </form>
-          </div>
-
-          {/* ── Navigation Column ── */}
-          <div>
-            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-500">
-              Navigation
-            </h3>
-
-            <ul className="mt-4 space-y-2.5 text-[13px]">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="
-                      group relative inline-flex items-center gap-2 font-bold
-                      text-sky-900/60 hover:text-sky-600 transition-colors duration-200
-                    "
-                  >
-                    <span className="h-px w-0 bg-sky-500 transition-all duration-300 group-hover:w-4" />
-                    <span>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <h3 className="mt-7 text-[11px] font-black uppercase tracking-[0.3em] text-sky-500">
-              Services
-            </h3>
-
-            <ul className="mt-3 space-y-1.5 text-[11px] font-bold uppercase tracking-wide text-sky-900/40">
-              {serviceLinks.map((svc) => (
-                <li key={svc} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-sky-300" />
-                  {svc}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* ── Contact + Social Column ── */}
-          <div>
-            <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-500">
-              Get in touch
-            </h3>
-
-            <div className="mt-4 space-y-2 text-sm">
-              <a
-                href="mailto:hello@giggssoftwarelab.com"
-                className="group inline-flex items-center gap-2 text-sky-600 hover:text-sky-500 transition-colors duration-200"
-              >
-                <svg className="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-                <span className="font-bold">hello@giggssoftwarelab.com</span>
-              </a>
-
-              <p className="text-[11px] text-sky-900/50 font-medium leading-relaxed">
-                Share a brief on the contact page and we'll get back within 24–48 hours.
-              </p>
-            </div>
-
-            {/* Social Icons */}
-            <h3 className="mt-7 text-[11px] font-black uppercase tracking-[0.3em] text-sky-500">
-              Connect
-            </h3>
-
-            <div className="mt-4 flex items-center gap-3">
-              {socials.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={item.label}
-                  className="
-                    group relative flex h-10 w-10 items-center justify-center
-                    rounded-xl border border-sky-100 bg-white/60
-                    text-sky-900/40 backdrop-blur-sm
-                    transition-all duration-300
-                    hover:border-sky-300 hover:text-sky-600
-                    hover:shadow-[0_8px_20px_rgba(14,165,233,0.1)]
-                    hover:-translate-y-1
-                  "
-                >
-                  <item.icon />
-                </a>
-              ))}
-            </div>
           </div>
         </div>
 
-        {/* ── Gradient divider ── */}
-        <div className="mt-10 h-px w-full bg-gradient-to-r from-transparent via-sky-200 to-transparent" />
-
         {/* ── Bottom bar ── */}
-        <div className="mt-5 flex flex-col items-center justify-between gap-3 text-[11px] font-bold uppercase tracking-widest text-sky-900/30 md:flex-row">
-          <p>
-            © {new Date().getFullYear()} Giggs Software Lab.
-          </p>
-          <div className="flex gap-4">
-            <span className="hover:text-sky-500 transition-colors cursor-pointer">Privacy</span>
-            <span className="hover:text-sky-500 transition-colors cursor-pointer">Terms</span>
-          </div>
+        <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-400">
+          <p>© {new Date().getFullYear()} Giggs Software Labs.Pvt.Ltd. All rights reserved.</p>
+
         </div>
       </div>
     </motion.footer>
