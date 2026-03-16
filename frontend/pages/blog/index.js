@@ -6,9 +6,41 @@ import PageShell from '../../components/pageshell';
 
 const CATEGORIES = ['All', 'Article', 'Whitepaper', 'Case Study', 'Tech Report'];
 
+    // Fallback posts in case the API returns empty/fails
+    const fallbackPosts = [
+        {
+            id: 1,
+            title: 'The Rise of AI Driven Cybersecurity',
+            slug: 'rise-of-ai-cybersecurity',
+            category: 'Blog',
+            excerpt: 'How machine learning models are transforming threat detection and automated response in zero-trust architectures.',
+            created_at: new Date('2024-03-10').toISOString(),
+            image: '/images/Ai_Automation.png',
+        },
+        {
+            id: 2,
+            title: 'Building Intelligent Data Platforms',
+            slug: 'building-intelligent-data-platforms',
+            category: 'Whitepaper',
+            excerpt: 'A comprehensive guide to scalable data architecture, automated ELT pipelines, and advanced analytics readiness.',
+            created_at: new Date('2024-02-28').toISOString(),
+            image: '/images/Cloud_DevOps.png',
+        },
+        {
+            id: 3,
+            title: 'Performance Engineering in Cloud Native Systems',
+            slug: 'performance-engineering-cloud-native',
+            category: 'Article',
+            excerpt: 'Best practices for optimizing response times, distributed tracing, and load management in containerized applications.',
+            created_at: new Date('2024-02-15').toISOString(),
+            image: '/images/Data_Analytics.png',
+        }
+    ];
+
 export async function getServerSideProps() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/posts/');
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${apiUrl}/posts/`);
     const posts = await res.json();
 
     const formatted = posts.map((p) => ({
@@ -20,10 +52,26 @@ export async function getServerSideProps() {
       }),
     }));
 
-    return { props: { posts: formatted } };
+    const finalPosts = formatted.length > 0 ? formatted : fallbackPosts.map(p => ({
+      ...p,
+      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    }));
+
+    return { props: { posts: finalPosts } };
   } catch (err) {
     console.error('Error fetching posts:', err);
-    return { props: { posts: [] } };
+    return { props: { posts: fallbackPosts.map(p => ({
+      ...p,
+      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    })) } };
   }
 }
 
@@ -40,8 +88,8 @@ export default function InsightsHub({ posts }) {
 
   return (
     <PageShell
-      eyebrow="Knowledge & Insights"
-      title="The Giggs Intelligence Hub"
+      eyebrow="Insights & Thought Leadership"
+      title="Insights from Giggs Experts"
       description="Deep dives into AI engineering, cybersecurity research, and elite software architecture. Your resource for building at the edge."
     >
       <div className="max-w-6xl mx-auto">

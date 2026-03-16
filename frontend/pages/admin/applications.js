@@ -11,18 +11,16 @@ export default function AdminApplications() {
     const token = typeof window !== 'undefined'
       ? localStorage.getItem('adminAccessToken')
       : null;
-    const secretKey = typeof window !== 'undefined'
-      ? localStorage.getItem('adminSecretKey')
-      : null;
 
-    if (!token || !secretKey) {
+    if (!token) {
       router.replace('/');
       return;
     }
 
     async function loadApplications() {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/applications/', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+        const res = await fetch(`${apiUrl}/applications/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +29,6 @@ export default function AdminApplications() {
         if (res.status === 401 || res.status === 403) {
           localStorage.removeItem('adminAccessToken');
           localStorage.removeItem('adminRefreshToken');
-          localStorage.removeItem('adminSecretKey');
           router.replace('/');
           return;
         }
@@ -64,7 +61,6 @@ export default function AdminApplications() {
   function handleLogout() {
     localStorage.removeItem('adminAccessToken');
     localStorage.removeItem('adminRefreshToken');
-    localStorage.removeItem('adminSecretKey');
     router.replace('/');
   }
 

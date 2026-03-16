@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-const API = 'http://127.0.0.1:8000/api/admin/jobs/';
+const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/jobs/`;
 const EMPTY = { title: '', location: '', type: 'Full-time', description: '', is_active: true };
 
 export default function AdminJobs() {
@@ -18,7 +18,7 @@ export default function AdminJobs() {
     function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
 
     useEffect(() => {
-        if (!token() || !localStorage.getItem('adminSecretKey')) { router.replace('/'); return; }
+        if (!token()) { router.replace('/'); return; }
         loadJobs();
     }, [router]);
 

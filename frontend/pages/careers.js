@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Rocket, Globe, TrendingUp, Handshake, MapPin, Clock, ArrowRight, FileText, Check, Sparkles, Pencil, Loader2, ArrowLeft } from 'lucide-react';
 import PageShell from '../components/pageshell';
 
 const INITIAL_FORM = {
@@ -23,7 +24,8 @@ const AUTOFILL_KEYS = ['name', 'email', 'phone', 'linkedin', 'qualification', 'e
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/jobs/');
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${apiUrl}/jobs/`);
     const jobs = await res.json();
     return { props: { jobs } };
   } catch {
@@ -74,7 +76,8 @@ export default function CareersPage({ jobs = [] }) {
     fd.append('cv', form.cv);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/parse-resume/', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+      const res = await fetch(`${apiUrl}/parse-resume/`, {
         method: 'POST',
         body: fd,
       });
@@ -141,7 +144,8 @@ export default function CareersPage({ jobs = [] }) {
     fd.append('cv', form.cv);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/apply/', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+      const res = await fetch(`${apiUrl}/apply/`, {
         method: 'POST',
         body: fd,
       });
@@ -215,10 +219,7 @@ export default function CareersPage({ jobs = [] }) {
 
   /* ---------- Shared sub-components ---------- */
   const Spinner = () => (
-    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-    </svg>
+    <Loader2 className="animate-spin w-5 h-5" />
   );
 
   const ErrorBanner = () =>
@@ -269,7 +270,7 @@ export default function CareersPage({ jobs = [] }) {
                     ? 'bg-[#00E0FF]/20 text-[#00E0FF]'
                     : 'bg-slate-800 text-slate-500'}`}
               >
-                {i < currentIdx ? '✓' : i + 1}
+                {i < currentIdx ? <Check className="w-3 h-3" /> : i + 1}
               </span>
               {s.label}
             </div>
@@ -308,22 +309,22 @@ export default function CareersPage({ jobs = [] }) {
           <div className="grid gap-5 grid-cols-1 sm:grid-cols-2">
             {[
               {
-                emoji: '🚀',
+                icon: <Rocket className="w-6 h-6 text-[#00E0FF]" />,
                 title: 'Engineering-First Culture',
                 desc: 'Work on cutting-edge AI, cybersecurity, and cloud-native systems with a team that values deep technical craft.',
               },
               {
-                emoji: '🌍',
+                icon: <Globe className="w-6 h-6 text-[#00E0FF]" />,
                 title: 'Remote-First, Global Team',
                 desc: 'Collaborate with engineers across India, Saudi Arabia, Singapore, UAE, and the USA — work from anywhere.',
               },
               {
-                emoji: '📈',
+                icon: <TrendingUp className="w-6 h-6 text-[#00E0FF]" />,
                 title: 'Growth & Learning',
                 desc: 'Continuous learning through mentorship, conference sponsorship, internal tech talks, and hands-on R&D projects.',
               },
               {
-                emoji: '🤝',
+                icon: <Handshake className="w-6 h-6 text-[#00E0FF]" />,
                 title: 'Impact That Matters',
                 desc: 'Ship solutions that power enterprises at scale — your work directly transforms how global businesses operate.',
               },
@@ -335,7 +336,7 @@ export default function CareersPage({ jobs = [] }) {
                 viewport={{ once: true }}
                 className="group rounded-3xl border border-slate-800 bg-slate-900/40 p-6 transition-all hover:border-[#00E0FF]/30 hover:bg-slate-900/60"
               >
-                <div className="text-2xl mb-3">{perk.emoji}</div>
+                <div className="mb-3">{perk.icon}</div>
                 <h3 className="text-base font-bold text-white mb-2">{perk.title}</h3>
                 <p className="text-sm text-slate-400 leading-relaxed">{perk.desc}</p>
               </motion.div>
@@ -370,17 +371,17 @@ export default function CareersPage({ jobs = [] }) {
                         {job.title}
                       </h4>
                       <div className="flex items-center gap-3 mt-2">
-                        <span className="text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300">
-                          📍 {job.location}
+                        <span className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300">
+                          <MapPin className="w-3 h-3" /> {job.location}
                         </span>
-                        <span className="text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300">
-                          🕐 {job.type}
+                        <span className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300">
+                          <Clock className="w-3 h-3" /> {job.type}
                         </span>
                       </div>
                       <p className="text-slate-400 text-sm mt-3 leading-relaxed">{job.description}</p>
                     </div>
-                    <span className="text-slate-500 text-xl group-hover:translate-x-1 group-hover:text-[#00E0FF] transition-all mt-1">
-                      →
+                    <span className="text-slate-500 group-hover:translate-x-1 group-hover:text-[#00E0FF] transition-all mt-1 flex items-center">
+                      <ArrowRight className="w-5 h-5" />
                     </span>
                   </div>
                 </motion.div>
@@ -397,9 +398,9 @@ export default function CareersPage({ jobs = [] }) {
             >
               <button
                 onClick={resetToListings}
-                className="text-xs text-slate-500 hover:text-white mb-6 transition-colors flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-white mb-6 transition-colors flex items-center gap-1.5"
               >
-                ← Back to openings
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to openings
               </button>
 
               <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl backdrop-blur-sm shadow-2xl">
@@ -408,7 +409,9 @@ export default function CareersPage({ jobs = [] }) {
                   <h2 className="text-3xl font-bold text-white">
                     Apply for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E0FF] to-[#7A5BFF]">{selectedJob.title}</span>
                   </h2>
-                  <p className="text-slate-400 text-sm mt-2">📍 {selectedJob.location} &bull; 🕐 {selectedJob.type}</p>
+                  <p className="flex items-center gap-1.5 text-slate-400 text-sm mt-2">
+                    <MapPin className="w-3.5 h-3.5" /> {selectedJob.location} <span className="mx-1">&bull;</span> <Clock className="w-3.5 h-3.5" /> {selectedJob.type}
+                  </p>
                 </div>
 
                 {/* Step indicator */}
@@ -438,7 +441,7 @@ export default function CareersPage({ jobs = [] }) {
                           className="absolute inset-0 opacity-0 cursor-pointer"
                         />
                         <div>
-                          <p className="text-4xl mb-3">📄</p>
+                          <FileText className="w-10 h-10 mx-auto mb-3 text-slate-400 group-hover:text-[#00E0FF] transition-colors" />
                           <p className="text-slate-300 font-medium text-lg">
                             {form.cv ? form.cv.name : 'Drop your PDF resume here or click to browse'}
                           </p>
@@ -448,7 +451,7 @@ export default function CareersPage({ jobs = [] }) {
 
                       {form.cv && (
                         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                          <span className="text-emerald-400 text-lg">✓</span>
+                          <Check className="text-emerald-400 w-5 h-5" />
                           <span className="text-emerald-300 text-sm font-medium">{form.cv.name}</span>
                           <span className="text-emerald-500/60 text-xs ml-auto">{(form.cv.size / 1024).toFixed(0)} KB</span>
                         </motion.div>
@@ -483,7 +486,7 @@ export default function CareersPage({ jobs = [] }) {
 
                       {/* Resume file badge */}
                       <div className="flex items-center gap-3 p-3 bg-slate-800/50 border border-slate-700 rounded-xl">
-                        <span className="text-lg">📄</span>
+                        <FileText className="w-5 h-5 text-slate-400" />
                         <span className="text-slate-300 text-sm font-medium truncate">{form.cv?.name}</span>
                         <button
                           type="button"
@@ -504,7 +507,7 @@ export default function CareersPage({ jobs = [] }) {
                           disabled={status === 'parsing'}
                           className="group p-6 rounded-2xl border-2 border-[#00E0FF]/30 bg-[#00E0FF]/5 hover:bg-[#00E0FF]/10 hover:border-[#00E0FF]/60 transition-all text-left disabled:opacity-50"
                         >
-                          <div className="text-3xl mb-3">✨</div>
+                          <Sparkles className="w-8 h-8 mb-3 text-[#00E0FF]" />
                           <h4 className="text-white font-bold text-lg mb-1">Auto-fill from Resume</h4>
                           <p className="text-slate-400 text-sm leading-relaxed">
                             We&rsquo;ll extract your details from the resume. You can still edit everything before submitting.
@@ -525,7 +528,7 @@ export default function CareersPage({ jobs = [] }) {
                           disabled={status === 'parsing'}
                           className="group p-6 rounded-2xl border-2 border-slate-700 bg-slate-800/30 hover:bg-slate-800/60 hover:border-slate-600 transition-all text-left disabled:opacity-50"
                         >
-                          <div className="text-3xl mb-3">✏️</div>
+                          <Pencil className="w-8 h-8 mb-3 text-slate-400 group-hover:text-white transition-colors" />
                           <h4 className="text-white font-bold text-lg mb-1">Fill Manually</h4>
                           <p className="text-slate-400 text-sm leading-relaxed">
                             Type in your details yourself. Your resume will still be attached to the application.
@@ -550,16 +553,16 @@ export default function CareersPage({ jobs = [] }) {
                       <button
                         type="button"
                         onClick={goBackToChoose}
-                        className="text-xs text-slate-500 hover:text-white mb-4 transition-colors flex items-center gap-1"
+                        className="text-xs text-slate-500 hover:text-white mb-4 transition-colors flex items-center gap-1.5"
                       >
-                        ← Change fill mode
+                        <ArrowLeft className="w-3.5 h-3.5" /> Change fill mode
                       </button>
 
 
 
                       {/* Resume badge */}
                       <div className="flex items-center gap-3 p-3 mb-5 bg-slate-800/50 border border-slate-700 rounded-xl">
-                        <span className="text-lg">📄</span>
+                        <FileText className="w-5 h-5 text-slate-400" />
                         <span className="text-slate-300 text-sm font-medium truncate">{form.cv?.name}</span>
                         <span className="text-slate-500/60 text-xs ml-auto">{form.cv ? `${(form.cv.size / 1024).toFixed(0)} KB` : ''}</span>
                       </div>

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-const API = 'http://127.0.0.1:8000/api/admin/posts/';
+const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/posts/`;
 const CATEGORIES = ['Article', 'Whitepaper', 'Case Study', 'Tech Report'];
 const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', is_published: true };
 
@@ -19,7 +19,7 @@ export default function AdminPosts() {
     function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
 
     useEffect(() => {
-        if (!token() || !localStorage.getItem('adminSecretKey')) { router.replace('/'); return; }
+        if (!token()) { router.replace('/'); return; }
         loadPosts();
     }, [router]);
 

@@ -646,7 +646,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
               name: 'Fintech',
@@ -674,6 +674,16 @@ export default function Home() {
                 </svg>
               ),
               solve: 'Customer analytics, recommendation engines, and demand forecasting.',
+            },
+            {
+              name: 'Martech',
+              icon: (
+                <svg className="h-8 w-8 text-sky-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                </svg>
+              ),
+              solve: 'AI-driven campaigns, hyper-personalization, and automated marketing workflows.',
             },
           ].map((industry) => (
             <div
@@ -703,7 +713,7 @@ export default function Home() {
             subtitle="How we engineer transformative outcomes for global enterprises."
             align="left"
           />
-          <Button href="/insights#case-studies" variant="secondary" className="shrink-0 max-w-max">
+          <Button href="/blog#case-studies" variant="secondary" className="shrink-0 max-w-max">
             View All Case Studies
           </Button>
         </div>
@@ -813,7 +823,7 @@ export default function Home() {
             subtitle="Explore our blogs, whitepapers, and case studies to discover how enterprises are reimagining the future with AI, Data, and Automation."
             align="left"
           />
-          <Button href="/insights" variant="secondary" className="shrink-0 max-w-max">
+          <Button href="/blog" variant="secondary" className="shrink-0 max-w-max">
             Explore Insights
           </Button>
         </div>
@@ -842,7 +852,7 @@ export default function Home() {
               color: 'blue',
             },
           ].map((insight) => (
-            <Link key={insight.title} href="/insights" className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 p-8 transition-all hover:-translate-y-2 hover:bg-slate-900 hover:border-sky-500/30 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,0.15)]">
+            <Link key={insight.title} href="/blog" className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 p-8 transition-all hover:-translate-y-2 hover:bg-slate-900 hover:border-sky-500/30 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,0.15)]">
               <div>
                 <div className={`mb-4 inline-flex items-center rounded-full border border-${insight.color}-500/30 bg-${insight.color}-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-${insight.color}-300`}>
                   {insight.type}

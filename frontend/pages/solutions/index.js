@@ -107,17 +107,30 @@ export default function SolutionsPage() {
                         transition={{ duration: 0.8 }}
                         className="space-y-6"
                     >
-                        <div className="text-[11px] font-inter font-bold uppercase tracking-[0.4em] text-[#1E7BFF]">
-                            Our Expertise
-                        </div>
+
 
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
                             Solutions for teams that <span className="text-[#1E7BFF] italic pb-3 inline-block">care about quality.</span>
                         </h1>
 
-                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed">
+                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed mb-10">
                             We plug into your team as a focused engineering partner — helping you move from idea to stable production systems without months of risk and rework.
                         </p>
+
+                        <div className="pt-4 flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-400">
+                            <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm">
+                                <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> Scalable Architectures
+                            </span>
+                            <span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm">
+                                <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> Enterprise AI
+                            </span>
+                            <span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm">
+                                <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> Zero-Trust Security
+                            </span>
+                            <span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm">
+                                <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> Intelligent Automation
+                            </span>
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -156,7 +169,7 @@ export default function SolutionsPage() {
                                             </div>
                                         </div>
 
-                                        <h3 className="font-space-grotesk text-[36px] font-bold text-white tracking-tight group-hover:text-[#1E7BFF] transition-colors">
+                                        <h3 className="font-space-grotesk text-[24px] sm:text-[32px] font-bold text-white tracking-tight group-hover:text-[#1E7BFF] transition-colors">
                                             {area.title}
                                         </h3>
 
@@ -234,7 +247,7 @@ export default function SolutionsPage() {
             <section className="mb-14 py-12">
                 <div className="text-center mb-16">
                     <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-500 mb-4">Our Methodology</div>
-                    <h2 className="text-3xl font-black text-slate-50 uppercase tracking-tight">From first call to production</h2>
+                    <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white futuristic">From first call to production</h2>
                     <div className="mt-4 h-1 w-12 bg-cyan-500 mx-auto" />
                 </div>
 
@@ -249,7 +262,7 @@ export default function SolutionsPage() {
                             className="relative rounded-3xl border border-slate-800 bg-slate-950/60 p-6 hover:border-cyan-500/30 transition-all group"
                         >
                             <div className="font-space-grotesk text-[36px] md:text-[42px] font-black text-[#1E7BFF]/20 group-hover:text-[#1E7BFF]/40 transition-colors duration-500 leading-none">{p.step}</div>
-                            <h3 className="mt-4 font-inter text-[22px] font-bold text-white tracking-tight">
+                            <h3 className="mt-4 text-[20px] sm:text-[24px] font-bold text-slate-50 tracking-tight">
                                 {p.title}
                             </h3>
                             <p className="mt-3 font-roboto text-[16px] text-slate-400 leading-relaxed">{p.desc}</p>
@@ -299,7 +312,7 @@ export default function SolutionsPage() {
                 >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.1),_transparent_70%)]" />
                     <div className="relative z-10 space-y-8">
-                        <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold text-white tracking-tight leading-tight">
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white futuristic leading-tight">
                             Ready to explore a <span className="text-[#1E7BFF] italic inline-block pb-2 pr-4">partnership?</span>
                         </h2>
                         <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-400">

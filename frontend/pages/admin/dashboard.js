@@ -9,6 +9,7 @@ const NAV_ITEMS = [
     { href: '/admin/posts', label: 'Insights / Blog', icon: '📝', desc: 'Manage blog posts and articles' },
     { href: '/admin/applications', label: 'Applications', icon: '📄', desc: 'View job applications (read-only)' },
     { href: '/admin/messages', label: 'Messages', icon: '💬', desc: 'View contact messages (read-only)' },
+    { href: '/admin/users', label: 'Manage Users', icon: '👥', desc: 'Create and manage admin staff accounts' },
 ];
 
 export default function AdminDashboard() {

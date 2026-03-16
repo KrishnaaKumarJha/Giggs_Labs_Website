@@ -105,7 +105,8 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus('loading');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/contact/', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+      const res = await fetch(`${apiUrl}/contact/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -287,14 +288,14 @@ export default function ContactPage() {
             >
               {/* Contact Cards */}
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1">
-                <a href="mailto:hello@giggssoftwarelab.com" className="group rounded-3xl border border-slate-800 bg-slate-900/10 p-6 transition-all hover:bg-slate-900/20 hover:border-slate-700">
+                <a href="mailto:giggs.admin@giggslab.com" className="group rounded-3xl border border-slate-800 bg-slate-900/10 p-6 transition-all hover:bg-slate-900/20 hover:border-slate-700">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 transition-transform">
                       <Mail className="w-6 h-6 text-cyan-400" />
                     </div>
                     <div>
                       <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Email us</div>
-                      <div className="text-sm font-bold text-slate-100">sales@giggslab.com</div>
+                      <div className="text-sm font-bold text-slate-100">giggs.admin@giggslab.com</div>
                     </div>
                   </div>
                 </a>

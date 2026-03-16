@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-const API = 'http://127.0.0.1:8000/api/admin/services/';
+const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/services/`;
 const EMPTY = {
     icon: '🔧', title: '', tagline: '', description: '',
     color: 'from-cyan-400 to-blue-500', border_hover: 'hover:border-cyan-500/50',
@@ -31,7 +31,7 @@ export default function AdminServices() {
     function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
 
     useEffect(() => {
-        if (!token() || !localStorage.getItem('adminSecretKey')) { router.replace('/'); return; }
+        if (!token()) { router.replace('/'); return; }
         loadServices();
     }, [router]);
 

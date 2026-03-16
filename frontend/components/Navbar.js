@@ -3,13 +3,15 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from './Button';
+
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/solutions', label: 'Solutions' },
   { href: '/industries', label: 'Industries' },
   { href: '/products', label: 'Products' },
-  { href: '/insights', label: 'Insights' },
+  { href: '/blog', label: 'Insights' },
   { href: '/about', label: 'About Us' },
 ];
 
@@ -30,7 +32,6 @@ const industrySubLinks = [
 const productSubLinks = [
   { href: '/products/ai-data', label: 'AI & Data Science', desc: 'Enterprise-grade MLOps and scalable model deployment.' },
   { href: '/products/mihawk', label: 'AI-driven CyberSecurity', desc: 'Centralized threat intelligence and compliance monitoring.' },
-  { href: '/products/performance', label: 'Performance Engineering', desc: 'Real-time dashboards and predictive business insights.' },
 ];
 
 function BrandLogo() {
@@ -129,8 +130,6 @@ function MegaDropdown({ active, items, type, onClose }) {
     </motion.div>
   );
 }
-
-import Button from './Button';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

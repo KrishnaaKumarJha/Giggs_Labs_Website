@@ -3,12 +3,12 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Button from '../../components/Button';
 
-export default function Banking() {
+export default function Martech() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50 selection:bg-sky-500/30 font-sans flex flex-col">
             <Head>
-                <title>Banking & Financial | Giggs Software Labs</title>
-                <meta name="description" content="Secure, compliant, and data-driven fintech solutions." />
+                <title>Martech | Giggs Software Labs</title>
+                <meta name="description" content="AI-driven campaigns, hyper-personalization, and marketing automation." />
             </Head>
 
             <Navbar />
@@ -20,14 +20,14 @@ export default function Banking() {
                             Industry
                         </div>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white futuristic mb-6">
-                            Banking, Financial Services <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">& Insurance (BFSI)</span>
+                            Next-Generation <br className="hidden md:block" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">Marketing Technology</span>
                         </h1>
                         <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-10">
-                            Modernize core banking architectures, deploy AI-driven fraud detection, and deliver personalized omnichannel fintech experiences at global scale.
+                            Empower your marketing workflows with intelligent AI-driven campaigns, deep customer insights, and automated hyper-personalization at scale.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Button href="/contact" variant="primary">Explore BFSI Solutions</Button>
+                            <Button href="/contact" variant="primary">Explore Martech Solutions</Button>
                         </div>
                     </div>
                 </section>

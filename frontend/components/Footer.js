@@ -152,7 +152,7 @@ export default function Footer() {
                 {[
                   { label: 'About Us', href: '/about' },
                   { label: 'Careers', href: '/careers' },
-                  { label: 'Insights', href: '/insights' },
+                  { label: 'Insights', href: '/blog' },
                   { label: 'Contact', href: '/contact' },
                 ].map((link) => (
                   <li key={link.href}>
@@ -170,8 +170,8 @@ export default function Footer() {
                 Contact
               </h3>
               <div className="space-y-4 text-sm text-slate-500">
-                <a href="mailto:sales@giggslab.com" className="hover:text-sky-600 transition-colors block mb-4">
-                  sales@giggslab.com
+                <a href="mailto:giggs.admin@giggslab.com" className="hover:text-sky-600 transition-colors block mb-4">
+                  giggs.admin@giggslab.com
                 </a>
 
                 <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mt-8 mb-4">

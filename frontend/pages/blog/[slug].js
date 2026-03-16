@@ -8,7 +8,8 @@ import PageShell from '../../components/pageshell';
 
 export async function getServerSideProps({ params }) {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/posts/${params.slug}/`);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${apiUrl}/posts/${params.slug}/`);
     if (!res.ok) return { notFound: true };
     const post = await res.json();
     return { props: { post } };

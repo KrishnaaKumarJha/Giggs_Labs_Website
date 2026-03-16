@@ -11,19 +11,17 @@ export default function AdminMessages() {
     const token = typeof window !== 'undefined'
       ? localStorage.getItem('adminAccessToken')
       : null;
-    const secretKey = typeof window !== 'undefined'
-      ? localStorage.getItem('adminSecretKey')
-      : null;
 
-    if (!token || !secretKey) {
-      // No token or secret key — user hasn't gone through the proper login flow
+    if (!token) {
+      // No token — user hasn't gone through the proper login flow
       router.replace('/');
       return;
     }
 
     async function loadMessages() {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/contacts/', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+        const res = await fetch(`${apiUrl}/contacts/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +30,6 @@ export default function AdminMessages() {
         if (res.status === 401 || res.status === 403) {
           localStorage.removeItem('adminAccessToken');
           localStorage.removeItem('adminRefreshToken');
-          localStorage.removeItem('adminSecretKey');
           router.replace('/');
           return;
         }
@@ -65,7 +62,6 @@ export default function AdminMessages() {
   function handleLogout() {
     localStorage.removeItem('adminAccessToken');
     localStorage.removeItem('adminRefreshToken');
-    localStorage.removeItem('adminSecretKey');
     router.replace('/');
   }
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import ContactMessage, JobApplication, Post, JobOpening, Service
 
 
@@ -41,3 +42,19 @@ class ServiceSerializer(serializers.ModelSerializer):
             'highlights', 'href', 'order', 'is_active',
             'created_at', 'updated_at',
         ]
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'is_staff', 'is_superuser']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password'],
+            is_staff=validated_data.get('is_staff', False),
+            is_superuser=validated_data.get('is_superuser', False)
+        )
+        return user

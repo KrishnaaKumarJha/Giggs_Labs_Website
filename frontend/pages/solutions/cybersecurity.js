@@ -70,14 +70,14 @@ export default function CybersecurityPage() {
             {/* ─── HERO SECTION ─── */}
             <section className="relative -mt-20 pt-[120px] pb-16 md:pt-[140px] md:pb-20 overflow-hidden border-b border-slate-800 flex flex-col items-center justify-start min-h-[50vh]">
                 <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-slate-950/80 z-10" />
+                    <div className="absolute inset-0 bg-slate-950/60 z-10" />
                     <video
                         src="/hero/cyber.mp4"
                         autoPlay
                         loop
                         muted
                         playsInline
-                        className="w-full h-full object-cover opacity-40"
+                        className="w-full h-full object-cover opacity-70"
                     />
                 </div>
                 <div className="container relative z-20 mx-auto px-4 text-center max-w-5xl">
@@ -113,7 +113,7 @@ export default function CybersecurityPage() {
                             <motion.div
 
                                 key={page.title}
-                                initial="hidden"
+                                initial="show"
                                 whileInView="show"
                                 viewport={{ once: true, margin: "-50px" }}
                                 variants={{

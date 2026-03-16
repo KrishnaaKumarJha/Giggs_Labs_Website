@@ -113,6 +113,9 @@ export default function EnterpriseAutomationPage() {
                         {subPages.map((page, idx) => (
                             <motion.div
                                 key={page.title}
+                                initial="show"
+                                whileInView="show"
+                                viewport={{ once: true, margin: "-50px" }}
                                 className="group flex flex-col rounded-[12px] border border-[#0B1F3B] bg-[#0B1F3B]/40 p-8 hover:border-[#1E7BFF]/50 transition-all duration-300"
                             >
                                 <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[8px] bg-[#1E7BFF]/10 border border-[#1E7BFF]/20 text-[#1E7BFF] transition-all">

@@ -15,6 +15,8 @@ from .views import (
     ServiceAdminDetailView,
     PostAdminListView,
     PostAdminDetailView,
+    UserAdminListView,
+    UserAdminDetailView,
 )
 
 urlpatterns = [
@@ -45,4 +47,6 @@ urlpatterns = [
     path('admin/services/<int:pk>/', ServiceAdminDetailView.as_view(), name='api-admin-service-detail'),
     path('admin/posts/', PostAdminListView.as_view(), name='api-admin-posts'),
     path('admin/posts/<int:pk>/', PostAdminDetailView.as_view(), name='api-admin-post-detail'),
+    path('admin/users/', UserAdminListView.as_view(), name='api-admin-users'),
+    path('admin/users/<int:pk>/', UserAdminDetailView.as_view(), name='api-admin-user-detail'),
 ]

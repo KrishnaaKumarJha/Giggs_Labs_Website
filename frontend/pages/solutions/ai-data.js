@@ -114,7 +114,7 @@ export default function AIDataSciencePage() {
                         {subPages.map((page, idx) => (
                             <motion.div
                                 key={page.title}
-                                initial="hidden"
+                                initial="show"
                                 whileInView="show"
                                 viewport={{ once: true, margin: "-50px" }}
                                 variants={{

@@ -7,8 +7,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
 from .models import ContactMessage, JobApplication, Post, JobOpening, Service
-from .serializers import ContactMessageSerializer, JobApplicationSerializer, PostSerializer, JobOpeningSerializer, ServiceSerializer
+from .serializers import ContactMessageSerializer, JobApplicationSerializer, PostSerializer, JobOpeningSerializer, ServiceSerializer, UserSerializer
 from django.conf import settings
 from django.core.mail import EmailMessage
 from rest_framework.permissions import IsAdminUser
@@ -320,3 +321,18 @@ class PostAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser]
+
+
+# ─── Admin User Management ───
+
+class UserAdminListView(generics.ListCreateAPIView):
+    """Admin: list all users + create new."""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+class UserAdminDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Admin: retrieve / update / delete a single user."""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
