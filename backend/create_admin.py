@@ -16,8 +16,10 @@ def create_admin():
     password = os.environ.get('DJANGO_ADMIN_PASSWORD')
 
     if not password:
-        print("SKIP: DJANGO_ADMIN_PASSWORD not set in environment.")
+        print("!! ERROR: DJANGO_ADMIN_PASSWORD not set in environment. Superuser NOT created.")
         return
+
+    print(f"-- Attempting to setup admin with username: {username}")
 
     if not User.objects.filter(username=username).exists():
         print(f"Creating superuser: {username}...")

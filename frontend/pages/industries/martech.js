@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
 import Button from '../../components/Button';
 
 export default function Martech() {
@@ -11,9 +9,7 @@ export default function Martech() {
                 <meta name="description" content="AI-driven campaigns, hyper-personalization, and marketing automation." />
             </Head>
 
-            <Navbar />
-
-            <main className="flex-grow pt-16 md:pt-20">
+            <main className="">
                 <section className="relative mx-auto max-w-7xl px-4 pt-4 pb-16 md:pt-8 md:pb-24 md:px-6">
                     <div className="max-w-3xl">
                         <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-sky-400 mb-6 w-max">
@@ -32,8 +28,6 @@ export default function Martech() {
                     </div>
                 </section>
             </main>
-
-            <Footer />
         </div>
     );
 }

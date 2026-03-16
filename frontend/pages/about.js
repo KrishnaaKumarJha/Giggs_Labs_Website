@@ -133,6 +133,7 @@ const leadership = [
     image: '/images/ramesh.jpg',
     color: 'cyan',
   },
+  /* 
   {
     name: 'VP Name',
     role: 'Vice President of Engineering',
@@ -140,6 +141,7 @@ const leadership = [
     image: '/vp-placeholder.png',
     color: 'blue',
   },
+  */
 ];
 
 /* ── page ── */
@@ -459,12 +461,12 @@ export default function About({ posts = [] }) {
           />
         </div>
 
-        <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
+        <div className="max-w-4xl mx-auto">
           {leadership.map((leader, idx) => (
             <motion.div
               key={leader.name}
-              initial={{ opacity: 0, x: idx === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="relative overflow-hidden rounded-[3rem] border border-slate-800/60 bg-slate-950/40 p-1 lg:p-1.5 transition-all hover:border-slate-700 hover:bg-slate-900/20 backdrop-blur-md"
             >
