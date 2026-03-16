@@ -73,7 +73,7 @@ function MottoCycler({ lines = [], intervalMs = 3200 }) {
           style={{
             color: '#3B9BD5',
             whiteSpace: 'nowrap',
-            fontVariant: 'small'
+            fontVariant: 'small-caps'
           }}
         >
           {current}
