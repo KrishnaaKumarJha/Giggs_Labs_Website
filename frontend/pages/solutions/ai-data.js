@@ -91,7 +91,7 @@ export default function AIDataSciencePage() {
                             Build intelligent enterprise systems powered by scalable data platforms, machine learning models, and advanced analytics.
                         </motion.p>
                         <motion.div variants={fadeInUp} className="pt-8 flex flex-wrap justify-center gap-4">
-                            <a href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Talk to an Expert</a>
+                            <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Talk to an Expert</Link>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -197,8 +197,8 @@ export default function AIDataSciencePage() {
                         align="center"
                     />
                     <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <a href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Start Your Transformation</a>
-                        <a href="/solutions" className="inline-flex items-center justify-center bg-transparent border border-[#1E7BFF] text-[#1E7BFF] hover:bg-[#1E7BFF]/10 font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Explore All Solutions</a>
+                        <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Start Your Transformation</Link>
+                        <Link href="/solutions" className="inline-flex items-center justify-center bg-transparent border border-[#1E7BFF] text-[#1E7BFF] hover:bg-[#1E7BFF]/10 font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Explore All Solutions</Link>
                     </div>
                 </div>
             </section>

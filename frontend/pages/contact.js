@@ -260,7 +260,7 @@ export default function ContactPage() {
                       className="mt-6 flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm text-emerald-400"
                     >
                       <CheckCircle2 className="w-5 h-5" />
-                      Message received! We'll get back to you shortly.
+                      Message received! We&apos;ll get back to you shortly.
                     </motion.div>
                   )}
                   {status === 'error' && (

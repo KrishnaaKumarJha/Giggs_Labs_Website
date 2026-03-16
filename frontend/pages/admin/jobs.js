@@ -20,6 +20,7 @@ export default function AdminJobs() {
     useEffect(() => {
         if (!token()) { router.replace('/'); return; }
         loadJobs();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadJobs() {
@@ -122,7 +123,7 @@ export default function AdminJobs() {
 
                 {/* Jobs list */}
                 {jobs.length === 0 ? (
-                    <div className="text-slate-400 text-center py-10">No job openings yet. Click "+ Add Job" to create one.</div>
+                    <div className="text-slate-400 text-center py-10">No jobs yet. Click &quot;+ Add Job&quot; to create one.</div>
                 ) : (
                     <div className="space-y-3">
                         {jobs.map((job) => (

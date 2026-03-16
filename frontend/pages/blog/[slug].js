@@ -76,10 +76,11 @@ export default function PostPage({ post }) {
             prose-img:rounded-2xl prose-img:border prose-img:border-white/10"
           >
             <ReactMarkdown
-              children={post.content}
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
-            />
+            >
+              {post.content}
+            </ReactMarkdown>
           </div>
 
           {/* Footer of article */}

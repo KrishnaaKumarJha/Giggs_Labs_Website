@@ -21,6 +21,7 @@ export default function AdminPosts() {
     useEffect(() => {
         if (!token()) { router.replace('/'); return; }
         loadPosts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadPosts() {
@@ -175,7 +176,7 @@ export default function AdminPosts() {
 
                 {/* Posts list */}
                 {posts.length === 0 ? (
-                    <div className="text-slate-400 text-center py-10">No posts yet. Click "+ Add Post" to create one.</div>
+                    <div className="text-slate-400 text-center py-10">No posts yet. Click &quot;+ Add Post&quot; to create one.</div>
                 ) : (
                     <div className="space-y-3">
                         {posts.map((post) => (

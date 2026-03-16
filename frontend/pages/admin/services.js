@@ -33,6 +33,7 @@ export default function AdminServices() {
     useEffect(() => {
         if (!token()) { router.replace('/'); return; }
         loadServices();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadServices() {
@@ -164,7 +165,7 @@ export default function AdminServices() {
 
                 {/* Services list */}
                 {services.length === 0 ? (
-                    <div className="text-slate-400 text-center py-10">No services yet. Click "+ Add Service" to create one.</div>
+                    <div className="text-slate-400 text-center py-10">No services yet. Click &quot;+ Add Service&quot; to create one.</div>
                 ) : (
                     <div className="space-y-3">
                         {services.map((svc) => (

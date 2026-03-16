@@ -485,7 +485,7 @@ export default function About({ posts = [] }) {
                 {/* Content Section */}
                 <div className="flex-1 p-8 lg:p-10 flex flex-col justify-center">
                   <div className="mb-6">
-                    <span className="text-4xl text-cyan-500/30 font-serif leading-none italic">"</span>
+                    <span className="text-4xl text-cyan-500/30 font-serif leading-none italic">&quot;</span>
                     <p className="text-base md:text-lg text-slate-200 leading-relaxed italic font-medium -mt-2">
                       {leader.vision}
                     </p>

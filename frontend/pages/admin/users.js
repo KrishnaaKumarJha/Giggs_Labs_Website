@@ -27,6 +27,7 @@ export default function AdminUsers() {
             return;
         }
         loadUsers(token);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadUsers(token) {
