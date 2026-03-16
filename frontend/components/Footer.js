@@ -1,5 +1,6 @@
 // frontend/components/Footer.js
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 
@@ -69,9 +70,11 @@ export default function Footer() {
           <div className="lg:col-span-4 flex flex-col pr-8">
             <div className="flex flex-col items-center self-start gap-3 mb-6">
               <div className="relative transition-all duration-300">
-                <img
+                <Image
                   src="/logo/logo.png"
                   alt="Giggs Software Lab Logo"
+                  width={48}
+                  height={48}
                   className="h-10 md:h-12 w-auto object-contain shrink-0"
                 />
               </div>

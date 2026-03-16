@@ -1,5 +1,6 @@
 // frontend/pages/blog/[slug].js
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -53,7 +54,7 @@ export default function PostPage({ post }) {
         >
           {post.image && (
             <div className="relative aspect-[21/9] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl">
-              <img src={post.image} alt={post.title} className="object-cover w-full h-full" />
+              <Image src={post.image} alt={post.title} fill className="object-cover" priority />
               <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
             </div>
           )}

@@ -1,5 +1,7 @@
 // frontend/pages/index.js
 import Link from 'next/link';
+import Head from 'next/head';
+import Image from 'next/image';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import React, { useState, useEffect, useRef } from 'react';
 import { BrainCircuit, ShieldCheck, Zap, Bot } from 'lucide-react';
@@ -107,7 +109,6 @@ const heroTabs = [
 
 
 export default function Home() {
-  // eslint-disable-next-line no-unused-vars
   const [activeVideo, setActiveVideo] = useState(null);
   const [activeHeroTab, setActiveHeroTab] = useState(heroTabs[0].id);
   const [heroDirection, setHeroDirection] = useState(1);
@@ -132,7 +133,7 @@ export default function Home() {
   useEffect(() => {
     startHeroTimer();
     return () => clearInterval(heroTimerRef.current);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   // 1) controls for first-fold (Industries) reveal
   const firstFoldControls = useAnimation();
@@ -779,10 +780,11 @@ export default function Home() {
 
               <div className="relative z-10">
                 <div className="relative h-64 md:h-[28rem] w-full overflow-hidden rounded-3xl bg-slate-950/50 border border-slate-800/40">
-                  <img
+                  <Image
                     src="/regions-map.png"
                     alt="World map"
-                    className="h-full w-full object-cover opacity-80"
+                    fill
+                    className="object-cover opacity-80"
                     style={{ filter: 'brightness(1.1) grayscale(0.2)' }}
                   />
 

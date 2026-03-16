@@ -1,6 +1,7 @@
 // frontend/pages/solutions/automation.js
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 import SectionTitle from '../../components/SectionTitle';

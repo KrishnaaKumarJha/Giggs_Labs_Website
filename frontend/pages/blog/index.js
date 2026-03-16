@@ -1,6 +1,7 @@
 // frontend/pages/blog/index.js
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 
@@ -124,10 +125,11 @@ export default function InsightsHub({ posts }) {
                 className="group relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center rounded-[2rem] border border-slate-800/80 bg-slate-900/40 p-1 overflow-hidden hover:border-[#00E0FF]/40 transition-all cursor-pointer"
               >
                 <div className="relative aspect-[16/10] md:aspect-square overflow-hidden rounded-[1.8rem]">
-                  <img
+                  <Image
                     src={featuredPost.image || '/images/Ai_Automation.png'}
                     alt={featuredPost.title}
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full">
                     <span className="text-[10px] font-bold tracking-widest uppercase text-[#00E0FF] italic">FEATURED {featuredPost.category}</span>
@@ -176,10 +178,11 @@ export default function InsightsHub({ posts }) {
                     className="group h-full flex flex-col rounded-2xl border border-slate-800/80 bg-slate-950/60 overflow-hidden hover:border-[#00E0FF]/30 hover:bg-slate-900/40 transition-all cursor-pointer shadow-xl shadow-black/40"
                   >
                     <div className="relative aspect-[16/9] overflow-hidden">
-                      <img
+                      <Image
                         src={post.image || '/images/Cloud_DevOps.png'}
                         alt={post.title}
-                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-3 left-3">
                         <span className={`text-[9px] font-bold px-2 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10 uppercase tracking-widest ${post.category === 'Case Study' ? 'text-amber-400' :
