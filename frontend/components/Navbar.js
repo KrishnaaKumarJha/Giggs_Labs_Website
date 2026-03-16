@@ -69,8 +69,12 @@ function MottoCycler({ lines = [], intervalMs = 3200 }) {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -18, opacity: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute text-[9px] md:text-[11px] font-extrabold uppercase tracking-tight text-center leading-tight select-none"
-          style={{ color: '#3B9BD5', whiteSpace: 'nowrap' }}
+          className="absolute text-[9px] md:text-[11px] font-extrabold tracking-tight text-center leading-tight select-none"
+          style={{
+            color: '#3B9BD5',
+            whiteSpace: 'nowrap',
+            fontVariant: 'small'
+          }}
         >
           {current}
         </motion.div>
