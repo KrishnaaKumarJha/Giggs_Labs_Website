@@ -288,9 +288,12 @@ export default function CareersPage({ jobs = [] }) {
      ================================================================ */
   return (
     <PageShell
-      eyebrow="Careers"
+      eyebrow="Join the Team"
       title="Build the Future with Giggs"
       description="We're building the next generation of intelligent digital systems. Join a team of engineers, data scientists, and innovators shaping the future of enterprise technology."
+      videoSrc="/hero/performance.mp4"
+      videoOpacity={0.5}
+      align="center"
     >
       <div className="max-w-4xl mx-auto px-4 py-12">
 

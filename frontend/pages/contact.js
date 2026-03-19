@@ -127,11 +127,11 @@ export default function ContactPage() {
 
   return (
     <PageShell
+      eyebrow="Get in Touch"
       title="Let's Build the Future Together"
       description="Whether you're exploring AI transformation, scaling digital platforms, or automating enterprise workflows, our experts are here to help you move faster and smarter."
       videoSrc="/hero/cyber.mp4"
-      videoOpacity={0.85}
-      overlayOpacity={0.2}
+      videoOpacity={0.7}
       align="center"
     >
       <div className="container mx-auto px-4 pt-4 pb-12">

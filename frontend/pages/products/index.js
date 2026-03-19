@@ -1,4 +1,5 @@
 // frontend/pages/products/index.js
+import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import PageShell from '../../components/pageshell';
@@ -48,46 +49,26 @@ const philosophy = [
 
 export default function ProductsIndexPage() {
     return (
-        <PageShell fluid={true}>
-            {/* ─── 1. HIGH-IMPACT HERO ─── */}
-            <section className="relative -mt-20 pt-[120px] pb-4 md:pt-[140px] md:pb-6 overflow-hidden border-b border-[#0B1F3B]/30 flex flex-col items-center justify-start min-h-[50vh]">
-                {/* Background video */}
-                <div className="absolute inset-0 z-0 overflow-hidden">
-                    <video
-                        src="/hero/automation.mp4"
-                        autoPlay muted loop playsInline
-                        className="h-full w-full object-cover opacity-50"
-                    />
-                    <div className="absolute inset-0 bg-slate-950/80 z-10" />
-                </div>
+        <PageShell
+            eyebrow="The Ecosystem"
+            title="Engineering. The Future."
+            description="Flagship platforms and specialized toolsets designed to solve complex challenges in security, data, and performance."
+            videoSrc="/hero/automation.mp4"
+            videoOpacity={0.5}
+            align="center"
+        >
+            <Head>
+                <title>Products | Giggs Software Labs</title>
+            </Head>
 
-                <div className="container relative z-10 mx-auto px-4 text-center max-w-5xl">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="space-y-6"
-                    >
-                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white futuristic leading-[1.1]">
-                            Engineering.{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] italic pb-3 inline-block">The Future.</span>
-                        </h1>
-
-                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed font-medium">
-                            Flagship platforms and specialized toolsets designed to solve complex challenges in security, data, and performance.
-                        </p>
-
-                        <div className="flex justify-center gap-4 pt-4">
-                            <button
-                                onClick={() => document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })}
-                                className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all"
-                            >
-                                Explore Our Products
-                            </button>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
+            <div className="flex justify-center mt-10 mb-20">
+                <button
+                    onClick={() => document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })}
+                    className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all"
+                >
+                    Explore Our Products
+                </button>
+            </div>
 
             {/* ─── 2. PRODUCT GRID ─── */}
             <section id="product-grid" className="relative z-20 pt-8 pb-24 px-4">
@@ -222,6 +203,6 @@ export default function ProductsIndexPage() {
                     </div>
                 </motion.div>
             </section>
-        </PageShell >
+        </PageShell>
     );
 }

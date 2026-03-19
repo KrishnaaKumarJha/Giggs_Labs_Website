@@ -73,29 +73,27 @@ export default function PageShell({
         style={{ overflow: 'visible' }}
       >
         {/* header */}
-        <div className={`max-w-3xl ${alignCls}`}>
-          {eyebrow && (
-            <div
-              className={`inline-flex items-center gap-2 rounded-full border border-[#00E0FF]/30 bg-slate-950/80 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-cyan-400 backdrop-blur-md mb-6 ${align === 'center' ? 'justify-center mx-auto' : ''}`}
-            >
-              <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#00E0FF] animate-pulse" />
-              {eyebrow}
-            </div>
-          )}
+        <div className={`max-w-4xl ${alignCls}`}>
 
           {title && (
             <h1
-              className={`mt-4 font-black tracking-tighter ${align === 'center' ? 'text-4xl md:text-6xl uppercase leading-[0.95] drop-shadow-[0_0_15px_rgba(0,0,0,0.5)]' : 'text-3xl sm:text-4xl'}`}
+              className={`mt-4 font-extrabold leading-tight tracking-tight text-white futuristic ${
+                align === 'center' 
+                ? 'text-4xl sm:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(0,0,0,0.5)]' 
+                : 'text-3xl sm:text-4xl lg:text-5xl'
+              }`}
             >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-400">
-                {title}
-              </span>
+              {title}
             </h1>
           )}
 
           {description && (
             <p
-              className={`mt-8 text-slate-100 font-semibold leading-relaxed drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] ${align === 'center' ? 'text-xl md:text-2xl max-w-3xl mx-auto' : 'text-base md:text-lg opacity-90'}`}
+              className={`mt-8 text-slate-300 font-medium leading-relaxed ${
+                align === 'center' 
+                ? 'text-lg md:text-xl max-w-3xl mx-auto' 
+                : 'text-base md:text-lg opacity-90'
+              }`}
             >
               {description}
             </p>

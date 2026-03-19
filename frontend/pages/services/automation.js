@@ -44,31 +44,17 @@ export default function AutomationPage() {
             eyebrow="Services / Automation"
             title="Automation Engineering"
             description="Remove manual friction and build an adaptive, self-healing execution layer that scales."
+            videoSrc="/hero/automation.mp4"
+            videoOpacity={0.6}
+            align="center"
         >
-
-            {/* ─── VIDEO HERO BANNER ─── */}
-            <section className="relative -mx-4 md:-mx-6 mb-16 overflow-hidden rounded-[2.5rem] border border-sky-500/20">
-                <div className="relative h-[300px] md:h-[420px] w-full">
-                    <video
-                        src="/hero/automation.mp4"
-                        autoPlay muted loop playsInline
-                        className="absolute inset-0 h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/50 to-sky-950/30" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(56,189,248,0.08),_transparent_60%)]" />
-
-                    <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-12">
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400 mb-3">Enterprise Automation</span>
-                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-2">
-                            Automating for Speed & Scale
-                        </h3>
-                        <p className="max-w-md text-sm text-slate-300/90 font-medium leading-relaxed">
-                            From RPA to self-healing infrastructure &#8212; we eliminate repetitive work so your team can focus on what matters.
-                        </p>
-                    </div>
-                </div>
-            </section>
+            {/* ─── TAGLINE ─── */}
+            <div className="text-center -mt-10 mb-16">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400 mb-3 block">Enterprise Automation</span>
+                <h3 className="text-xl md:text-2xl font-black text-white tracking-tight mb-2">
+                    Automating for Speed & Scale
+                </h3>
+            </div>
 
             {/* ─── CAPABILITIES ─── */}
             <section className="mb-20">

@@ -42,36 +42,20 @@ export default function CybersecurityPage() {
             eyebrow="Managed Services"
             title="Mihawk Operations"
             description="24/7 managed defense, strategic implementation, and automated threat neutralization tailored for the modern enterprise."
+            videoSrc="/hero/cyber.mp4"
+            videoOpacity={0.6}
+            align="center"
         >
-
-            {/* ─── VIDEO HERO BANNER ─── */}
-            <section className="relative -mx-4 md:-mx-6 mb-16 overflow-hidden rounded-[2.5rem] border border-sky-500/20">
-                <div className="relative h-[300px] md:h-[420px] w-full">
-                    <video
-                        src="/hero/cyber.mp4"
-                        autoPlay muted loop playsInline
-                        className="absolute inset-0 h-full w-full object-cover"
-                    />
-                    {/* Cinematic overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/50 to-sky-950/30" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(56,189,248,0.08),_transparent_60%)]" />
-
-                    <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-12">
-                        <div className="flex items-center gap-4 mb-5">
-                            <div className="relative h-8 w-[140px] shrink-0">
-                                <Image src="/logo/mihawk.svg" alt="Mihawk Logo" fill sizes="140px" style={{ objectFit: 'contain', objectPosition: 'left' }} />
-                            </div>
-                            <div className="h-6 w-px bg-sky-500/40" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400">Managed Security</span>
-                        </div>
-                        <p className="max-w-md text-sm text-slate-300/90 font-medium leading-relaxed">
-                            The intelligence of <span className="text-sky-400 font-bold">Mihawk</span> meets the expertise of Giggs Labs.
-                            A unified defense strategy for your most critical assets.
-                        </p>
-                    </div>
+            {/* ─── MIHAWK BRANDING ─── */}
+            <div className="flex flex-col items-center gap-4 mb-16 text-center">
+                <div className="relative h-10 w-[200px]">
+                    <Image src="/logo/mihawk.svg" alt="Mihawk Logo" fill sizes="200px" style={{ objectFit: 'contain' }} />
                 </div>
-            </section>
+                <div className="h-px w-24 bg-sky-500/40" />
+                <p className="max-w-md text-sm text-slate-300/90 font-medium leading-relaxed italic">
+                    The intelligence of <span className="text-sky-400 font-bold">Mihawk</span> meets the expertise of Giggs Labs.
+                </p>
+            </div>
 
             {/* ─── STATS ROW ─── */}
             <section className="mb-20">

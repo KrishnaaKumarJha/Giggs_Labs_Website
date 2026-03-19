@@ -63,38 +63,21 @@ const subPages = [
 
 export default function CybersecurityPage() {
     return (
-        <PageShell>
+        <PageShell
+            eyebrow="Capabilities"
+            title="AI-Driven Cybersecurity"
+            description="Protect enterprise digital infrastructure with intelligent threat detection, automated response, and predictive security analytics."
+            videoSrc="/hero/cyber.mp4"
+            videoOpacity={0.6}
+            align="center"
+        >
             <Head>
                 <title>AI-Driven Cybersecurity | Giggs Software Labs</title>
             </Head>
 
-            {/* ─── HERO SECTION ─── */}
-            <section className="relative -mt-20 pt-[120px] pb-16 md:pt-[140px] md:pb-20 overflow-hidden border-b border-slate-800 flex flex-col items-center justify-start min-h-[50vh]">
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-slate-950/60 z-10" />
-                    <video
-                        src="/hero/cyber.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover opacity-70"
-                    />
-                </div>
-                <div className="container relative z-20 mx-auto px-4 text-center max-w-5xl">
-                    <motion.div initial="hidden" animate="show" variants={staggerContainer} className="space-y-6">
-                        <motion.h1 variants={fadeInUp} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
-                            AI-Driven <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF]">Cybersecurity</span>
-                        </motion.h1>
-                        <motion.p variants={fadeInUp} className="font-roboto text-[22px] text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium mt-6">
-                            Protect enterprise digital infrastructure with intelligent threat detection, automated response, and predictive security analytics.
-                        </motion.p>
-                        <motion.div variants={fadeInUp} className="pt-8 flex flex-wrap justify-center gap-4">
-                            <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Talk to an Expert</Link>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
+            <div className="flex justify-center mt-10 mb-20">
+                <Button href="/contact" variant="primary">Talk to an Expert</Button>
+            </div>
 
             {/* ─── CAPABILITIES GRID ─── */}
             <section className="py-8 md:py-12 relative">

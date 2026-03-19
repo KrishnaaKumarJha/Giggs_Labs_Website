@@ -167,65 +167,52 @@ export async function getServerSideProps() {
 
 export default function About({ posts = [] }) {
   return (
-    <PageShell
-      simpleHero={true}
-      videoSrc="/hero/automation.mp4"
-      videoOpacity={0.65}
-      overlayOpacity={0.25}
-    >
-      {/* ─── 1. HERO ─── */}
-      <section className="relative -mt-20 pt-24 flex min-h-[70vh] items-center justify-center">
-        <div className="container relative z-10 mx-auto px-4 text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="space-y-6"
-          >
-            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
-              Engineering the Intelligent Enterprise
-            </motion.h1>
-
-            <motion.p variants={fadeUp} className="mx-auto max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed font-medium">
-              <span className="font-bold text-white">Giggs Software Labs</span> is an AI-driven engineering company helping organizations build intelligent,
-              secure, and high-performance digital systems. We combine deep engineering expertise with
-              AI-driven innovation to deliver transformative outcomes across industries.
-            </motion.p>
-
-            <motion.div variants={fadeUp} className="pt-14 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#2ED6FF]/20">
-                  Our Vision
-                </div>
-                <div className="text-4xl text-[#2ED6FF]/20 font-serif leading-none mb-3">&ldquo;</div>
-                <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
-                  To become a global leader in AI-driven engineering and intelligent enterprise systems.
-                </p>
-                <div className="mt-6 flex items-center justify-center gap-3">
-                  <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#2ED6FF]/40" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
-                  <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#2ED6FF]/40" />
-                </div>
-              </div>
-              <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#7A5CFF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#7A5CFF]/20">
-                  Our Mission
-                </div>
-                <div className="text-4xl text-[#7A5CFF]/20 font-serif leading-none mb-3">&ldquo;</div>
-                <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
-                  To empower organizations with AI-powered platforms, secure digital ecosystems, and high-performance infrastructure that accelerate innovation and business growth.
-                </p>
-                <div className="mt-6 flex items-center justify-center gap-3">
-                  <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#7A5CFF]/40" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
-                  <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#7A5CFF]/40" />
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+        <PageShell
+            eyebrow="Our Story"
+            title="Engineering the Intelligent Enterprise"
+            description="Giggs Software Labs is an AI-driven engineering company helping organizations build intelligent, secure, and high-performance digital systems."
+            videoSrc="/hero/automation.mp4"
+            videoOpacity={0.6}
+            align="center"
+        >
+            <div className="container relative z-10 mx-auto px-4">
+                <motion.div
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    variants={stagger}
+                    className="pt-14 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-20"
+                >
+                    <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
+                        <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#2ED6FF]/20">
+                            Our Vision
+                        </div>
+                        <div className="text-4xl text-[#2ED6FF]/20 font-serif leading-none mb-3">&ldquo;</div>
+                        <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
+                            To become a global leader in AI-driven engineering and intelligent enterprise systems.
+                        </p>
+                        <div className="mt-6 flex items-center justify-center gap-3">
+                            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#2ED6FF]/40" />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
+                            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#2ED6FF]/40" />
+                        </div>
+                    </div>
+                    <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
+                        <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#7A5CFF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#7A5CFF]/20">
+                            Our Mission
+                        </div>
+                        <div className="text-4xl text-[#7A5CFF]/20 font-serif leading-none mb-3">&ldquo;</div>
+                        <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
+                            To empower organizations with AI-powered platforms, secure digital ecosystems, and high-performance infrastructure that accelerate innovation and business growth.
+                        </p>
+                        <div className="mt-6 flex items-center justify-center gap-3">
+                            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#7A5CFF]/40" />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
+                            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#7A5CFF]/40" />
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
 
       {/* ─── OUR STORY ─── */}
       <section className="mx-auto max-w-6xl px-4 py-14 md:px-6">

@@ -92,6 +92,9 @@ export default function InsightsHub({ posts }) {
       eyebrow="Insights & Thought Leadership"
       title="Insights from Giggs Experts"
       description="Deep dives into AI engineering, cybersecurity research, and elite software architecture. Your resource for building at the edge."
+      videoSrc="/hero/automation.mp4"
+      videoOpacity={0.6}
+      align="center"
     >
       <div className="max-w-6xl mx-auto">
 

@@ -1,4 +1,5 @@
 // frontend/pages/products/mihawk.js
+import Head from 'next/head';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -178,81 +179,50 @@ function FeatureCard({ feature, index }) {
 
 export default function MihawkProductPage() {
     return (
-        <PageShell fluid={true}>
-            {/* ═══════ HERO ═══════ */}
-            <section className="relative -mt-20 w-full overflow-hidden min-h-[75vh] flex items-center justify-center">
-                <div className="absolute inset-0 z-0">
-                    <video
-                        src="/hero/cyber.mp4"
-                        autoPlay muted loop playsInline
-                        className="h-full w-full object-cover"
-                    />
-                </div>
+        <PageShell
+            eyebrow="Flagship Security Platform"
+            title="Secure the Unseen."
+            description="Mihawk is our enterprise-grade cybersecurity platform that combines AI-driven threat intelligence, automated incident response, and continuous compliance monitoring — protecting your digital assets 24/7."
+            videoSrc="/hero/cyber.mp4"
+            videoOpacity={0.7}
+        >
+            <Head>
+                <title>Mihawk Security Platform | Giggs Software Labs</title>
+            </Head>
 
-                <div
-                    className="absolute inset-0 z-10 pointer-events-none"
-                    style={{
-                        background:
-                            'linear-gradient(90deg, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.8) 35%, rgba(2,6,23,0.4) 55%, rgba(2,6,23,0) 100%)',
-                    }}
-                />
-                <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-                <div className="absolute inset-0 z-10 pointer-events-none bg-[radial-gradient(ellipse_at_bottom_left,_rgba(56,189,248,0.06),_transparent_60%)]" />
-
-                <div className="relative z-20 w-full">
-                    <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-                        <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.12 } } }}>
-
-                            <motion.div variants={fadeUp} className="mb-8 overflow-visible">
-                                <div className="relative h-12 w-full max-w-[200px] md:h-16 md:max-w-[280px]">
-                                    <Image
-                                        src="/logo/mihawk.svg"
-                                        alt="Mihawk Logo"
-                                        fill
-                                        sizes="(max-width: 768px) 200px, 280px"
-                                        style={{ objectFit: 'contain', objectPosition: 'left' }}
-                                        priority
-                                    />
-                                </div>
-                            </motion.div>
-
-                            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/5 px-3 py-1 text-[10px] md:text-xs font-black uppercase tracking-widest text-sky-400 mb-6 backdrop-blur-md">
-                                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8] animate-pulse" />
-                                Flagship Security Platform
-                            </motion.div>
-
-                            <motion.h1 variants={fadeUp} className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tighter text-slate-50 leading-[1.1]">
-                                Secure the <br />
-                                <span className="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent italic pb-3 inline-block">Unseen.</span>
-                            </motion.h1>
-
-                            <p className="mt-8 mx-auto md:mx-0 max-w-2xl text-lg text-slate-300 leading-relaxed font-medium">
-                                Mihawk is our enterprise-grade cybersecurity platform that combines AI-driven threat intelligence,
-                                automated incident response, and continuous compliance monitoring &#8212; protecting your digital assets 24/7.
-                            </p>
-
-                            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
-                                <a
-                                    href="https://www.mihawk.tech/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_40px_rgba(56,189,248,0.5)] hover:scale-105 transition-all duration-300"
-                                >
-                                    Visit Mihawk Platform
-                                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                </a>
-                                <Link
-                                    href="/contact"
-                                    className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/5 px-8 py-3.5 text-sm font-bold text-sky-200 hover:bg-sky-500/15 transition-all duration-300"
-                                >
-                                    Request a demo
-                                </Link>
-                            </motion.div>
-
-                        </motion.div>
+            {/* ─── CUSTOM LOGO ─── */}
+            <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.12 } } }} className="mb-12">
+                <motion.div variants={fadeUp} className="mb-8 overflow-visible">
+                    <div className="relative h-12 w-full max-w-[200px] md:h-16 md:max-w-[280px]">
+                        <Image
+                            src="/logo/mihawk.svg"
+                            alt="Mihawk Logo"
+                            fill
+                            sizes="(max-width: 768px) 200px, 280px"
+                            style={{ objectFit: 'contain', objectPosition: 'left' }}
+                            priority
+                        />
                     </div>
-                </div>
-            </section>
+                </motion.div>
+
+                <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+                    <a
+                        href="https://www.mihawk.tech/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_40px_rgba(56,189,248,0.5)] hover:scale-105 transition-all duration-300"
+                    >
+                        Visit Mihawk Platform
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <Link
+                        href="/contact"
+                        className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/5 px-8 py-3.5 text-sm font-bold text-sky-200 hover:bg-sky-500/15 transition-all duration-300"
+                    >
+                        Request a demo
+                    </Link>
+                </motion.div>
+            </motion.div>
 
             {/* ═══════ STATS ═══════ */}
             <section className="relative z-10 mx-auto max-w-6xl px-4 md:px-6 mb-24">

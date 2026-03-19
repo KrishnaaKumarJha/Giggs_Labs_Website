@@ -85,13 +85,18 @@ const processSteps = [
 
 export default function SolutionsPage() {
     return (
-        <PageShell>
-            {/* ─── 1. FUTURISTIC HERO ─── */}
-            <section className="relative -mt-20 flex min-h-[70vh] items-center justify-center overflow-visible">
-                {/* Background Globe/Network Graphic */}
-                <div className="absolute inset-0 z-0 text-sky-500 overflow-hidden">
-                    <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,_rgba(56,189,248,0.15)_0%,_transparent_70%)] blur-3xl opacity-60" />
-                    <div className="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-10 animate-slow-spin">
+        <PageShell
+            eyebrow="Specialized Practices"
+            title="Solutions for teams that care about quality."
+            description="We plug into your team as a focused engineering partner — helping you move from idea to stable production systems without months of risk and rework."
+            videoOpacity={0.7}
+        >
+            {/* ─── 1. CUSTOM GRAPHIC (Keep it for uniqueness) ─── */}
+            <div className="relative -mt-20 h-[30vh] flex items-center justify-center overflow-visible pointer-events-none">
+                {/* Background Globe/Network Graphic (Toned down) */}
+                <div className="absolute inset-0 z-0 text-sky-500/30 overflow-hidden">
+                    <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,_rgba(56,189,248,0.1)_0%,_transparent_70%)] blur-3xl opacity-40" />
+                    <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-5 animate-slow-spin">
                         <svg viewBox="0 0 200 200" className="w-full h-full" fill="currentColor">
                             <path d="M100 0C44.8 0 0 44.8 0 100s44.8 100 100 100 100-44.8 100-100S155.2 0 100 0zm0 190c-49.6 0-90-40.4-90-90s40.4-90 90-90 90 40.4 90 90-40.4 90-90 90z" />
                             <path d="M100 20c-44.1 0-80 35.9-80 80s35.9 80 80 80 80-35.9 80-80-35.9-80-80-80zm0 150c-38.6 0-70-31.4-70-70s31.4-70 70-70 70 31.4 70 70-31.4 70-70 70z" />
@@ -99,41 +104,25 @@ export default function SolutionsPage() {
                         </svg>
                     </div>
                 </div>
+            </div>
 
-                <div className="container relative z-10 mx-auto px-4 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="space-y-6"
-                    >
-
-
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
-                            Solutions for teams that <span className="text-[#1E7BFF] italic pb-3 inline-block">care about quality.</span>
-                        </h1>
-
-                        <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-300 leading-relaxed mb-10">
-                            We plug into your team as a focused engineering partner — helping you move from idea to stable production systems without months of risk and rework.
-                        </p>
-
-                        <div className="pt-4 flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-400">
-                            <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm">
-                                <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> Scalable Architectures
-                            </span>
-                            <span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm">
-                                <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> Enterprise AI
-                            </span>
-                            <span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm">
-                                <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> Zero-Trust Security
-                            </span>
-                            <span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm">
-                                <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> Intelligent Automation
-                            </span>
-                        </div>
-                    </motion.div>
+            {/* Badges and additional content */}
+            <div className="container relative z-10 mx-auto px-4 text-center -mt-10 mb-20">
+                <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-400">
+                    <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm">
+                        <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> Scalable Architectures
+                    </span>
+                    <span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm">
+                        <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> Enterprise AI
+                    </span>
+                    <span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm">
+                        <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> Zero-Trust Security
+                    </span>
+                    <span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm">
+                        <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> Intelligent Automation
+                    </span>
                 </div>
-            </section>
+            </div>
 
             {/* ═══════ SOLUTION AREAS — 4 CARDS ═══════ */}
             <section className="mb-14 pt-4 md:pt-6">

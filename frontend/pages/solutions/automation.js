@@ -64,38 +64,21 @@ const subPages = [
 
 export default function EnterpriseAutomationPage() {
     return (
-        <PageShell>
+        <PageShell
+            eyebrow="Capabilities"
+            title="Enterprise Automation"
+            description="Accelerate business operations and software delivery through intelligent automation and DevOps innovation."
+            videoSrc="/hero/automation.mp4"
+            videoOpacity={0.4}
+            align="center"
+        >
             <Head>
                 <title>Enterprise Automation | Giggs Software Labs</title>
             </Head>
 
-            {/* ─── HERO SECTION ─── */}
-            <section className="relative -mt-20 pt-[120px] pb-16 md:pt-[140px] md:pb-20 overflow-hidden border-b border-slate-800 flex flex-col items-center justify-start min-h-[50vh]">
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-slate-950/80 z-10" />
-                    <video
-                        src="/hero/automation.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover opacity-40"
-                    />
-                </div>
-                <div className="container relative z-20 mx-auto px-4 text-center max-w-5xl">
-                    <motion.div initial="hidden" animate="show" variants={staggerContainer} className="space-y-6">
-                        <motion.h1 variants={fadeInUp} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white futuristic">
-                            Enterprise <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF]">Automation</span>
-                        </motion.h1>
-                        <motion.p variants={fadeInUp} className="font-roboto text-[22px] text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium mt-6">
-                            Accelerate business operations and software delivery through intelligent automation and DevOps innovation.
-                        </motion.p>
-                        <motion.div variants={fadeInUp} className="pt-8 flex flex-wrap justify-center gap-4">
-                            <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">Talk to an Expert</Link>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
+            <div className="flex justify-center mt-10 mb-20">
+                <Button href="/contact" variant="primary">Talk to an Expert</Button>
+            </div>
 
             {/* ─── CAPABILITIES GRID ─── */}
             <section className="py-8 md:py-12 relative">

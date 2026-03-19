@@ -44,31 +44,17 @@ export default function AiDataPage() {
             eyebrow="Services / AI & Data"
             title="AI & Data Science / Engineering"
             description="Scalable AI and data platforms that turn raw data into real-time intelligence."
+            videoSrc="/hero/ai.mp4"
+            videoOpacity={0.6}
+            align="center"
         >
-
-            {/* ─── VIDEO HERO BANNER ─── */}
-            <section className="relative -mx-4 md:-mx-6 mb-16 overflow-hidden rounded-[2.5rem] border border-cyan-500/20">
-                <div className="relative h-[300px] md:h-[420px] w-full">
-                    <video
-                        src="/hero/ai.mp4"
-                        autoPlay muted loop playsInline
-                        className="absolute inset-0 h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/50 to-cyan-950/30" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(34,211,238,0.08),_transparent_60%)]" />
-
-                    <div className="relative z-10 flex h-full flex-col justify-end p-8 md:p-12">
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-3">Intelligence at Scale</span>
-                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-2">
-                            Transforming Data into Intelligence
-                        </h3>
-                        <p className="max-w-md text-sm text-slate-300/90 font-medium leading-relaxed">
-                            From generative AI to real-time analytics — we build the intelligent systems that power data-driven enterprises.
-                        </p>
-                    </div>
-                </div>
-            </section>
+            {/* ─── TAGLINE ─── */}
+            <div className="text-center -mt-10 mb-16">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-3 block">Intelligence at Scale</span>
+                <h3 className="text-xl md:text-2xl font-black text-white tracking-tight mb-2">
+                    Transforming Data into Intelligence
+                </h3>
+            </div>
 
             {/* ─── CAPABILITIES ─── */}
             <section className="mb-20">

@@ -1,4 +1,5 @@
 // frontend/pages/projects.js  (renders as /projects → "Products" in nav)
+import Head from 'next/head';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -170,56 +171,24 @@ function FeatureCard({ feature, index }) {
   );
 }
 
-export default function ProductsPage() {
-  return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-950/80 text-slate-100">
-
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(139,92,246,0.12),_transparent_60%)]" />
-        <div className="mx-auto max-w-6xl px-4 pt-16 pb-10 md:px-6 lg:pt-20">
-          <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }}>
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-xs text-violet-200 mb-4">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_#a78bfa]" />
-              Our flagship product
-            </motion.div>
-
-            <motion.h1 variants={fadeUp} custom={1} className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-[#00E0FF]">
-                Mihawk
-              </span>
-            </motion.h1>
-
-            <motion.p variants={fadeUp} custom={2} className="mt-2 text-lg sm:text-xl text-slate-300 font-medium">
-              Protect Your Digital Assets
-            </motion.p>
-
-            <motion.p variants={fadeUp} custom={3} className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
-              Mihawk is our enterprise-grade cybersecurity platform that combines AI-driven threat
-              intelligence, automated incident response, and continuous compliance monitoring — helping
-              organizations stay protected around the clock without the overhead of building an
-              in-house security operations center.
-            </motion.p>
-
-            <motion.div variants={fadeUp} custom={4} className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="https://www.mihawk.tech/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center rounded-full bg-gradient-to-r from-violet-500 to-purple-600 px-6 py-3 text-sm font-medium text-white shadow-[0_0_25px_rgba(139,92,246,0.4)] hover:brightness-110 transition"
-              >
-                Visit Mihawk →
-              </a>
-              <Link
-                href="/contact"
-                className="inline-flex items-center rounded-full border border-violet-500/40 bg-violet-500/10 px-6 py-3 text-sm font-medium text-violet-200 hover:bg-violet-500/20 transition"
-              >
-                Request demo
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+    <PageShell
+      eyebrow="Our flagship product"
+      title="Mihawk"
+      description="Mihawk is our enterprise-grade cybersecurity platform that combines AI-driven threat intelligence, automated incident response, and continuous compliance monitoring — helping organizations stay protected around the clock without the overhead of building an in-house security operations center."
+      videoSrc="/hero/cyber.mp4"
+      videoOpacity={0.6}
+      align="center"
+    >
+      <Head>
+        <title>Mihawk | Giggs Software Labs</title>
+      </Head>
+      
+      {/* ─── TAGLINE ─── */}
+      <div className="text-center -mt-10 mb-16">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-lg sm:text-xl text-slate-300 font-medium">
+          Protect Your Digital Assets
+        </motion.p>
+      </div>
 
       {/* ═══════ STATS ═══════ */}
       <section className="mx-auto max-w-6xl px-4 md:px-6 mb-16">
@@ -382,6 +351,4 @@ export default function ProductsPage() {
           </div>
         </motion.div>
       </section>
-    </main>
-  );
-}
+    </PageShell>

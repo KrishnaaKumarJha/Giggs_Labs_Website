@@ -85,42 +85,25 @@ const processSteps = [
 
 export default function ServicesPage() {
   return (
-    <PageShell>
-      {/* ─── 1. FUTURISTIC HERO ─── */}
-      <section className="relative -mt-20 flex min-h-[70vh] items-center justify-center overflow-visible">
-        {/* Background Globe/Network Graphic - Reusing style from about for consistency */}
-        <div className="absolute inset-0 z-0 text-sky-500 overflow-hidden">
-          <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,_rgba(56,189,248,0.15)_0%,_transparent_70%)] blur-3xl opacity-60" />
-          <div className="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-10 animate-slow-spin">
-            <svg viewBox="0 0 200 200" className="w-full h-full" fill="currentColor">
-              <path d="M100 0C44.8 0 0 44.8 0 100s44.8 100 100 100 100-44.8 100-100S155.2 0 100 0zm0 190c-49.6 0-90-40.4-90-90s40.4-90 90-90 90 40.4 90 90-40.4 90-90 90z" />
-              <path d="M100 20c-44.1 0-80 35.9-80 80s35.9 80 80 80 80-35.9 80-80-35.9-80-80-80zm0 150c-38.6 0-70-31.4-70-70s31.4-70 70-70 70 31.4 70 70-31.4 70-70 70z" />
-              <circle cx="100" cy="100" r="10" />
-            </svg>
-          </div>
+    <PageShell
+      eyebrow="Our Expertise"
+      title="Services for teams that care about quality."
+      description="We plug into your team as a focused engineering partner — helping you move from idea to stable production systems without months of risk and rework."
+      videoSrc="/hero/automation.mp4"
+      videoOpacity={0.5}
+      align="center"
+    >
+      {/* ─── GLOBE DECO ─── */}
+      <div className="absolute inset-0 z-0 text-sky-500 overflow-hidden pointer-events-none">
+        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,_rgba(56,189,248,0.15)_0%,_transparent_70%)] blur-3xl opacity-60" />
+        <div className="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-10 animate-slow-spin">
+          <svg viewBox="0 0 200 200" className="w-full h-full" fill="currentColor">
+            <path d="M100 0C44.8 0 0 44.8 0 100s44.8 100 100 100 100-44.8 100-100S155.2 0 100 0zm0 190c-49.6 0-90-40.4-90-90s40.4-90 90-90 90 40.4 90 90-40.4 90-90 90z" />
+            <path d="M100 20c-44.1 0-80 35.9-80 80s35.9 80 80 80 80-35.9 80-80-35.9-80-80-80zm0 150c-38.6 0-70-31.4-70-70s31.4-70 70-70 70 31.4 70 70-31.4 70-70 70z" />
+            <circle cx="100" cy="100" r="10" />
+          </svg>
         </div>
-
-        <div className="container relative z-10 mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <div className="text-[11px] font-bold uppercase tracking-[0.4em] text-cyan-400">
-              Our Expertise
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-50">
-              Services for teams that <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent italic pb-3 inline-block">care about quality.</span>
-            </h1>
-
-            <p className="mx-auto max-w-2xl text-lg text-slate-300 leading-relaxed font-medium">
-              We plug into your team as a focused engineering partner — helping you move from idea to stable production systems without months of risk and rework.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      </div>
 
       {/* ═══════ SERVICE AREAS — 4 CARDS ═══════ */}
       <section className="mb-24 pt-12">

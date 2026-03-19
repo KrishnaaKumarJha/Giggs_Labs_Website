@@ -133,7 +133,7 @@ export default function Home() {
   useEffect(() => {
     startHeroTimer();
     return () => clearInterval(heroTimerRef.current);
-  }, []); 
+  }, []);
 
   // 1) controls for first-fold (Industries) reveal
   const firstFoldControls = useAnimation();
@@ -176,7 +176,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100">
+    <main className="relative min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 pb-20">
       {/* GLOBAL BACKGROUND VIDEO (for sections other than hero) */}
       <div
         className="pointer-events-none fixed inset-0 overflow-hidden"
@@ -363,21 +363,27 @@ export default function Home() {
             <span className="text-sky-500">•</span>
             <span>USA</span>
           </div>
+        </div>
+      </section>
+      {/* =============== END CLIENT TRUST BAR =============== */}
 
-          {/* Optional Client Logos */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+      {/* =============== FIXED PARTNER LOGOS =============== */}
+      <div className="fixed bottom-0 left-0 z-50 w-full border-t border-slate-800/40 bg-slate-950/80 py-4 backdrop-blur-lg shadow-[0_-4px_30px_rgba(0,0,0,0.5)]">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
             {[
               { src: '/logo/kantarW.png', alt: 'Kantar' },
-              { src: '/logo/accentureW.png', alt: 'Accenture' },
+              { src: '/logo/SaksoftW.png', alt: 'Saksoft' },
+              { src: '/logo/AccentureW.png', alt: 'Accenture' },
               { src: '/logo/jioW.png', alt: 'Jio' },
               { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },
+              { src: '/logo/infogainW.png', alt: 'Infogain' },
             ].map((p) => (
               <img key={p.alt} src={p.src} alt={p.alt} className="h-6 md:h-8 w-auto object-contain hover:opacity-100 transition-opacity" />
             ))}
           </div>
         </div>
-      </section>
-      {/* =============== END CLIENT TRUST BAR =============== */}
+      </div>
 
       {/* =============== EMPOWERING INTELLIGENCE =============== */}
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-8 md:px-6">
