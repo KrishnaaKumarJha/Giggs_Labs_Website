@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import PageShell from '../components/pageshell';
 
 /* ── Mihawk feature data ── */
 const features = [
@@ -170,7 +171,8 @@ function FeatureCard({ feature, index }) {
     </motion.article>
   );
 }
-
+export default function Projects() {
+  return (
     <PageShell
       eyebrow="Our flagship product"
       title="Mihawk"
@@ -352,3 +354,5 @@ function FeatureCard({ feature, index }) {
         </motion.div>
       </section>
     </PageShell>
+  );
+}

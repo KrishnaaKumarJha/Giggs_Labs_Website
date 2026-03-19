@@ -374,12 +374,19 @@ export default function Home() {
             {[
               { src: '/logo/kantarW.png', alt: 'Kantar' },
               { src: '/logo/SaksoftW.png', alt: 'Saksoft' },
-              { src: '/logo/AccentureW.png', alt: 'Accenture' },
+              { src: '/logo/accentureW.png', alt: 'Accenture' },
               { src: '/logo/jioW.png', alt: 'Jio' },
               { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },
               { src: '/logo/infogainW.png', alt: 'Infogain' },
             ].map((p) => (
-              <img key={p.alt} src={p.src} alt={p.alt} className="h-6 md:h-8 w-auto object-contain hover:opacity-100 transition-opacity" />
+              <Image 
+                key={p.alt} 
+                src={p.src} 
+                alt={p.alt} 
+                width={120} 
+                height={32} 
+                className="h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
+              />
             ))}
           </div>
         </div>
@@ -911,9 +918,11 @@ export default function Home() {
                 key={partner.name}
                 className="flex items-center justify-center py-2"
               >
-                <img
+                <Image
                   src={partner.src}
                   alt={partner.name}
+                  width={100}
+                  height={28}
                   className="h-6 md:h-7 w-auto flex-shrink-0 object-contain opacity-40 hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
