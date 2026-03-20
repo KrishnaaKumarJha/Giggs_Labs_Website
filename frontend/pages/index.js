@@ -462,7 +462,7 @@ export default function Home() {
         <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 35%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%)' }} />
         <div className="pointer-events-none absolute right-[-10%] top-[-25%] z-10 h-56 w-56 rounded-full bg-cyan-400/35 blur-3xl" />
         <div className="pointer-events-none absolute left-[-8%] bottom-[-20%] z-10 h-56 w-56 rounded-full bg-indigo-500/30 blur-3xl" />
-        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-8 lg:pt-12 pb-10 lg:pb-12">
+        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-24 lg:pt-20 pb-10 lg:pb-12">
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6, ease: 'easeOut' }}
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-1.5 text-xs sm:text-[13px] font-black uppercase tracking-[0.25em] text-sky-300 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,.15)]">

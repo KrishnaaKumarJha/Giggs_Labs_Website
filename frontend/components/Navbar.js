@@ -64,7 +64,7 @@ function MottoCycler({ lines = [], intervalMs = 3200 }) {
   const current = lines[index] ?? '';
 
   return (
-    <div className="h-6 w-full pointer-events-none relative flex justify-center items-center">
+    <div className="h-5 w-full pointer-events-none relative flex justify-center items-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -172,16 +172,18 @@ export default function Navbar() {
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-[4rem] items-center justify-between py-2">
+        <div className="flex min-h-[4.75rem] items-center justify-between py-2">
 
           <div className="flex items-center">
-            <Link href="/" aria-label="Go to home" className="relative flex items-center -mt-2">
+            <Link href="/" aria-label="Go to home" className="relative flex items-center md:-mt-2">
               <div className="relative z-10 transition-transform hover:scale-[1.02]">
                 <BrandLogo />
               </div>
-              <div className="absolute left-1/2 top-[110%] -translate-x-1/2 mt-1 w-[200px]">
-                <MottoCycler lines={mottoLines} intervalMs={4000} />
-              </div>
+              {!isOpen && (
+                <div className="absolute left-1/2 top-[80%] md:top-[90%] -translate-x-1/2 mt-1 md:mt-0.5 w-[200px]">
+                  <MottoCycler lines={mottoLines} intervalMs={4000} />
+                </div>
+              )}
             </Link>
           </div>
 
