@@ -469,12 +469,12 @@ export default function Home() {
               <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
               Giggs Software Labs
             </motion.div>
-            <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">
               {heroTabs.map(tab => {
                 const isActive = activeHeroTab === tab.id;
                 return (
                   <button key={tab.id} onClick={() => handleHeroTabClick(tab.id)}
-                    className={`relative whitespace-nowrap px-3 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border overflow-hidden ${isActive ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,.25)]' : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'}`}>
+                    className={`relative flex-shrink-0 whitespace-nowrap px-4 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border ${isActive ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,.25)]' : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'}`}>
                     {tab.label}
                     {isActive && <span key={progressKey} className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style={{ animation: 'hero-tab-progress 6s linear forwards' }} />}
                   </button>
