@@ -317,6 +317,16 @@ export default function Navbar() {
                 );
               })}
 
+              {/* Mobile CTAs */}
+              <div className="flex flex-col gap-4 pt-6 border-t border-slate-100">
+                <Button href="/contact" variant="secondary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.2em] !rounded-xl">
+                  Contact Us
+                </Button>
+                <Button href="/careers" variant="primary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.2em] !rounded-xl">
+                  Careers
+                </Button>
+              </div>
+
 
             </div>
           </motion.div>

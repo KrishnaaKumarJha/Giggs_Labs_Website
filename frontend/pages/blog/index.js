@@ -7,36 +7,36 @@ import PageShell from '../../components/pageshell';
 
 const CATEGORIES = ['All', 'Article', 'Whitepaper', 'Case Study', 'Tech Report'];
 
-    // Fallback posts in case the API returns empty/fails
-    const fallbackPosts = [
-        {
-            id: 1,
-            title: 'The Rise of AI Driven Cybersecurity',
-            slug: 'rise-of-ai-cybersecurity',
-            category: 'Blog',
-            excerpt: 'How machine learning models are transforming threat detection and automated response in zero-trust architectures.',
-            created_at: new Date('2024-03-10').toISOString(),
-            image: '/images/Ai_Automation.png',
-        },
-        {
-            id: 2,
-            title: 'Building Intelligent Data Platforms',
-            slug: 'building-intelligent-data-platforms',
-            category: 'Whitepaper',
-            excerpt: 'A comprehensive guide to scalable data architecture, automated ELT pipelines, and advanced analytics readiness.',
-            created_at: new Date('2024-02-28').toISOString(),
-            image: '/images/Cloud_DevOps.png',
-        },
-        {
-            id: 3,
-            title: 'Performance Engineering in Cloud Native Systems',
-            slug: 'performance-engineering-cloud-native',
-            category: 'Article',
-            excerpt: 'Best practices for optimizing response times, distributed tracing, and load management in containerized applications.',
-            created_at: new Date('2024-02-15').toISOString(),
-            image: '/images/Data_Analytics.png',
-        }
-    ];
+// Fallback posts in case the API returns empty/fails
+const fallbackPosts = [
+  {
+    id: 1,
+    title: 'The Rise of AI Driven Cybersecurity',
+    slug: 'rise-of-ai-cybersecurity',
+    category: 'Blog',
+    excerpt: 'How machine learning models are transforming threat detection and automated response in zero-trust architectures.',
+    created_at: new Date('2024-03-10').toISOString(),
+    image: '/images/Ai_Automation.png',
+  },
+  {
+    id: 2,
+    title: 'Building Intelligent Data Platforms',
+    slug: 'building-intelligent-data-platforms',
+    category: 'Whitepaper',
+    excerpt: 'A comprehensive guide to scalable data architecture, automated ELT pipelines, and advanced analytics readiness.',
+    created_at: new Date('2024-02-28').toISOString(),
+    image: '/images/Cloud_DevOps.png',
+  },
+  {
+    id: 3,
+    title: 'Performance Engineering in Cloud Native Systems',
+    slug: 'performance-engineering-cloud-native',
+    category: 'Article',
+    excerpt: 'Best practices for optimizing response times, distributed tracing, and load management in containerized applications.',
+    created_at: new Date('2024-02-15').toISOString(),
+    image: '/images/Data_Analytics.png',
+  }
+];
 
 export async function getServerSideProps() {
   try {
@@ -65,14 +65,18 @@ export async function getServerSideProps() {
     return { props: { posts: finalPosts } };
   } catch (err) {
     console.error('Error fetching posts:', err);
-    return { props: { posts: fallbackPosts.map(p => ({
-      ...p,
-      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    })) } };
+    return {
+      props: {
+        posts: fallbackPosts.map(p => ({
+          ...p,
+          date_display: new Date(p.created_at).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          })
+        }))
+      }
+    };
   }
 }
 
@@ -90,7 +94,7 @@ export default function InsightsHub({ posts }) {
   return (
     <PageShell
       eyebrow="Insights & Thought Leadership"
-      title="Insights from Giggs Experts"
+      title="Insights"
       description="Deep dives into AI engineering, cybersecurity research, and elite software architecture. Your resource for building at the edge."
       videoSrc="/hero/automation.mp4"
       videoOpacity={0.6}
