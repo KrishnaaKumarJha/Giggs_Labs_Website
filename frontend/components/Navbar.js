@@ -190,7 +190,7 @@ export default function Navbar() {
           {/* Nav + Mobile Toggle — all pushed right */}
           <div className="flex items-center gap-1 lg:gap-2 ml-auto">
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1 lg:gap-2">
+            <div className="hidden lg:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link) => {
                 const hasDropdown = link.label === 'Solutions' || link.label === 'Industries' || link.label === 'Products';
                 const isActive = router.asPath.startsWith(link.href) && (link.href !== '/' || router.asPath === '/');
@@ -232,7 +232,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop CTAs */}
-            <div className="hidden md:flex items-center gap-3 ml-4 pl-4 border-l border-sky-500/20">
+            <div className="hidden lg:flex items-center gap-3 ml-4 pl-4 border-l border-sky-500/20">
               <Button href="/contact" variant="secondary" className="px-5 py-2 !text-[12px] !rounded-full">
                 Contact Us
               </Button>
@@ -244,7 +244,7 @@ export default function Navbar() {
             {/* Mobile Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200 transition-all ${isOpen ? 'rotate-90' : ''}`}
+              className={`lg:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200 transition-all ${isOpen ? 'rotate-90' : ''}`}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 {isOpen ? <path d="M6 18L18 6M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
@@ -263,7 +263,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-20 z-[90] md:hidden border-b border-gray-200 shadow-2xl p-6 h-[calc(100vh-5rem)] overflow-y-auto"
+            className="fixed inset-x-0 top-20 z-[90] lg:hidden border-b border-gray-200 shadow-2xl p-6 h-[calc(100vh-5rem)] overflow-y-auto"
             style={{ background: '#ffffff' }}
           >
             <div className="flex flex-col gap-6 pb-20">

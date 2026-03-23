@@ -62,9 +62,9 @@ export default function Footer() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
 
-      <div className="relative mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
+      <div className="relative mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-10">
         {/* ── Main Grid ── */}
-        <div className="grid gap-x-8 gap-y-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
+        <div className="grid gap-x-8 gap-y-8 grid-cols-1 lg:grid-cols-12">
 
           {/* ── Brand Column ── */}
           <div className="lg:col-span-4 flex flex-col pr-8">
@@ -102,7 +102,7 @@ export default function Footer() {
           </div>
 
           {/* ── Links Columns ── */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
             {/* Solutions */}
             <div>
@@ -223,7 +223,7 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-400">
+        <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-400">
           <p>© {new Date().getFullYear()} Giggs Software Labs.Pvt.Ltd. All rights reserved.</p>
 
         </div>

@@ -482,7 +482,7 @@ export default function Home() {
               })}
             </div>
             <style jsx>{`@keyframes hero-tab-progress{from{width:0%}to{width:100%}}`}</style>
-            <div className="h-[400px] sm:h-[380px] lg:h-[340px]">
+            <div className="min-h-[400px] sm:min-h-[380px] lg:min-h-[340px] pb-6 sm:pb-0">
               {heroTabs.map(tab => activeHeroTab === tab.id && (
                 <motion.div key={tab.id} initial={{ opacity: 0, x: heroDirection * 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: heroDirection * -30 }} transition={{ duration: .45, ease: 'easeOut' }} className="mt-2">
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white">{tab.title}</h1>
