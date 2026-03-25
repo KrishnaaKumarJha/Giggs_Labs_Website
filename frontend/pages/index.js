@@ -475,11 +475,11 @@ export default function Home() {
                 Giggs Software Labs
               </div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 ml-4" style={{ color: '#ffffff' }}>
-                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Engineering Intelligence</span>
+                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Engineering Intelligence</span>
                 <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
-                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Powering Performance</span>
+                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Powering Performance</span>
                 <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
-                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Securing the Future</span>
+                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Securing the Future</span>
               </div>
             </motion.div>
             <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">
@@ -526,12 +526,14 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 z-50 w-full border-t border-slate-800/40 bg-slate-950/80 py-4 backdrop-blur-lg shadow-[0_-4px_30px_rgba(0,0,0,.5)]">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {[{ src: '/logo/manual_AmazonW.png', alt: 'Amazon' },
-            { src: '/logo/manual_kantarW.png', alt: 'Kantar' },
-            { src: '/logo/accentureW.png', alt: 'Accenture' },
-            { src: '/logo/jioW.png', alt: 'Jio' },
-            { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },].map(p => (
-              <Image key={p.alt} src={p.src} alt={p.alt} width={120} height={32} className="h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
+            {[
+              { src: '/logo/manual_AmazonW.png', alt: 'Amazon', className: 'translate-y-[2px] md:translate-y-[4px]' },
+              { src: '/logo/manual_kantarW.png', alt: 'Kantar', className: 'translate-y-[1px] md:translate-y-[2px]' },
+              { src: '/logo/accentureW.png', alt: 'Accenture', className: '-translate-y-[3px] md:-translate-y-[5px]' },
+              { src: '/logo/jioW.png', alt: 'Jio', className: 'translate-y-[2px] md:translate-y-[3px]' },
+              { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC', className: '-translate-y-[1px] md:-translate-y-[2px]' },
+            ].map(p => (
+              <Image key={p.alt} src={p.src} alt={p.alt} width={120} height={32} className={`h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 ${p.className || ''}`} />
             ))}
           </div>
         </div>
