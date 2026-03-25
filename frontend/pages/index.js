@@ -474,12 +474,12 @@ export default function Home() {
                 <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
                 Giggs Software Labs
               </div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 ml-4" style={{ color: '#ffffff' }}>
-                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Engineering Intelligence</span>
-                <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
-                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Powering Performance</span>
-                <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
-                <span className="text-[7px] sm:text-[7px] font-bold uppercase tracking-[0.2em] opacity-70">Securing the Future</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-x-1 sm:gap-x-1.5 gap-y-1 mt-2 sm:mt-2.5 ml-1 sm:ml-2.5 whitespace-nowrap text-white">
+                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Engineering Intelligence</span>
+                <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
+                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Powering Performance</span>
+                <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
+                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Securing the Future</span>
               </div>
             </motion.div>
             <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">
@@ -527,11 +527,11 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
             {[
-              { src: '/logo/manual_AmazonW.png', alt: 'Amazon', className: 'translate-y-[2px] md:translate-y-[4px]' },
-              { src: '/logo/manual_kantarW.png', alt: 'Kantar', className: 'translate-y-[1px] md:translate-y-[2px]' },
-              { src: '/logo/accentureW.png', alt: 'Accenture', className: '-translate-y-[3px] md:-translate-y-[5px]' },
-              { src: '/logo/jioW.png', alt: 'Jio', className: 'translate-y-[2px] md:translate-y-[3px]' },
-              { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC', className: '-translate-y-[1px] md:-translate-y-[2px]' },
+              { src: '/logo/manual_AmazonW.png', alt: 'Amazon', className: 'translate-y-[4px] md:translate-y-[8px]' },
+              { src: '/logo/jioStarW.png', alt: 'Jio Star', className: 'translate-y-[2px] md:translate-y-[6px]' },
+              { src: '/logo/disney_hotstar.png', alt: 'Disney Hotstar', className: 'translate-y-0 scale-[1.3] md:scale-[1.5]' },
+              { src: '/logo/manual_kantarW.png', alt: 'Kantar', className: 'translate-y-[4px] md:translate-y-[8px]' },
+              { src: '/logo/accentureW.png', alt: 'Accenture', className: 'translate-y-0 md:translate-y-[2px]' },
             ].map(p => (
               <Image key={p.alt} src={p.src} alt={p.alt} width={120} height={32} className={`h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 ${p.className || ''}`} />
             ))}
