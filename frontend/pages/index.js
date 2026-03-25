@@ -528,7 +528,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
             {[
               { src: '/logo/manual_AmazonW.png', alt: 'Amazon', className: 'translate-y-[4px] md:translate-y-[8px]' },
-              { src: '/logo/jioStarW.png', alt: 'Jio Star', className: 'translate-y-[2px] md:translate-y-[6px]' },
+              { src: '/logo/JioStarW.png', alt: 'Jio Star', className: 'translate-y-[2px] md:translate-y-[6px]' },
               { src: '/logo/disney_hotstar.png', alt: 'Disney Hotstar', className: 'translate-y-0 scale-[1.3] md:scale-[1.5]' },
               { src: '/logo/manual_kantarW.png', alt: 'Kantar', className: 'translate-y-[4px] md:translate-y-[8px]' },
               { src: '/logo/accentureW.png', alt: 'Accenture', className: 'translate-y-0 md:translate-y-[2px]' },
