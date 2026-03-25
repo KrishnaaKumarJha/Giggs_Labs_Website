@@ -17,7 +17,7 @@ const navLinks = [
 ];
 
 const serviceSubLinks = [
-  { href: '/solutions/ai-data', label: 'AI & Data Science', desc: 'Transforming data into actionable intelligence and automated workflows.' },
+  { href: '/solutions/ai-data', label: 'AI & Data Science / Data Engineering', desc: 'Transforming data into actionable intelligence and automated workflows.' },
   { href: '/solutions/cybersecurity', label: 'AI-driven Cybersecurity', desc: 'Intelligent threat detection and proactive enterprise defense.' },
   { href: '/solutions/performance', label: 'Performance Engineering', desc: 'Building high-speed, scalable, and resilient systems.' },
   { href: '/solutions/automation', label: 'Automation', desc: 'Streamlining operations with intelligent automation and RPA.' },
@@ -31,7 +31,7 @@ const industrySubLinks = [
 ];
 
 const productSubLinks = [
-  { href: '/products/ai-data', label: 'AI & Data Science', desc: 'Enterprise-grade MLOps and scalable model deployment.' },
+  { href: '/products/ai-data', label: 'AI & Data Science / Data Engineering', desc: 'Enterprise-grade MLOps and scalable model deployment.' },
   { href: '/products/mihawk', label: 'AI-driven CyberSecurity', desc: 'Centralized threat intelligence and compliance monitoring.' },
 ];
 
@@ -50,41 +50,8 @@ function BrandLogo() {
   );
 }
 
-function MottoCycler({ lines = [], intervalMs = 3200 }) {
-  const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    if (!lines || lines.length <= 1) return;
-    const t = setInterval(() => {
-      setIndex((i) => (i + 1) % lines.length);
-    }, intervalMs);
-    return () => clearInterval(t);
-  }, [lines, intervalMs]);
 
-  const current = lines[index] ?? '';
-
-  return (
-    <div className="h-5 w-full pointer-events-none relative flex justify-center items-center">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={index}
-          initial={{ x: 18, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -18, opacity: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="absolute text-[9px] md:text-[11px] font-extrabold tracking-tight text-center leading-tight select-none"
-          style={{
-            color: '#3B9BD5',
-            whiteSpace: 'nowrap',
-            fontVariant: 'small'
-          }}
-        >
-          {current}
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
-}
 
 /* ── Mega Dropdown Component ── */
 function MegaDropdown({ active, items, type, onClose }) {
@@ -157,11 +124,7 @@ export default function Navbar() {
     setOpenMobileDropdown(null);
   }, [router.asPath]);
 
-  const mottoLines = [
-    'Engineering Intelligence',
-    'Powering Performance',
-    'Securing the Future',
-  ];
+
 
   return (
     <nav className={`fixed top-0 z-[100] w-full transition-all duration-300 ${scrolled ? 'shadow-md py-2' : 'py-4'}`}
@@ -179,11 +142,6 @@ export default function Navbar() {
               <div className="relative z-10 transition-transform hover:scale-[1.02]">
                 <BrandLogo />
               </div>
-              {!isOpen && (
-                <div className="absolute left-1/2 top-[80%] md:top-[90%] -translate-x-1/2 mt-1 md:mt-0.5 w-[200px]">
-                  <MottoCycler lines={mottoLines} intervalMs={4000} />
-                </div>
-              )}
             </Link>
           </div>
 

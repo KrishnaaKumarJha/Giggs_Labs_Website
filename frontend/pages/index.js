@@ -10,8 +10,8 @@ import SectionTitle from '../components/SectionTitle';
 
 // ─── Shared ───────────────────────────────────────────────────────────────────
 const heroTabs = [
-  { id: 'ai-data', label: 'AI & Data Engineering', title: 'AI and Data Science & Engineering', tagline: 'Transforming Data into Intelligence. Intelligence into Action.', video: '/hero/ai.mp4', buttonText: 'Explore our AI & Data Capabilities', buttonHref: '/services#ai-data' },
-  { id: 'cyber', label: 'AI-driven Cybersecurity', title: 'AI-driven Cybersecurity', tagline: 'Securing the Future Through Intelligence.', video: '/hero/cyber.mp4', buttonText: 'Get resilient defenses with AI', buttonHref: '/services#cyber' },
+  { id: 'ai-data', label: 'AI First Engineering', title: 'AI and Data Science & Engineering', tagline: 'Transforming Data into Intelligence. Intelligence into Action.', video: '/hero/ai.mp4', buttonText: 'Explore our AI & Data Capabilities', buttonHref: '/services#ai-data' },
+  { id: 'cyber', label: 'AI-Driven Cybersecurity', title: 'AI-driven Cybersecurity', tagline: 'Securing the Future Through Intelligence.', video: '/hero/cyber.mp4', buttonText: 'Get resilient defenses with AI', buttonHref: '/services#cyber' },
   { id: 'performance', label: 'Performance Engineering', title: 'Performance Engineering', tagline: 'Delivering Reliability, Speed, and Scalability.', video: '/hero/performance.mp4', buttonText: 'Explore Performance Capabilities', buttonHref: '/services#performance' },
   { id: 'automation', label: 'Automation Engineering', title: 'Automation', tagline: 'Automating the Enterprise for Speed, Efficiency, and Scale.', video: '/hero/automation.mp4', buttonText: 'Automate with intelligent systems', buttonHref: '/services#automation' },
 ];
@@ -462,26 +462,39 @@ export default function Home() {
         <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 35%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%)' }} />
         <div className="pointer-events-none absolute right-[-10%] top-[-25%] z-10 h-56 w-56 rounded-full bg-cyan-400/35 blur-3xl" />
         <div className="pointer-events-none absolute left-[-8%] bottom-[-20%] z-10 h-56 w-56 rounded-full bg-indigo-500/30 blur-3xl" />
-        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-24 lg:pt-20 pb-10 lg:pb-12">
+        <style jsx>{`
+          @keyframes hero-tab-progress{from{width:0%}to{width:100%}}
+        `}</style>
+
+        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-16 lg:pt-12  pb-10 lg:pb-12">
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6, ease: 'easeOut' }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-1.5 text-xs sm:text-[13px] font-black uppercase tracking-[0.25em] text-sky-300 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,.15)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
-              Giggs Software Labs
+              className="mb-6 flex flex-col items-start">
+              <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-1.5 text-xs sm:text-[13px] font-black uppercase tracking-[0.25em] text-sky-300 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,.15)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
+                Giggs Software Labs
+              </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 ml-4" style={{ color: '#ffffff' }}>
+                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Engineering Intelligence</span>
+                <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
+                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Powering Performance</span>
+                <span style={{ width: 2.5, height: 2.5, borderRadius: '50%', background: '#ffffff', opacity: 0.3, display: 'inline-block' }} />
+                <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] opacity-70">Securing the Future</span>
+              </div>
             </motion.div>
             <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">
               {heroTabs.map(tab => {
                 const isActive = activeHeroTab === tab.id;
                 return (
                   <button key={tab.id} onClick={() => handleHeroTabClick(tab.id)}
-                    className={`relative flex-shrink-0 whitespace-nowrap px-4 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border ${isActive ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,.25)]' : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'}`}>
+                    className={`relative flex-shrink-0 whitespace-nowrap px-4 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border overflow-hidden ${isActive ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,.25)]' : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'}`}>
                     {tab.label}
                     {isActive && <span key={progressKey} className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style={{ animation: 'hero-tab-progress 6s linear forwards' }} />}
                   </button>
                 );
               })}
             </div>
-            <style jsx>{`@keyframes hero-tab-progress{from{width:0%}to{width:100%}}`}</style>
+
             <div className="min-h-[400px] sm:min-h-[380px] lg:min-h-[340px] pb-6 sm:pb-0">
               {heroTabs.map(tab => activeHeroTab === tab.id && (
                 <motion.div key={tab.id} initial={{ opacity: 0, x: heroDirection * 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: heroDirection * -30 }} transition={{ duration: .45, ease: 'easeOut' }} className="mt-2">
@@ -513,7 +526,11 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 z-50 w-full border-t border-slate-800/40 bg-slate-950/80 py-4 backdrop-blur-lg shadow-[0_-4px_30px_rgba(0,0,0,.5)]">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            {[{ src: '/logo/kantarW.png', alt: 'Kantar' }, { src: '/logo/SaksoftW.png', alt: 'Saksoft' }, { src: '/logo/accentureW.png', alt: 'Accenture' }, { src: '/logo/jioW.png', alt: 'Jio' }, { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' }, { src: '/logo/infogainW.png', alt: 'Infogain' }].map(p => (
+            {[{ src: '/logo/manual_AmazonW.png', alt: 'Amazon' },
+            { src: '/logo/manual_kantarW.png', alt: 'Kantar' },
+            { src: '/logo/accentureW.png', alt: 'Accenture' },
+            { src: '/logo/jioW.png', alt: 'Jio' },
+            { src: '/logo/ITC_Infotech_transparent_large.png', alt: 'ITC' },].map(p => (
               <Image key={p.alt} src={p.src} alt={p.alt} width={120} height={32} className="h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
             ))}
           </div>
