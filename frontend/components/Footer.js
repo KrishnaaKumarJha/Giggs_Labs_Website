@@ -132,10 +132,10 @@ export default function Footer() {
               </h3>
               <ul className="space-y-4 text-sm">
                 {[
-                  { label: 'Banking & Financial', href: '/industries/banking' },
-                  { label: 'Healthcare', href: '/industries/healthcare' },
-                  { label: 'Retail & E-commerce', href: '/industries/retail' },
-                  { label: 'Manufacturing', href: '/industries/manufacturing' },
+                  { label: 'FinTech', href: '/industries/fintech' },
+                  { label: 'HealthTech', href: '/industries/healthtech' },
+                  { label: 'RetailTech', href: '/industries/retailtech' },
+                  { label: 'MarTech', href: '/industries/martech' },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="text-slate-500 hover:text-sky-600 transition-colors">

@@ -475,11 +475,11 @@ export default function Home() {
                 Giggs Software Labs
               </div>
               <div className="flex flex-wrap sm:flex-nowrap items-center gap-x-1 sm:gap-x-1.5 gap-y-1 mt-2 sm:mt-2.5 ml-1 sm:ml-2.5 whitespace-nowrap text-white">
-                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Engineering Intelligence</span>
+                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Engineering Intelligence</span>
                 <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
-                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Powering Performance</span>
+                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Powering Performance</span>
                 <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
-                <span className="text-[6px] sm:text-[8px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Securing the Future</span>
+                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Securing the Future</span>
               </div>
             </motion.div>
             <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">

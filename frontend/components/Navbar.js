@@ -24,10 +24,10 @@ const serviceSubLinks = [
 ];
 
 const industrySubLinks = [
-  { href: '/industries/banking', label: 'Fintech', desc: 'Secure, compliant, and data-driven fintech solutions.' },
-  { href: '/industries/healthcare', label: 'Health-Tech', desc: 'Predictive diagnostics and patient-centric platforms.' },
-  { href: '/industries/retail', label: 'Retail-Tech', desc: 'Omnichannel analytics and intelligent supply chains.' },
-  { href: '/industries/manufacturing', label: 'Martech', desc: 'Smart factories and IoT-powered operational efficiency.' },
+  { href: '/industries/fintech', label: 'FinTech', desc: 'Secure, compliant, and intelligent fintech platforms.' },
+  { href: '/industries/healthtech', label: 'HealthTech', desc: 'Predictive diagnostics and interoperable healthcare systems.' },
+  { href: '/industries/retailtech', label: 'RetailTech', desc: 'Omnichannel analytics and intelligent retail platforms.' },
+  { href: '/industries/martech', label: 'MarTech', desc: 'Intelligent marketing platforms and personalized engagement.' },
 ];
 
 const productSubLinks = [

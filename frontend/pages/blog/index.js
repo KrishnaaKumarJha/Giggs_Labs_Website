@@ -1,95 +1,33 @@
 // frontend/pages/blog/index.js
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 
-const CATEGORIES = ['All', 'Article', 'Whitepaper', 'Case Study', 'Tech Report'];
+const CATEGORIES = ['All', 'Article', 'Case Study', 'Tech Report'];
 
-// Fallback posts in case the API returns empty/fails
+// This array now powers the Insights feed! 
+// You can embed LinkedIn posts, YouTube videos, or any other website that allows iframes.
 const fallbackPosts = [
   {
-    id: 1,
-    title: 'The Rise of AI Driven Cybersecurity',
-    slug: 'rise-of-ai-cybersecurity',
-    category: 'Blog',
-    excerpt: 'How machine learning models are transforming threat detection and automated response in zero-trust architectures.',
-    created_at: new Date('2024-03-10').toISOString(),
-    image: '/images/Ai_Automation.png',
-  },
-  {
-    id: 2,
-    title: 'Building Intelligent Data Platforms',
-    slug: 'building-intelligent-data-platforms',
-    category: 'Whitepaper',
-    excerpt: 'A comprehensive guide to scalable data architecture, automated ELT pipelines, and advanced analytics readiness.',
-    created_at: new Date('2024-02-28').toISOString(),
-    image: '/images/Cloud_DevOps.png',
-  },
-  {
-    id: 3,
-    title: 'Performance Engineering in Cloud Native Systems',
-    slug: 'performance-engineering-cloud-native',
+    id: 'embed-1',
+    embedUrl: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7436329418236706816?collapsed=1',
     category: 'Article',
-    excerpt: 'Best practices for optimizing response times, distributed tracing, and load management in containerized applications.',
-    created_at: new Date('2024-02-15').toISOString(),
-    image: '/images/Data_Analytics.png',
-  }
+  },
+  {
+    id: 'embed-2',
+    embedUrl: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7434790609779032065?collapsed=1', // Example YouTube embed
+    category: 'Article',
+  },
 ];
 
-export async function getServerSideProps() {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-    const res = await fetch(`${apiUrl}/posts/`);
-    const posts = await res.json();
-
-    const formatted = posts.map((p) => ({
-      ...p,
-      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }),
-    }));
-
-    const finalPosts = formatted.length > 0 ? formatted : fallbackPosts.map(p => ({
-      ...p,
-      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    }));
-
-    return { props: { posts: finalPosts } };
-  } catch (err) {
-    console.error('Error fetching posts:', err);
-    return {
-      props: {
-        posts: fallbackPosts.map(p => ({
-          ...p,
-          date_display: new Date(p.created_at).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-          })
-        }))
-      }
-    };
-  }
-}
-
-export default function InsightsHub({ posts }) {
+export default function InsightsHub() {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredPosts = useMemo(() => {
-    if (activeCategory === 'All') return posts;
-    return posts.filter((p) => p.category === activeCategory);
-  }, [posts, activeCategory]);
-
-  const featuredPost = posts[0]; // Latest post as featured
-  const otherPosts = filteredPosts.filter((p) => p.id !== (activeCategory === 'All' ? featuredPost?.id : null));
+    if (activeCategory === 'All') return fallbackPosts;
+    return fallbackPosts.filter((p) => p.category === activeCategory);
+  }, [activeCategory]);
 
   return (
     <PageShell
@@ -122,43 +60,6 @@ export default function InsightsHub({ posts }) {
           ))}
         </div>
 
-        {/* ═══ FEATURED POST (Only show on 'All') ═══ */}
-        {activeCategory === 'All' && featuredPost && (
-          <section className="mb-16">
-            <Link href={`/blog/${featuredPost.slug}`}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="group relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center rounded-[2rem] border border-slate-800/80 bg-slate-900/40 p-1 overflow-hidden hover:border-[#00E0FF]/40 transition-all cursor-pointer"
-              >
-                <div className="relative aspect-[16/10] md:aspect-square overflow-hidden rounded-[1.8rem]">
-                  <Image
-                    src={featuredPost.image || '/images/Ai_Automation.png'}
-                    alt={featuredPost.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full">
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-[#00E0FF] italic">FEATURED {featuredPost.category}</span>
-                  </div>
-                </div>
-                <div className="p-6 md:p-10">
-                  <span className="text-xs text-slate-500 mb-2 block">{featuredPost.date_display}</span>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-[#00E0FF] transition-colors leading-tight">
-                    {featuredPost.title}
-                  </h2>
-                  <p className="text-slate-400 text-base mb-6 line-clamp-3">
-                    {featuredPost.excerpt || "Dive into our latest analysis of technical ecosystems and building production-grade solutions."}
-                  </p>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-[#00E0FF]">
-                    Begin Reading <span className="text-lg">→</span>
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-          </section>
-        )}
-
         {/* ═══ POST GRID ═══ */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -167,53 +68,39 @@ export default function InsightsHub({ posts }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-10 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto"
           >
-            {otherPosts.length === 0 && posts.length > 0 && activeCategory !== 'All' ? (
+            {filteredPosts.length === 0 ? (
               <div className="col-span-full py-20 text-center">
-                <p className="text-slate-500">No {activeCategory.toLowerCase()}s found yet.</p>
-              </div>
-            ) : otherPosts.length === 0 && posts.length === 0 ? (
-              <div className="col-span-full py-20 text-center">
-                <p className="text-slate-500">The intelligence hub is currently being populated. Check back soon.</p>
+                <p className="text-slate-500">No content found for this category yet.</p>
               </div>
             ) : (
-              otherPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <motion.article
-                    whileHover={{ y: -8 }}
-                    className="group h-full flex flex-col rounded-2xl border border-slate-800/80 bg-slate-950/60 overflow-hidden hover:border-[#00E0FF]/30 hover:bg-slate-900/40 transition-all cursor-pointer shadow-xl shadow-black/40"
-                  >
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <Image
-                        src={post.image || '/images/Cloud_DevOps.png'}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className={`text-[9px] font-bold px-2 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10 uppercase tracking-widest ${post.category === 'Case Study' ? 'text-amber-400' :
-                          post.category === 'Whitepaper' ? 'text-emerald-400' :
-                            post.category === 'Tech Report' ? 'text-violet-400' : 'text-[#00C2FF]'
-                          }`}>
-                          {post.category}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <span className="text-[10px] text-slate-500 mb-2">{post.date_display}</span>
-                      <h3 className="text-lg font-bold text-slate-100 group-hover:text-[#00E0FF] transition-colors line-clamp-2 mb-3">
-                        {post.title}
-                      </h3>
-                      <p className="text-xs text-slate-400 line-clamp-3 mb-6 flex-1">
-                        {post.excerpt || "Exploring the nuances of industrial-grade engineering."}
-                      </p>
-                      <div className="text-[11px] font-bold text-slate-300 group-hover:text-white flex items-center gap-1">
-                        VIEW RESOURCE <span className="group-hover:translate-x-1 transition-transform">→</span>
-                      </div>
-                    </div>
-                  </motion.article>
-                </Link>
+              filteredPosts.map((post) => (
+                <motion.div
+                  key={post.id}
+                  whileHover={{ y: -4 }}
+                  className="w-full bg-slate-100 rounded-[1.5rem] overflow-hidden shadow-xl shadow-black/40 flex flex-col border border-slate-700/50"
+                >
+                  {/* Card Header styling matching the brand */}
+                  <div className="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#00E0FF] uppercase tracking-wider">
+                      {post.category}
+                    </span>
+                    <svg className="w-4 h-4 text-[#00E0FF]" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                  </div>
+
+                  {/* External Iframe Container */}
+                  {/* Height is fixed to 650px to provide a big, readable frame for external posts */}
+                  <div className="w-full h-[650px] relative bg-white">
+                    <iframe
+                      src={post.embedUrl}
+                      className="absolute top-0 left-0 w-full h-full"
+                      frameBorder="0"
+                      allowFullScreen=""
+                      title={`External embedded post for ${post.category}`}
+                    ></iframe>
+                  </div>
+                </motion.div>
               ))
             )}
           </motion.div>

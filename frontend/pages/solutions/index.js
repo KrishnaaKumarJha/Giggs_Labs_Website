@@ -11,18 +11,6 @@ import {
 /* ── 4 solution areas — overview cards ── */
 const solutionAreas = [
     {
-        href: '/solutions/cybersecurity',
-        Icon: ShieldCheck,
-        title: 'AI-driven Cybersecurity',
-        tagline: 'Proactive defense in a world of evolving threats.',
-        description: 'We embed AI into every layer of defense — from endpoint to cloud — enabling continuous monitoring, automated incident response, and zero-trust enforcement at scale.',
-        color: 'from-sky-400 to-blue-600',
-        borderHover: 'hover:border-sky-500/50',
-        glowHover: 'hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]',
-        accent: 'text-sky-400',
-        highlights: ['Threat Detection', 'Zero Trust', 'SOC Automation', 'CSPM'],
-    },
-    {
         href: '/solutions/ai-data',
         Icon: BrainCircuit,
         title: 'AI & Data Science / Engineering',
@@ -33,6 +21,18 @@ const solutionAreas = [
         glowHover: 'hover:shadow-[0_0_40px_rgba(34,211,238,0.25)]',
         accent: 'text-cyan-400',
         highlights: ['Generative AI', 'Data Pipelines', 'MLOps', 'Analytics'],
+    },
+    {
+        href: '/solutions/cybersecurity',
+        Icon: ShieldCheck,
+        title: 'AI-driven Cybersecurity',
+        tagline: 'Proactive defense in a world of evolving threats.',
+        description: 'We embed AI into every layer of defense — from endpoint to cloud — enabling continuous monitoring, automated incident response, and zero-trust enforcement at scale.',
+        color: 'from-sky-400 to-blue-600',
+        borderHover: 'hover:border-sky-500/50',
+        glowHover: 'hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]',
+        accent: 'text-sky-400',
+        highlights: ['Threat Detection', 'Zero Trust', 'SOC Automation', 'CSPM'],
     },
     {
         href: '/solutions/performance',

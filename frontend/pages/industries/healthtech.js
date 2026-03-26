@@ -5,64 +5,64 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 import SectionTitle from '../../components/SectionTitle';
 import { ChevronDown, ArrowRight } from 'lucide-react';
-import { Users, BrainCircuit, Cog, Zap, PieChart, Layers, CheckCircle2 } from 'lucide-react';
+import { Stethoscope, Database, Brain, Activity, ShieldPlus, LineChart, CheckCircle2 } from 'lucide-react';
 
 /* ── DATA ── */
 const subPages = [
-    { title: 'Customer Data Platforms (CDP)', desc: 'Architecting single-source-of-truth platforms for unified customer identities.', icon: Users, capabilities: ['identity resolution algorithms', 'real-time event streaming', 'first-party data architecture'] },
-    { title: 'Marketing Automation Systems', desc: 'Developing intelligent workflows for cross-channel campaign orchestration.', icon: Cog, capabilities: ['cross-channel orchestration engines', 'programmatic campaign APIs', 'automated A/B testing frameworks'] },
-    { title: 'Real-Time Personalization Engines', desc: 'Serving dynamic content and recommendations based on real-time behavior.', icon: Zap, capabilities: ['edge-based personalization', 'dynamic content delivery', 'contextual targeting AI'] },
-    { title: 'Marketing Analytics & Attribution', desc: 'Building advanced reporting dashboards to measure ROI and multi-touch attribution.', icon: PieChart, capabilities: ['multi-touch attribution models', 'marketing data lakes', 'predictive LTV modeling'] },
-    { title: 'Data Privacy & Consent Management', desc: 'Ensuring marketing stacks comply with global privacy regulations (GDPR, CCPA).', icon: Layers, capabilities: ['consent management platforms (CMP)', 'data anonymization pipelines', 'privacy-safe clean rooms'] }
+    { title: 'Interoperability & Data Exchanges', desc: 'Connecting fragmented healthcare systems using FHIR and HL7 standards.', icon: Activity, capabilities: ['FHIR API development', 'HL7 integration', 'health information exchanges (HIE)'] },
+    { title: 'Telemedicine & Patient Portals', desc: 'Building secure, high-performance platforms for remote care and patient engagement.', icon: Stethoscope, capabilities: ['telehealth platforms', 'remote patient monitoring (RPM)', 'secure patient portals'] },
+    { title: 'Healthcare AI & Analytics', desc: 'Applying artificial intelligence for clinical decision support and predictive health outcomes.', icon: Brain, capabilities: ['clinical NLP', 'predictive disease modeling', 'medical imaging AI'] },
+    { title: 'Data Security & HIPAA Compliance', desc: 'Securing electronic health records (EHR) and protecting patient data privacy.', icon: ShieldPlus, capabilities: ['PHI encryption', 'HIPAA compliance automation', 'medical device security (IoMT)'] },
+    { title: 'Health Data Lakes & Warehousing', desc: 'Unifying clinical, operational, and financial data for advanced population health analytics.', icon: Database, capabilities: ['clinical data lakes', 'population health analytics', 'EHR data migrations'] }
 ];
 
 const stats = [
     {
-        "value": "Scale",
-        "label": "Massive Ingestion",
-        "sub": "High-throughput pipelines"
-    },
-    {
-        "value": "Real-time",
-        "label": "Dynamic Personalization",
-        "sub": "Edge execution capabilities"
-    },
-    {
-        "value": "Unified",
-        "label": "Identity Resolution",
-        "sub": "Single view of customer"
+        "value": "Private",
+        "label": "Patient Data Security",
+        "sub": "Encrypted at rest & transit"
     },
     {
         "value": "Compliant",
-        "label": "Privacy-First Data",
-        "sub": "GDPR & CCPA enforcement"
+        "label": "HIPAA Ready",
+        "sub": "Audit-ready infrastructure"
+    },
+    {
+        "value": "Unified",
+        "label": "Clinical Interoperability",
+        "sub": "HL7 & FHIR standards"
+    },
+    {
+        "value": "Smart",
+        "label": "AI-Driven Insights",
+        "sub": "Predictive healthcare models"
     }
 ];
-const techStack = ['Segment', 'Snowflake', 'Apache Kafka', 'Airbyte', 'dbt', 'Google Tag Manager', 'Vercel Edge Functions', 'Redis Analytics', 'BigQuery', 'Fivetran'];
+const techStack = ['FHIR', 'HL7v2', 'AWS HealthLake', 'Google Cloud Healthcare API', 'Epic App Orchard', 'Cerner SMART', 'DICOM', 'HIPAA Enclaves', 'Python (Clinical AI)', 'React Native'];
 const allUseCases = [
     {
-        "title": "Digital Agencies",
-        "desc": "Scalable customer data platforms enabling precision targeting for global client portfolios."
+        "title": "Hospital Networks",
+        "desc": "Interoperable clinical data systems ensuring seamless information flow across departments."
     },
     {
-        "title": "B2B SaaS Marketing",
-        "desc": "Complex multi-touch attribution and account-based marketing automation pipelines."
+        "title": "Telehealth Providers",
+        "desc": "Highly available, HIPAA-compliant platforms for remote patient care and monitoring."
     },
     {
-        "title": "Media & Publishing",
-        "desc": "Real-time content personalization engines maximizing engagement and subscriber retention."
+        "title": "Clinical Research",
+        "desc": "Secure data lakes and analytics environments for processing massive trial datasets securely."
     },
     {
-        "title": "Consumer Brands",
-        "desc": "Unified 360-degree customer profiles driving highly contextual loyalty programs."
+        "title": "Medical Devices",
+        "desc": "IoMT security and data pipelines for connected medical devices and patient wearables."
     },
     {
-        "title": "Ad-Tech Startups",
-        "desc": "Ultra-low latency bidding infrastructure and privacy-first data clean rooms."
+        "title": "Health Insurance Payers",
+        "desc": "Predictive analytics for risk modeling and highly secure member engagement portals."
     },
     {
-        "title": "Affiliate Networks",
-        "desc": "Robust tracking, payment orchestration, and real-time conversion analytics platforms."
+        "title": "Digital Therapy Clinics",
+        "desc": "Scalable infrastructure powering evidence-based software therapies and patient tracking."
     }
 ];
 
@@ -124,17 +124,17 @@ function FeatureCard({ feature, index }) {
 
 export default function IndustryPage() {
     return (
-        <PageShell eyebrow="Industries" title="MarTech Solutions" description="Giggs Software Labs builds the data infrastructure and intelligent platforms that fuel modern marketing, personalization, and customer engagement at scale." videoSrc="/hero/solutions.mp4" videoOpacity={0.6} align="center">
-            <Head><title>MarTech Solutions | Giggs Software Labs</title></Head>
+        <PageShell eyebrow="Industries" title="HealthTech Solutions" description="Giggs Software Labs builds next-generation healthcare technology infrastructures, emphasizing interoperability, data security, and AI-driven clinical insights." videoSrc="/hero/solutions.mp4" videoOpacity={0.6} align="center">
+            <Head><title>HealthTech Solutions | Giggs Software Labs</title></Head>
 
             {/* KEY CHALLENGES */}
             <div className="flex flex-col items-center mt-6 mb-20 gap-8">
                 <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-slate-400">
-                    <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> customer data platforms</span>
-<span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> real-time decision engines</span>
-<span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> marketing automation</span>
-<span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> ad-tech infrastructure</span>
-<span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> privacy & consent</span>
+                    <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> EHR interoperability</span>
+<span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> HIPAA data security</span>
+<span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> telehealth platforms</span>
+<span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> AI diagnostics</span>
+<span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> health data analytics</span>
 
                 </div>
             </div>
@@ -217,10 +217,10 @@ export default function IndustryPage() {
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(30,123,255,0.15),_transparent_60%)]" />
                     <div className="relative z-10">
                         <h2 className="font-space-grotesk text-[40px] md:text-[56px] font-black tracking-tight text-white mb-6 leading-tight">
-                            Drive Deep Customer Action
+                            Better Tech. Better Care.
                         </h2>
                         <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
-                            Build a connected marketing stack that converts data into loyalty.
+                            Partner with Giggs Software Labs to modernize your clinical and administrative healthcare systems.
                         </p>
                         <div className="flex flex-wrap justify-center gap-6">
                             <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#1E7BFF] px-10 py-5 text-sm font-black uppercase tracking-[0.15em] text-white hover:bg-blue-600 transition-all shadow-[0_0_30px_rgba(30,123,255,0.3)] hover:shadow-[0_0_50px_rgba(30,123,255,0.5)] hover:-translate-y-1">

@@ -5,64 +5,63 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 import SectionTitle from '../../components/SectionTitle';
 import { ChevronDown, ArrowRight } from 'lucide-react';
-import { Users, BrainCircuit, Cog, Zap, PieChart, Layers, CheckCircle2 } from 'lucide-react';
+import { ShoppingCart, BarChart, Truck, Target, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
 
 /* ── DATA ── */
 const subPages = [
-    { title: 'Customer Data Platforms (CDP)', desc: 'Architecting single-source-of-truth platforms for unified customer identities.', icon: Users, capabilities: ['identity resolution algorithms', 'real-time event streaming', 'first-party data architecture'] },
-    { title: 'Marketing Automation Systems', desc: 'Developing intelligent workflows for cross-channel campaign orchestration.', icon: Cog, capabilities: ['cross-channel orchestration engines', 'programmatic campaign APIs', 'automated A/B testing frameworks'] },
-    { title: 'Real-Time Personalization Engines', desc: 'Serving dynamic content and recommendations based on real-time behavior.', icon: Zap, capabilities: ['edge-based personalization', 'dynamic content delivery', 'contextual targeting AI'] },
-    { title: 'Marketing Analytics & Attribution', desc: 'Building advanced reporting dashboards to measure ROI and multi-touch attribution.', icon: PieChart, capabilities: ['multi-touch attribution models', 'marketing data lakes', 'predictive LTV modeling'] },
-    { title: 'Data Privacy & Consent Management', desc: 'Ensuring marketing stacks comply with global privacy regulations (GDPR, CCPA).', icon: Layers, capabilities: ['consent management platforms (CMP)', 'data anonymization pipelines', 'privacy-safe clean rooms'] }
+    { title: 'Digital Storefronts & Ecommerce', desc: 'Building lightning-fast, highly scalable omnichannel retail platforms.', icon: ShoppingCart, capabilities: ['headless commerce architectures', 'microservices transitions', 'omnichannel inventory sync'] },
+    { title: 'Supply Chain & Inventory AI', desc: 'Optimizing logistics and inventory with predictive machine learning models.', icon: Truck, capabilities: ['demand forecasting AI', 'real-time inventory tracking', 'logistics optimization'] },
+    { title: 'Personalization & Retail Analytics', desc: 'Driving conversions with hyper-personalized shopping experiences.', icon: Sparkles, capabilities: ['recommendation engines', 'customer 360 platforms', 'dynamic pricing algorithms'] },
+    { title: 'Retail Security & Fraud Prevention', desc: 'Securing point-of-sale systems and preventing digital transaction fraud.', icon: ShieldCheck, capabilities: ['ecommerce fraud detection', 'POS system security', 'payment compliance (PCI-DSS)'] }
 ];
 
 const stats = [
     {
         "value": "Scale",
-        "label": "Massive Ingestion",
-        "sub": "High-throughput pipelines"
+        "label": "Peak Load Ready",
+        "sub": "Flawless holiday traffic"
     },
     {
-        "value": "Real-time",
-        "label": "Dynamic Personalization",
-        "sub": "Edge execution capabilities"
+        "value": "Fast",
+        "label": "Sub-Second Discovery",
+        "sub": "Lightning-fast search"
     },
     {
         "value": "Unified",
-        "label": "Identity Resolution",
-        "sub": "Single view of customer"
+        "label": "Omnichannel Sync",
+        "sub": "Real-time inventory"
     },
     {
-        "value": "Compliant",
-        "label": "Privacy-First Data",
-        "sub": "GDPR & CCPA enforcement"
+        "value": "360\u00b0",
+        "label": "Customer Intelligence",
+        "sub": "Personalized experiences"
     }
 ];
-const techStack = ['Segment', 'Snowflake', 'Apache Kafka', 'Airbyte', 'dbt', 'Google Tag Manager', 'Vercel Edge Functions', 'Redis Analytics', 'BigQuery', 'Fivetran'];
+const techStack = ['Shopify Plus', 'CommerceTools', 'Next.js Commerce', 'Algolia Search', 'Stripe', 'Vercel Edge', 'Snowflake', 'dbt', 'AWS DynamoDB', 'Kafka', 'React'];
 const allUseCases = [
     {
-        "title": "Digital Agencies",
-        "desc": "Scalable customer data platforms enabling precision targeting for global client portfolios."
+        "title": "Global Ecommerce Brands",
+        "desc": "Headless storefronts engineered for lightning-fast loads and massive traffic spikes."
     },
     {
-        "title": "B2B SaaS Marketing",
-        "desc": "Complex multi-touch attribution and account-based marketing automation pipelines."
+        "title": "Omnichannel Retailers",
+        "desc": "Unified inventory and customer data systems bridging physical and digital touchpoints."
     },
     {
-        "title": "Media & Publishing",
-        "desc": "Real-time content personalization engines maximizing engagement and subscriber retention."
+        "title": "Direct-to-Consumer",
+        "desc": "Optimized conversion funnels and highly personalized digital shopping experiences."
     },
     {
-        "title": "Consumer Brands",
-        "desc": "Unified 360-degree customer profiles driving highly contextual loyalty programs."
+        "title": "Growth Marketplaces",
+        "desc": "Complex multi-vendor infrastructure with robust payment routing and catalog management."
     },
     {
-        "title": "Ad-Tech Startups",
-        "desc": "Ultra-low latency bidding infrastructure and privacy-first data clean rooms."
+        "title": "Supply Chain Logistics",
+        "desc": "Predictive inventory modeling and real-time tracking platforms for supply chain agility."
     },
     {
-        "title": "Affiliate Networks",
-        "desc": "Robust tracking, payment orchestration, and real-time conversion analytics platforms."
+        "title": "Retail Media Networks",
+        "desc": "High-performance ad-tech infrastructure to monetize first-party ecommerce data."
     }
 ];
 
@@ -124,17 +123,17 @@ function FeatureCard({ feature, index }) {
 
 export default function IndustryPage() {
     return (
-        <PageShell eyebrow="Industries" title="MarTech Solutions" description="Giggs Software Labs builds the data infrastructure and intelligent platforms that fuel modern marketing, personalization, and customer engagement at scale." videoSrc="/hero/solutions.mp4" videoOpacity={0.6} align="center">
-            <Head><title>MarTech Solutions | Giggs Software Labs</title></Head>
+        <PageShell eyebrow="Industries" title="RetailTech Solutions" description="Giggs Software Labs empowers modern retail and ecommerce through high-performance storefronts, intelligent supply chains, and personalized customer experiences." videoSrc="/hero/solutions.mp4" videoOpacity={0.6} align="center">
+            <Head><title>RetailTech Solutions | Giggs Software Labs</title></Head>
 
             {/* KEY CHALLENGES */}
             <div className="flex flex-col items-center mt-6 mb-20 gap-8">
                 <div className="flex flex-wrap justify-center gap-3 text-sm font-medium text-slate-400">
-                    <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> customer data platforms</span>
-<span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> real-time decision engines</span>
-<span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> marketing automation</span>
-<span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> ad-tech infrastructure</span>
-<span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> privacy & consent</span>
+                    <span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> omnichannel retail</span>
+<span className="flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2 text-blue-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" /> supply chain AI</span>
+<span className="flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 text-cyan-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" /> ecommerce performance</span>
+<span className="flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-4 py-2 text-indigo-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" /> customer personalization</span>
+<span className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/5 px-4 py-2 text-sky-300 backdrop-blur-sm"><span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" /> inventory forecasting</span>
 
                 </div>
             </div>
@@ -217,10 +216,10 @@ export default function IndustryPage() {
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(30,123,255,0.15),_transparent_60%)]" />
                     <div className="relative z-10">
                         <h2 className="font-space-grotesk text-[40px] md:text-[56px] font-black tracking-tight text-white mb-6 leading-tight">
-                            Drive Deep Customer Action
+                            Ready to Elevate Your Commerce?
                         </h2>
                         <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
-                            Build a connected marketing stack that converts data into loyalty.
+                            Accelerate growth with our performant digital retail infrastructure.
                         </p>
                         <div className="flex flex-wrap justify-center gap-6">
                             <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#1E7BFF] px-10 py-5 text-sm font-black uppercase tracking-[0.15em] text-white hover:bg-blue-600 transition-all shadow-[0_0_30px_rgba(30,123,255,0.3)] hover:shadow-[0_0_50px_rgba(30,123,255,0.5)] hover:-translate-y-1">
