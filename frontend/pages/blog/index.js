@@ -28,7 +28,7 @@ export default function InsightsHub() {
   const [loading, setLoading] = useState(true);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-  const BACKEND_URL = API_URL.replace('/api', '');
+  const BACKEND_URL = API_URL.replace(/\/api$/, ''); // Ensure no trailing /api and no double slashes later
 
   useEffect(() => {
     async function fetchPosts() {
@@ -57,10 +57,16 @@ export default function InsightsHub() {
     return allPosts.filter((p) => p.category === activeCategory);
   }, [activeCategory, allPosts]);
 
+  // Split posts into Standard and Embedded for the new layout
+  const standardPosts = useMemo(() => filteredPosts.filter(p => !p.embed_url), [filteredPosts]);
+  const embedPosts = useMemo(() => filteredPosts.filter(p => !!p.embed_url), [filteredPosts]);
+
   function getImageUrl(imagePath) {
     if (!imagePath) return '/images/Cloud_DevOps.png';
     if (imagePath.startsWith('http')) return imagePath;
-    return `${BACKEND_URL}${imagePath}`;
+    // Handle cases where imagePath might or might not have a leading slash
+    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+    return `${BACKEND_URL}${normalizedPath}`;
   }
 
   return (
@@ -90,7 +96,6 @@ export default function InsightsHub() {
           ))}
         </div>
 
-        {/* ═══ POST GRID ═══ */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory + allPosts.length}
@@ -98,80 +103,103 @@ export default function InsightsHub() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className={`grid gap-10 mx-auto ${filteredPosts.some(p => p.embed_url) ? 'grid-cols-1 md:grid-cols-2 max-w-5xl' : 'sm:grid-cols-2 lg:grid-cols-3'}`}
+            className="space-y-24"
           >
             {loading && dbPosts.length === 0 ? (
-              <div className="col-span-full py-20 text-center text-slate-500">Syncing insights hub...</div>
+              <div className="py-20 text-center text-slate-500">Syncing insights hub...</div>
             ) : filteredPosts.length === 0 ? (
-              <div className="col-span-full py-20 text-center">
+              <div className="py-20 text-center">
                 <p className="text-slate-500">No content found for this category yet.</p>
               </div>
             ) : (
-              filteredPosts.map((post) => {
-                const isEmbed = !!post.embed_url;
-
-                if (isEmbed) {
-                  return (
-                    <motion.div
-                      key={post.id}
-                      whileHover={{ y: -4 }}
-                      className="w-full bg-slate-900/60 rounded-[1.5rem] overflow-hidden shadow-xl shadow-black/40 flex flex-col border border-white/10"
-                    >
-                      <div className="bg-slate-900 border-b border-white/5 px-4 py-3 flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-[#00E0FF] uppercase tracking-wider">
-                          {post.category}
-                        </span>
-                        <svg className="w-4 h-4 text-[#00E0FF]" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-                      </div>
-                      <div className="w-full h-[650px] relative bg-white">
-                        <iframe
-                          src={post.embed_url}
-                          className="absolute top-0 left-0 w-full h-full"
-                          frameBorder="0"
-                          allowFullScreen=""
-                          title={`Embedded content for ${post.category}`}
-                        ></iframe>
-                      </div>
-                    </motion.div>
-                  );
-                }
-
-                // Standard Blog Card
-                return (
-                  <motion.div
-                    key={post.id}
-                    whileHover={{ y: -6 }}
-                    className="group flex flex-col rounded-2xl border border-white/5 bg-slate-900/40 overflow-hidden hover:border-[#00E0FF]/30 transition-all shadow-xl"
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-800">
-                      <Image
-                        src={getImageUrl(post.image)}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      <div className="absolute top-3 left-3 z-10">
-                        <span className="text-[9px] font-bold px-2 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-[#00E0FF] uppercase tracking-widest">
-                          {post.category}
-                        </span>
-                      </div>
+              <>
+                {/* ═══ FEATURED INSIGHTS (STANDARD POSTS) ═══ */}
+                {standardPosts.length > 0 && (
+                  <section>
+                    <div className="mb-10">
+                      <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                        <span className="w-1.5 h-6 bg-[#00E0FF] rounded-full"></span>
+                        Featured Insights
+                      </h2>
+                      <p className="text-slate-400 text-sm mt-1">Deep dives into technical architecture and research.</p>
                     </div>
-                    
-                    <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="text-xl font-bold text-white group-hover:text-[#00E0FF] transition-colors line-clamp-2 mb-3 leading-tight">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-slate-400 line-clamp-3 mb-6 flex-1 font-medium leading-relaxed">
-                        {post.excerpt || "Exploring technical architecture at the edge."}
-                      </p>
-                      <Link href={`/blog/${post.slug}`} className="text-xs font-bold text-slate-300 group-hover:text-white flex items-center gap-1">
-                        READ FULL ARTICLE <span className="group-hover:translate-x-1 transition-transform">→</span>
-                      </Link>
+                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                      {standardPosts.map((post) => (
+                        <motion.div
+                          key={post.id}
+                          whileHover={{ y: -6 }}
+                          className="group flex flex-col rounded-2xl border border-white/5 bg-slate-900/40 overflow-hidden hover:border-[#00E0FF]/30 transition-all shadow-xl"
+                        >
+                          <div className="relative aspect-[16/10] overflow-hidden bg-slate-800">
+                            <Image
+                              src={getImageUrl(post.image)}
+                              alt={post.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                            <div className="absolute top-3 left-3 z-10">
+                              <span className="text-[9px] font-bold px-2 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-[#00E0FF] uppercase tracking-widest">
+                                {post.category}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div className="p-6 flex-1 flex flex-col">
+                            <h3 className="text-xl font-bold text-white group-hover:text-[#00E0FF] transition-colors line-clamp-2 mb-3 leading-tight">
+                              {post.title}
+                            </h3>
+                            <p className="text-sm text-slate-400 line-clamp-3 mb-6 flex-1 font-medium leading-relaxed">
+                              {post.excerpt || "Exploring technical architecture at the edge."}
+                            </p>
+                            <Link href={`/blog/${post.slug}`} className="text-xs font-bold text-slate-300 group-hover:text-white flex items-center gap-1">
+                              READ FULL ARTICLE <span className="group-hover:translate-x-1 transition-transform">→</span>
+                            </Link>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
-                  </motion.div>
-                );
-              })
+                  </section>
+                )}
+
+                {/* ═══ LINKEDIN & EXTERNAL FEED (EMBEDDED POSTS) ═══ */}
+                {embedPosts.length > 0 && (
+                  <section>
+                    <div className="mb-10">
+                      <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                        <span className="w-1.5 h-6 bg-[#7A5BFF] rounded-full"></span>
+                        Social & Community
+                      </h2>
+                      <p className="text-slate-400 text-sm mt-1">Latest updates and discussions from our network.</p>
+                    </div>
+                    <div className="grid gap-10 grid-cols-1 md:grid-cols-2 max-w-5xl">
+                      {embedPosts.map((post) => (
+                        <motion.div
+                          key={post.id}
+                          whileHover={{ y: -4 }}
+                          className="w-full bg-slate-900/60 rounded-[1.5rem] overflow-hidden shadow-xl shadow-black/40 flex flex-col border border-white/10"
+                        >
+                          <div className="bg-slate-900 border-b border-white/5 px-4 py-3 flex items-center justify-between">
+                            <span className="text-[10px] font-bold text-[#00E0FF] uppercase tracking-wider">
+                              {post.category}
+                            </span>
+                            <svg className="w-4 h-4 text-[#00E0FF]" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                          </div>
+                          <div className="w-full h-[650px] relative bg-white">
+                            <iframe
+                              src={post.embed_url}
+                              className="absolute top-0 left-0 w-full h-full"
+                              frameBorder="0"
+                              allowFullScreen=""
+                              title={`Embedded content for ${post.category}`}
+                            ></iframe>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
             )}
           </motion.div>
         </AnimatePresence>
