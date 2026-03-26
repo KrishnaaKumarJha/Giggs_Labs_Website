@@ -36,14 +36,15 @@ export default function ProductsIndexPage() {
             videoSrc="/hero/automation.mp4"
             videoOpacity={0.6}
             align="center"
+            fluid={true}
         >
             <Head>
                 <title>Products | Giggs Software Labs</title>
             </Head>
 
             {/* ─── 0. INTRO SECTION ─── */}
-            <section className="relative z-20 pt-16 pb-32 px-4 bg-transparent">
-                <div className="mx-auto max-w-6xl text-center">
+            <section className="relative z-20 pt-16 pb-32 px-4 bg-transparent overflow-visible">
+                <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -58,16 +59,16 @@ export default function ProductsIndexPage() {
                         <span className="text-blue-500 italic">One Mission.</span>
                     </h2>
                     <p className="max-w-3xl mx-auto text-lg text-slate-300 font-medium leading-relaxed">
-                        At Giggs Labs, we focus on engineering excellence. Whether it's securing your digital assets with 
+                        At Giggs Labs, we focus on engineering excellence. Whether it&apos;s securing your digital assets with 
                         Mihawk or digitizing your international trade with Globixx, our products are built for scale, 
                         compliance, and absolute reliability.
                     </p>
                 </div>
             </section>
 
-            {/* ─── 1. MIHAWK SECTION (BLUE THEME) ─── */}
-            <section className="relative z-20 py-24 bg-transparent overflow-hidden">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-none" />
+            <section className="relative z-20 py-24 bg-transparent overflow-visible">
+                <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none" />
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
@@ -133,9 +134,9 @@ export default function ProductsIndexPage() {
                 </div>
             </section>
 
-            {/* ─── 2. GLOBIXX SECTION (DARK THEME) ─── */}
-            <section className="relative z-20 py-32 bg-transparent overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.1),_transparent_40%)] pointer-none" />
+            <section className="relative z-20 py-32 bg-transparent overflow-visible">
+                <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.1),_transparent_40%)] pointer-events-none" />
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
@@ -188,7 +189,7 @@ export default function ProductsIndexPage() {
                             <div className="text-sm font-black uppercase tracking-[0.4em] text-blue-400 mb-4">Logistics OS</div>
                             <h3 className="text-5xl md:text-7xl font-space-grotesk font-bold text-white mb-6 tracking-tighter">Globixx.</h3>
                             <p className="text-xl text-slate-300 font-medium mb-10 leading-relaxed">
-                                India's first tech-driven international trade management platform. Globixx automates 
+                                India&apos;s first tech-driven international trade management platform. Globixx automates 
                                 complex shipping logistics, ensures compliance, and provides end-to-end transparency 
                                 for modern supply chains.
                             </p>
@@ -216,8 +217,8 @@ export default function ProductsIndexPage() {
                 </div>
             </section>
 
-            {/* ─── 3. PHILOSOPHY ─── */}
-            <section className="py-32 bg-transparent">
+            <section className="relative z-20 py-32 bg-transparent overflow-visible">
+                <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
                 <div className="mx-auto max-w-6xl px-4 text-center">
                     <h2 className="text-4xl font-space-grotesk font-bold text-white mb-8 tracking-tight">The Core Principles.</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -245,8 +246,8 @@ export default function ProductsIndexPage() {
                 </div>
             </section>
 
-            {/* ─── 4. BOTTOM CTA ─── */}
-            <section className="py-32 bg-transparent">
+            <section className="relative z-20 py-32 bg-transparent overflow-visible">
+                <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
                 <div className="mx-auto max-w-4xl px-4 text-center">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -262,9 +263,9 @@ export default function ProductsIndexPage() {
                             Join hundreds of organizations that trust our engineering expertise to secure their assets and automate their operations.
                         </p>
                         <div className="relative z-10 flex flex-wrap justify-center gap-6">
-                            <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#1E7BFF] px-10 py-5 text-sm font-black uppercase tracking-[0.15em] text-white hover:bg-blue-600 transition-all shadow-[0_0_30px_rgba(30,123,255,0.3)] hover:shadow-[0_0_50px_rgba(30,123,255,0.5)] hover:-translate-y-1">
+                            <Link href="/contact" className="group inline-flex items-center gap-4 rounded-full bg-[#1E7BFF] px-12 py-6 text-base font-black uppercase tracking-[0.2em] text-white hover:bg-blue-600 transition-all shadow-[0_0_40px_rgba(30,123,255,0.4)] hover:shadow-[0_0_60px_rgba(30,123,255,0.6)] hover:-translate-y-1.5 active:scale-95">
                                 Talk to an Expert
-                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>
