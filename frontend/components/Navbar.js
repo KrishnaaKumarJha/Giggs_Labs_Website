@@ -31,8 +31,8 @@ const industrySubLinks = [
 ];
 
 const productSubLinks = [
-  { href: '/products/ai-data', label: 'AI & Data Science / Data Engineering', desc: 'Enterprise-grade MLOps and scalable model deployment.' },
-  { href: '/products/mihawk', label: 'AI-driven CyberSecurity', desc: 'Centralized threat intelligence and compliance monitoring.' },
+  { href: '/products/mihawk', label: 'Mihawk', desc: 'Enterprise-grade cybersecurity and compliance monitoring platform.' },
+  { href: '/products/globixx', label: 'Globixx', desc: 'Digital transformation engine for international trade and logistics.' },
 ];
 
 function BrandLogo() {

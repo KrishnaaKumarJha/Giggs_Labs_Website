@@ -3,205 +3,272 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import PageShell from '../../components/pageshell';
-import { ShieldCheck, BrainCircuit, Zap, Lock, TrendingUp, Bot, ArrowRight } from 'lucide-react';
+import { 
+    ShieldCheck, BrainCircuit, ArrowRight, Activity, 
+    Lock, Zap, Globe, Cpu, Workflow, BarChart3, 
+    Search, Siren, ShieldAlert, CheckCircle2
+} from 'lucide-react';
 
-const products = [
-    {
-        href: '/products/mihawk',
-        Icon: ShieldCheck,
-        title: 'Mihawk',
-        tagline: 'Flagship Security Platform',
-        description: 'Enterprise-grade cybersecurity platform that combines AI-driven threat intelligence, automated incident response, and continuous compliance monitoring.',
-        color: 'from-sky-400 to-blue-600',
-        accent: 'text-sky-400',
-        glow: 'group-hover:shadow-[0_0_40px_rgba(56,189,248,0.2)]',
-        highlights: ['Threat Detection', 'Incident Response', 'Compliance', '24/7 Monitoring'],
-    },
-    {
-        href: '/products/ai-data',
-        Icon: BrainCircuit,
-        title: 'AI & Data Engine',
-        tagline: 'Intelligent Data Solutions',
-        description: 'Scalable data platforms and AI solutions designed to transform data into intelligence and intelligence into action.',
-        color: 'from-cyan-400 to-blue-500',
-        accent: 'text-cyan-400',
-        glow: 'group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]',
-        highlights: ['Generative AI', 'MLOps', 'Data Pipelines', 'Analytics'],
-    },
-    {
-        href: '/products/performance',
-        Icon: Zap,
-        title: 'Performance Suite',
-        tagline: 'Reliability & Scale',
-        description: 'Optimization tools and platforms to ensure your applications perform under real-world pressure with maximum efficiency.',
-        color: 'from-sky-300 to-blue-400',
-        accent: 'text-sky-300',
-        glow: 'group-hover:shadow-[0_0_40px_rgba(125,211,252,0.2)]',
-        highlights: ['Observability', 'Load Testing', 'Cost Optimization', 'Scale'],
-    },
+const mihawkFeatures = [
+    { title: 'SIEM & Detection', desc: 'AI-powered real-time monitoring and anomaly detection.' },
+    { title: 'Email Security', desc: 'Advanced behavioral analysis for phishing and malware protection.' },
+    { title: 'Threat Hunting', desc: 'Proactive investigation to uncover hidden network threats.' },
+    { title: 'DFIR', desc: 'Rapid digital forensics and incident response containment.' },
+    { title: 'VAPT', desc: 'Simulated real-world attacks via OWASP and PTES methodologies.' },
+    { title: 'Compliance', desc: 'Automated auditing for GDPR, HIPAA, and PCI DSS.' },
 ];
 
-const philosophy = [
-    { title: 'Security First', desc: 'Secure by design, not as an afterthought.', Icon: Lock },
-    { title: 'Built to Scale', desc: 'Infrastructure that grows with your vision.', Icon: TrendingUp },
-    { title: 'AI Enhanced', desc: 'Leveraging intelligence to automate complexity.', Icon: Bot },
+const globixxFeatures = [
+    { title: 'Sea/Air/Road Freight', desc: 'Multi-modal logistics with integrated license management.' },
+    { title: 'Smart Workflows', desc: 'Rule-based task automation and approval processes.' },
+    { title: 'Track & Trace', desc: 'IoT-enabled real-time container visibility.' },
+    { title: 'Automated RFQs', desc: 'Dynamic quote generation based on system parameters.' },
+    { title: 'SAP Integration', desc: 'Seamless data syncing with enterprise ERP systems.' },
+    { title: 'Audit Analytics', desc: 'Performance dashboards for 100% margin transparency.' },
 ];
 
 export default function ProductsIndexPage() {
     return (
         <PageShell
-            eyebrow="The Ecosystem"
-            title="Engineering. The Future."
-            description="Flagship platforms and specialized toolsets designed to solve complex challenges in security, data, and performance."
+            eyebrow="The Product Ecosystem"
+            title="Intelligence. Redefined."
+            description="Explore our world-class platforms designed to secure your infrastructure and automate your global trade operations."
             videoSrc="/hero/automation.mp4"
-            videoOpacity={0.5}
+            videoOpacity={0.6}
             align="center"
         >
             <Head>
                 <title>Products | Giggs Software Labs</title>
             </Head>
 
-            <div className="flex justify-center mt-10 mb-20">
-                <button
-                    onClick={() => document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })}
-                    className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all"
-                >
-                    Explore Our Products
-                </button>
-            </div>
+            {/* ─── 0. INTRO SECTION ─── */}
+            <section className="relative z-20 pt-16 pb-32 px-4 bg-transparent">
+                <div className="mx-auto max-w-6xl text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8"
+                    >
+                        <Activity size={16} className="text-blue-400" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-300">Digital Transformation Hub</span>
+                    </motion.div>
+                    <h2 className="text-4xl md:text-6xl font-space-grotesk font-bold text-white tracking-tighter mb-8 leading-[1.1]">
+                        Two Flagships. <br />
+                        <span className="text-blue-500 italic">One Mission.</span>
+                    </h2>
+                    <p className="max-w-3xl mx-auto text-lg text-slate-300 font-medium leading-relaxed">
+                        At Giggs Labs, we focus on engineering excellence. Whether it's securing your digital assets with 
+                        Mihawk or digitizing your international trade with Globixx, our products are built for scale, 
+                        compliance, and absolute reliability.
+                    </p>
+                </div>
+            </section>
 
-            {/* ─── 2. PRODUCT GRID ─── */}
-            <section id="product-grid" className="relative z-20 pt-8 pb-24 px-4">
-                <div className="mx-auto max-w-6xl">
-                    <div className="flex items-center gap-4 mb-20">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800 to-slate-800" />
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-sky-500 px-4 whitespace-nowrap">The Ecosystem</h2>
-                        <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
+            {/* ─── 1. MIHAWK SECTION (BLUE THEME) ─── */}
+            <section className="relative z-20 py-24 bg-transparent overflow-hidden">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-none" />
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <div className="text-sm font-black uppercase tracking-[0.4em] text-blue-400 mb-4">Cybersecurity Flagship</div>
+                            <h3 className="text-5xl md:text-7xl font-space-grotesk font-bold text-white mb-6">Mihawk.</h3>
+                            <p className="text-xl text-slate-300 font-medium mb-10 leading-relaxed">
+                                A unified security platform that protects your digital assets 24/7. From AI-powered SIEM 
+                                to forensic incident response, Mihawk ensures your enterprise is hardened against any threat.
+                            </p>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+                                {mihawkFeatures.map((f, i) => (
+                                    <div key={f.title} className="flex gap-4 p-4 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all">
+                                        <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/20">
+                                            <CheckCircle2 size={18} className="text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-white text-sm uppercase tracking-tight mb-1">{f.title}</h4>
+                                            <p className="text-[12px] text-slate-400 leading-tight">{f.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <Link href="/products/mihawk" className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest text-[12px] px-8 py-4 rounded-full transition-all group">
+                                Explore Mihawk Deep-Dive
+                                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                            </Link>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="relative group"
+                        >
+                            <div className="absolute -inset-4 bg-blue-500/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                            <div className="relative rounded-[3rem] border border-white/10 bg-slate-900/50 p-12 backdrop-blur-xl">
+                                <ShieldCheck size={80} strokeWidth={1} className="text-blue-500 mb-8" />
+                                <div className="space-y-8">
+                                    <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
+                                        <div className="text-3xl font-bold text-white mb-1">99.9%</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-blue-400">Detection Accuracy</div>
+                                    </div>
+                                    <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
+                                        <div className="text-3xl font-bold text-white mb-1">&lt;15min</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-blue-400">Mean Response Time</div>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-300">OWASP</div>
+                                        <div className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-300">NIST</div>
+                                        <div className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-300">PTES</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </div>
+                </div>
+            </section>
 
-                    <div className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {products.map((product, i) => (
+            {/* ─── 2. GLOBIXX SECTION (DARK THEME) ─── */}
+            <section className="relative z-20 py-32 bg-transparent overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.1),_transparent_40%)] pointer-none" />
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="order-2 lg:order-1 relative group"
+                        >
+                            <div className="relative rounded-[3rem] border border-white/10 bg-slate-900/50 p-12 backdrop-blur-xl overflow-hidden shadow-2xl">
+                                <div className="absolute top-0 right-0 w-full h-1 bg-blue-600/50" />
+                                <Globe size={80} strokeWidth={1} className="text-blue-500 mb-8" />
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 shadow-sm">
+                                            <Cpu size={20} className="text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-sm font-bold text-white uppercase tracking-tight">SAP Integration</div>
+                                            <div className="text-[11px] text-slate-400 italic">ERP Connective Framework</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 shadow-sm">
+                                            <Workflow size={20} className="text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-sm font-bold text-white uppercase tracking-tight">Auto-Auditing</div>
+                                            <div className="text-[11px] text-slate-400 italic">100% Margin Transparency</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 shadow-sm">
+                                            <BarChart3 size={20} className="text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-sm font-bold text-white uppercase tracking-tight">IOT Insights</div>
+                                            <div className="text-[11px] text-slate-400 italic">Global Visibility OS</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="order-1 lg:order-2"
+                        >
+                            <div className="text-sm font-black uppercase tracking-[0.4em] text-blue-400 mb-4">Logistics OS</div>
+                            <h3 className="text-5xl md:text-7xl font-space-grotesk font-bold text-white mb-6 tracking-tighter">Globixx.</h3>
+                            <p className="text-xl text-slate-300 font-medium mb-10 leading-relaxed">
+                                India's first tech-driven international trade management platform. Globixx automates 
+                                complex shipping logistics, ensures compliance, and provides end-to-end transparency 
+                                for modern supply chains.
+                            </p>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+                                {globixxFeatures.map((f, i) => (
+                                    <div key={f.title} className="flex gap-4 p-4 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all">
+                                        <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/20">
+                                            <CheckCircle2 size={18} className="text-blue-400" />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-white text-sm uppercase tracking-tight mb-1">{f.title}</h4>
+                                            <p className="text-[12px] text-slate-400 leading-tight">{f.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <Link href="/products/globixx" className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest text-[12px] px-8 py-4 rounded-full transition-all group shadow-xl shadow-blue-500/10">
+                                Discover Globixx Platform
+                                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                            </Link>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── 3. PHILOSOPHY ─── */}
+            <section className="py-32 bg-transparent">
+                <div className="mx-auto max-w-6xl px-4 text-center">
+                    <h2 className="text-4xl font-space-grotesk font-bold text-white mb-8 tracking-tight">The Core Principles.</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                            { title: 'Security First', desc: 'Embedded protection at every layer of our stack.', Icon: Lock },
+                            { title: 'Maximum Scale', desc: 'Built to handle thousands of shipments and millions of logs.', Icon: Zap },
+                            { title: 'Compliance Driven', desc: 'Pre-configured for global legal and trade standards.', Icon: Globe },
+                        ].map((p, i) => (
                             <motion.div
-                                key={product.href}
-                                initial={{ opacity: 0, y: 30 }}
+                                key={p.title}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.1, duration: 0.6 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="p-8 rounded-3xl bg-white/5 border border-white/10 shadow-sm"
                             >
-                                <Link href={product.href} className="group block h-full">
-                                    <article className={`relative h-full overflow-hidden rounded-[2.5rem] border border-[#0B1F3B] bg-[#0B1F3B]/40 p-10 transition-all duration-500 hover:border-[#1E7BFF]/50 hover:bg-[#0B1F3B]/60 shadow-2xl ${product.glow}`}>
-                                        <div className={`absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br ${product.color} opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-[0.06]`} />
-
-                                        <div className="relative z-10">
-                                            <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-[1.5rem] border border-[#1E7BFF]/20 bg-[#1E7BFF]/5 group-hover:scale-110 transition-all duration-500">
-                                                <product.Icon size={36} strokeWidth={1.5} className="text-[#1E7BFF]" />
-                                            </div>
-
-                                            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2ED6FF] mb-3">
-                                                {product.tagline}
-                                            </div>
-
-                                            <h3 className="font-space-grotesk text-[36px] font-bold text-white tracking-tighter mb-4 transition-colors group-hover:text-[#1E7BFF]">
-                                                {product.title}
-                                            </h3>
-
-                                            <p className="font-roboto text-[16px] text-slate-300 leading-relaxed font-medium mb-8">
-                                                {product.description}
-                                            </p>
-
-                                            <div className="flex flex-wrap gap-2 mb-10 text-xs">
-                                                {product.highlights.map(h => (
-                                                    <span key={h} className="rounded-full border border-slate-800 bg-slate-950/80 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-300 transition-colors">
-                                                        {h}
-                                                    </span>
-                                                ))}
-                                            </div>
-
-                                            <div className={`flex items-center gap-2 text-xs font-black uppercase tracking-widest ${product.accent} opacity-60 group-hover:opacity-100 transition-all`}>
-                                                <span>Learn More</span>
-                                                <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform duration-300" />
-                                            </div>
-                                        </div>
-                                    </article>
-                                </Link>
+                                <div className="h-16 w-16 mx-auto flex items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400 mb-6">
+                                    <p.Icon size={32} strokeWidth={1.5} />
+                                </div>
+                                <h4 className="text-xl font-bold text-white mb-3">{p.title}</h4>
+                                <p className="text-slate-400 font-medium leading-relaxed">{p.desc}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* ─── 3. CORE PHILOSOPHY ─── */}
-            <section className="py-32 relative overflow-hidden">
-                <div className="absolute inset-0 bg-slate-900/20" />
-                <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
-                        <div>
-                            <div className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400 mb-6">
-                                Core Philosophy
-                            </div>
-                            <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold text-white tracking-tighter leading-[0.95] mb-8">
-                                How we build <span className="text-slate-500">Value.</span>
-                            </h2>
-                            <p className="font-roboto text-[18px] text-slate-300 leading-relaxed mb-10">
-                                Every product at Giggs Labs is forged from real-world engineering challenges.
-                                We don&apos;t build features; we build solutions that survive the rigors of scale and security.
-                            </p>
-                        </div>
-                        <div className="grid gap-6">
-                            {philosophy.map((item, i) => (
-                                <motion.div
-                                    key={item.title}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="flex gap-6 p-6 rounded-3xl border border-slate-800/60 bg-gradient-to-br from-slate-950/40 to-slate-900/20 hover:border-sky-500/30 transition-all duration-300 group"
-                                >
-                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500/10 to-blue-500/5 border border-sky-500/20 group-hover:border-sky-500/40 transition-all flex-shrink-0">
-                                        <item.Icon size={28} strokeWidth={1.5} className="text-sky-400" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-inter text-[22px] font-bold text-white mb-1">{item.title}</h3>
-                                        <p className="font-roboto text-[16px] text-slate-400 font-medium">{item.desc}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* ─── 4. BOTTOM CTA ─── */}
-            <section className="pb-16 px-4" style={{ overflow: 'visible' }}>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="mx-auto max-w-4xl relative rounded-3xl border border-slate-800/60 bg-slate-950/40 text-center shadow-[0_0_60px_rgba(56,189,248,0.12)]"
-                    style={{ overflow: 'visible' }}
-                >
-                    <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{ overflow: 'hidden' }}>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.10),_transparent_70%)]" />
-                    </div>
-
-                    <div className="relative z-10 px-8 py-12 md:px-16 md:py-16" style={{ overflow: 'visible' }}>
-                        <h2 className="font-space-grotesk text-[36px] md:text-[42px] font-bold text-white mb-4" style={{ lineHeight: '1.3' }}>
-                            Ready to <br />
-                            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] pb-3 pr-1 inline-block">Power Up?</span>
+            <section className="py-32 bg-transparent">
+                <div className="mx-auto max-w-4xl px-4 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="p-16 rounded-[4rem] bg-slate-900 text-white relative overflow-hidden border border-white/5 shadow-2xl"
+                    >
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.1),_transparent_70%)]" />
+                        <h2 className="relative z-10 text-4xl md:text-5xl font-space-grotesk font-bold mb-8 tracking-tighter leading-tight">
+                            Build the <span className="text-blue-400 italic">Future of Enterprise</span> with us.
                         </h2>
-                        <p className="mx-auto max-w-xl font-roboto text-[18px] text-slate-300 font-medium mb-8">
-                            Deploy our flagship platforms today and start transforming your technical debt into strategic advantage.
+                        <p className="relative z-10 text-lg text-slate-300 font-medium mb-12 max-w-2xl mx-auto">
+                            Join hundreds of organizations that trust our engineering expertise to secure their assets and automate their operations.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">
-                                Secure a Demo
-                            </Link>
-                            <Link href="/services" className="inline-flex items-center justify-center bg-transparent border border-[#1E7BFF] text-[#1E7BFF] hover:bg-[#1E7BFF]/10 font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">
-                                Explore Services
+                        <div className="relative z-10 flex flex-wrap justify-center gap-6">
+                            <Link href="/contact" className="group inline-flex items-center gap-3 rounded-full bg-[#1E7BFF] px-10 py-5 text-sm font-black uppercase tracking-[0.15em] text-white hover:bg-blue-600 transition-all shadow-[0_0_30px_rgba(30,123,255,0.3)] hover:shadow-[0_0_50px_rgba(30,123,255,0.5)] hover:-translate-y-1">
+                                Talk to an Expert
+                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
             </section>
         </PageShell>
     );
