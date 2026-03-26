@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { apiFetch } from '../../utils/api';
 
 const CATEGORIES = ['Article', 'Whitepaper', 'Case Study', 'Tech Report'];

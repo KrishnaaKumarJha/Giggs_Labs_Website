@@ -1,6 +1,6 @@
-// frontend/pages/blog/index.js
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
 
@@ -144,12 +144,14 @@ export default function InsightsHub() {
                     className="group flex flex-col rounded-2xl border border-white/5 bg-slate-900/40 overflow-hidden hover:border-[#00E0FF]/30 transition-all shadow-xl"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-slate-800">
-                      <img
+                      <Image
                         src={getImageUrl(post.image)}
                         alt={post.title}
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
-                      <div className="absolute top-3 left-3">
+                      <div className="absolute top-3 left-3 z-10">
                         <span className="text-[9px] font-bold px-2 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-[#00E0FF] uppercase tracking-widest">
                           {post.category}
                         </span>
