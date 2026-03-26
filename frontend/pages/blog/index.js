@@ -7,21 +7,8 @@ import { getImageUrl } from '../../utils/api';
 
 const CATEGORIES = ['All', 'Article', 'Case Study', 'Tech Report'];
 
-// Current hardcoded LinkedIn posts (Keep these as requested)
-const fallbackPosts = [
-  {
-    id: 'embed-1',
-    embed_url: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7436329418236706816?collapsed=1',
-    category: 'Article',
-    is_fallback: true,
-  },
-  {
-    id: 'embed-2',
-    embed_url: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7434790609779032065?collapsed=1', 
-    category: 'Article',
-    is_fallback: true,
-  },
-];
+// Current hardcoded LinkedIn posts (Set to empty, add via dashboard)
+const fallbackPosts = [];
 
 export default function InsightsHub() {
   const [activeCategory, setActiveCategory] = useState('All');

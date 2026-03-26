@@ -299,10 +299,10 @@ export default function CareersPage({ jobs = [] }) {
 
         {/* ─── WHO WE ARE ─── */}
         <section className="mb-32">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="max-w-3xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               <div className="mb-6">
@@ -313,37 +313,17 @@ export default function CareersPage({ jobs = [] }) {
               <h2 className="text-4xl md:text-6xl font-extrabold text-white mt-4 mb-8 leading-[1.1]">
                 Engineering <span className="text-[#00E0FF]">Global Solutions</span> at Scale.
               </h2>
-              <p className="text-slate-400 text-lg leading-relaxed mb-8">
+              <p className="text-slate-400 text-lg leading-relaxed mb-8 mx-auto max-w-2xl">
                 Giggs is a premier technology partner for the world&rsquo;s most ambitious enterprises. From our hubs in the USA, India, Saudi Arabia, and the UAE, we build digital infrastructure that powers global commerce, cybersecurity, and AI-driven automation.
               </p>
-              <div className="flex flex-wrap gap-4">
-                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800">
+              <div className="flex flex-wrap gap-4 justify-center">
+                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800 text-left">
                     <p className="text-white font-bold text-sm">Multi-National Presence</p>
                     <p className="text-slate-500 text-xs">USA • MENA • SE Asia</p>
                  </div>
-                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800">
+                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800 text-left">
                     <p className="text-white font-bold text-sm">Enterprise Partners</p>
                     <p className="text-slate-500 text-xs">Fortune 500 Clients</p>
-                 </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="relative aspect-square rounded-[3.5rem] overflow-hidden border border-[#00E0FF]/10 shadow-[0_0_50px_rgba(0,224,255,0.05)]"
-            >
-              <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/20 to-[#00E0FF]/5 z-10" />
-              <div className="absolute inset-0 bg-[url('/hero/grid.png')] opacity-20" />
-              <div className="absolute inset-0 flex items-center justify-center p-12">
-                 <div className="w-full h-full rounded-[2.5rem] border border-white/5 bg-slate-900/40 backdrop-blur-xl flex items-center justify-center relative group">
-                    <div className="absolute inset-0 bg-[#00E0FF]/5 blur-[80px] rounded-full group-hover:opacity-100 opacity-60 transition-opacity" />
-                    <div className="text-center relative z-10 px-6">
-                       <div className="w-16 h-1 bg-[#00E0FF] mx-auto mb-8 rounded-full" />
-                       <h3 className="text-2xl font-bold text-white mb-4">Innovation First</h3>
-                       <p className="text-slate-400 text-sm leading-relaxed max-w-xs mx-auto">We architect systems that define the next decade of enterprise intelligence.</p>
-                    </div>
                  </div>
               </div>
             </motion.div>
