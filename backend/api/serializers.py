@@ -24,7 +24,7 @@ class JobApplicationSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id', 'title', 'slug', 'category', 'excerpt', 'content', 'image', 'embed_url', 'is_published', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'slug', 'category', 'excerpt', 'content', 'image', 'embed_url', 'order', 'is_published', 'created_at', 'updated_at']
 
 
 class JobOpeningSerializer(serializers.ModelSerializer):

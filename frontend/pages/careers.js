@@ -295,57 +295,153 @@ export default function CareersPage({ jobs = [] }) {
       videoOpacity={0.5}
       align="center"
     >
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12">
 
-        {/* ─── LIFE AT GIGGS ─── */}
-        <section className="mb-14">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800 to-slate-800" />
-            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 px-4 whitespace-nowrap">Life at Giggs</h2>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800 to-slate-800" />
+        {/* ─── WHO WE ARE ─── */}
+        <section className="mb-32">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="mb-6">
+                <span className="text-[#00E0FF] font-bold text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-[#00E0FF]/20 bg-[#00E0FF]/5">
+                  About the Firm
+                </span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-extrabold text-white mt-4 mb-8 leading-[1.1]">
+                Engineering <span className="text-[#00E0FF]">Global Solutions</span> at Scale.
+              </h2>
+              <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                Giggs is a premier technology partner for the world&rsquo;s most ambitious enterprises. From our hubs in the USA, India, Saudi Arabia, and the UAE, we build digital infrastructure that powers global commerce, cybersecurity, and AI-driven automation.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800">
+                    <p className="text-white font-bold text-sm">Multi-National Presence</p>
+                    <p className="text-slate-500 text-xs">USA • MENA • SE Asia</p>
+                 </div>
+                 <div className="px-6 py-4 rounded-3xl bg-slate-900/40 border border-slate-800">
+                    <p className="text-white font-bold text-sm">Enterprise Partners</p>
+                    <p className="text-slate-500 text-xs">Fortune 500 Clients</p>
+                 </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative aspect-square rounded-[3.5rem] overflow-hidden border border-[#00E0FF]/10 shadow-[0_0_50px_rgba(0,224,255,0.05)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/20 to-[#00E0FF]/5 z-10" />
+              <div className="absolute inset-0 bg-[url('/hero/grid.png')] opacity-20" />
+              <div className="absolute inset-0 flex items-center justify-center p-12">
+                 <div className="w-full h-full rounded-[2.5rem] border border-white/5 bg-slate-900/40 backdrop-blur-xl flex items-center justify-center relative group">
+                    <div className="absolute inset-0 bg-[#00E0FF]/5 blur-[80px] rounded-full group-hover:opacity-100 opacity-60 transition-opacity" />
+                    <div className="text-center relative z-10 px-6">
+                       <div className="w-16 h-1 bg-[#00E0FF] mx-auto mb-8 rounded-full" />
+                       <h3 className="text-2xl font-bold text-white mb-4">Innovation First</h3>
+                       <p className="text-slate-400 text-sm leading-relaxed max-w-xs mx-auto">We architect systems that define the next decade of enterprise intelligence.</p>
+                    </div>
+                 </div>
+              </div>
+            </motion.div>
           </div>
+        </section>
 
-          <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-2xl">
-            At Giggs, we believe great engineering happens when brilliant minds are given the freedom to innovate, the tools to excel, and a culture that values impact over process.
-          </p>
-
-          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2">
+        {/* ─── WHY WORK WITH US ─── */}
+        <section className="mb-32">
+          <div className="text-center mb-20">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Why Join Giggs?</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-[#00E0FF] to-transparent mx-auto mb-6" />
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+              We provide the environment for you to do the best work of your career, with the autonomy to innovate and the support to grow.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: <Rocket className="w-6 h-6 text-[#00E0FF]" />,
-                title: 'Engineering-First Culture',
-                desc: 'Work on cutting-edge AI, cybersecurity, and cloud-native systems with a team that values deep technical craft.',
+                icon: <Rocket className="w-8 h-8 text-[#00E0FF]" />,
+                title: 'High-Impact Work',
+                desc: 'Deploy solutions for global enterprises that handle millions of transactions and protect critical infrastructure.'
               },
               {
-                icon: <Globe className="w-6 h-6 text-[#00E0FF]" />,
-                title: 'Remote-First, Global Team',
-                desc: 'Collaborate with engineers across India, Saudi Arabia, Singapore, UAE, and the USA — work from anywhere.',
+                icon: <TrendingUp className="w-8 h-8 text-[#00E0FF]" />,
+                title: 'Growth Trajectory',
+                desc: 'Access learning budgets, mentorship from industry veterans, and clear leadership pathways within a fast-scaling firm.'
               },
               {
-                icon: <TrendingUp className="w-6 h-6 text-[#00E0FF]" />,
-                title: 'Growth & Learning',
-                desc: 'Continuous learning through mentorship, conference sponsorship, internal tech talks, and hands-on R&D projects.',
-              },
-              {
-                icon: <Handshake className="w-6 h-6 text-[#00E0FF]" />,
-                title: 'Impact That Matters',
-                desc: 'Ship solutions that power enterprises at scale — your work directly transforms how global businesses operate.',
-              },
-            ].map((perk) => (
+                icon: <Globe className="w-8 h-8 text-[#00E0FF]" />,
+                title: 'Global Flexibility',
+                desc: 'We value results over office hours. Work with a distributed team across some of the most vibrant tech hubs in the world.'
+              }
+            ].map((item, idx) => (
               <motion.div
-                key={perk.title}
-                initial={{ opacity: 0, y: 16 }}
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="group rounded-3xl border border-slate-800 bg-slate-900/40 p-6 transition-all hover:border-[#00E0FF]/30 hover:bg-slate-900/60"
+                transition={{ delay: idx * 0.1 }}
+                className="p-10 rounded-[2.5rem] bg-slate-900/30 border border-slate-800 hover:border-[#00E0FF]/30 hover:bg-slate-900/60 transition-all group"
               >
-                <div className="mb-3">{perk.icon}</div>
-                <h3 className="text-base font-bold text-white mb-2">{perk.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">{perk.desc}</p>
+                <div className="mb-8 w-16 h-16 rounded-2xl bg-[#00E0FF]/5 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#00E0FF]/10 transition-all">
+                  {item.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
         </section>
+
+        {/* ─── OUR CULTURE ─── */}
+        <section className="mb-40">
+          <div className="p-16 rounded-[4rem] bg-slate-950/40 border border-white/5 backdrop-blur-3xl overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-[#00E0FF]/5 to-transparent -z-10" />
+            <div className="grid md:grid-cols-2 gap-20 items-center">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Built on <span className="text-[#00E0FF]">Excellence.</span></h2>
+                <div className="space-y-8">
+                  {[
+                    { t: 'Radical Transparency', d: 'We share everything—from technical roadmaps to company financials—with the entire team.' },
+                    { t: 'Code as Craft', d: 'We prioritize elegant architecture, robust testing, and clean design patterns in everything we ship.' },
+                    { t: 'Diverse Perspectives', d: 'Our strength comes from our global footprint, blending cultural insights with technical mastery.' }
+                  ].map((culture, i) => (
+                    <div key={i} className="flex gap-6 items-start">
+                      <div className="mt-1.5 w-2 h-2 rounded-full bg-[#00E0FF] flex-shrink-0 shadow-[0_0_10px_#00E0FF]" />
+                      <div>
+                        <h4 className="text-white font-bold text-lg mb-2">{culture.t}</h4>
+                        <p className="text-slate-400 text-sm leading-relaxed">{culture.d}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4 pt-16">
+                  <div className="aspect-[4/5] bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600" alt="Culture" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  </div>
+                  <div className="aspect-square bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800">
+                     <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=400" alt="Culture" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="aspect-square bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800">
+                    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=400" alt="Culture" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  </div>
+                  <div className="aspect-[4/5] bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800">
+                     <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600" alt="Culture" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── CURRENT OPENINGS ─── */}
+        <section id="openings" className="mb-20">
         <AnimatePresence mode="wait">
           {!selectedJob ? (
             /* ========== JOB LISTINGS ========== */
@@ -638,6 +734,7 @@ export default function CareersPage({ jobs = [] }) {
             </motion.div>
           )}
         </AnimatePresence>
+        </section>
       </div>
     </PageShell>
   );

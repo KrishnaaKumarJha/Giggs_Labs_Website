@@ -46,12 +46,13 @@ class Post(models.Model):
     content = models.TextField()  # markdown text
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
     embed_url = models.URLField(max_length=500, blank=True, null=True, help_text="If provided, this post will render as an iframe (e.g. LinkedIn embed)")
+    order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at']  # newest first
+        ordering = ['order', '-created_at']  # custom order then newest first
 
     def __str__(self):
         return f"[{self.category}] {self.title}"

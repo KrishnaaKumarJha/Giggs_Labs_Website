@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { apiFetch, getImageUrl } from '../../utils/api';
 
 const CATEGORIES = ['Article', 'Whitepaper', 'Case Study', 'Tech Report'];
-const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', embed_url: '', is_published: true };
+const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', embed_url: '', order: 0, is_published: true };
 
 export default function AdminPosts() {
     const router = useRouter();
@@ -49,6 +49,7 @@ export default function AdminPosts() {
             fd.append('excerpt', form.excerpt);
             fd.append('content', form.content);
             fd.append('embed_url', form.embed_url || '');
+            fd.append('order', form.order || 0);
             fd.append('is_published', form.is_published);
             if (form.imageFile) fd.append('image', form.imageFile);
 
@@ -93,6 +94,7 @@ export default function AdminPosts() {
             title: post.title, slug: post.slug, category: post.category,
             excerpt: post.excerpt, content: post.content, 
             embed_url: post.embed_url || '',
+            order: post.order || 0,
             is_published: post.is_published,
         });
         setEditing(post.id);
@@ -150,7 +152,11 @@ export default function AdminPosts() {
                             <input placeholder="LinkedIn Embed URL (optional)" value={form.embed_url}
                                 onChange={(e) => setForm({ ...form, embed_url: e.target.value })} className={inputCls} />
 
-                            <div className="grid md:grid-cols-2 gap-3 items-center">
+                             <div className="grid md:grid-cols-3 gap-3 items-center">
+                                <div>
+                                    <label className="text-xs text-slate-400 block mb-1">Display Order (0 = First)</label>
+                                    <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: parseInt(e.target.value) || 0 })} className={inputCls} />
+                                </div>
                                 <div>
                                     <label className="text-xs text-slate-400 block mb-1">Cover Image (optional)</label>
                                     <input type="file" accept="image/*" onChange={(e) => setForm({ ...form, imageFile: e.target.files[0] })}
@@ -183,7 +189,8 @@ export default function AdminPosts() {
                             <div key={post.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-800 bg-slate-900/40">
                                 <div>
                                     <div className="flex items-center gap-2">
-                                        <h3 className="text-white font-semibold">{post.title}</h3>
+                                         <h3 className="text-white font-semibold">{post.title}</h3>
+                                        <span className="text-[10px] px-2 py-0.5 rounded-full border border-slate-700 text-slate-400">Order: {post.order}</span>
                                         <span className="text-[10px] px-2 py-0.5 rounded-full border border-slate-700 text-slate-400">{post.category}</span>
                                         {!post.is_published && <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Draft</span>}
                                     </div>
