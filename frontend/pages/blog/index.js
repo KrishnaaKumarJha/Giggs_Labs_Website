@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageShell from '../../components/pageshell';
+import { getImageUrl } from '../../utils/api';
 
 const CATEGORIES = ['All', 'Article', 'Case Study', 'Tech Report'];
 
@@ -57,17 +58,8 @@ export default function InsightsHub() {
     return allPosts.filter((p) => p.category === activeCategory);
   }, [activeCategory, allPosts]);
 
-  // Split posts into Standard and Embedded for the new layout
   const standardPosts = useMemo(() => filteredPosts.filter(p => !p.embed_url), [filteredPosts]);
   const embedPosts = useMemo(() => filteredPosts.filter(p => !!p.embed_url), [filteredPosts]);
-
-  function getImageUrl(imagePath) {
-    if (!imagePath) return '/images/Cloud_DevOps.png';
-    if (imagePath.startsWith('http')) return imagePath;
-    // Handle cases where imagePath might or might not have a leading slash
-    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    return `${BACKEND_URL}${normalizedPath}`;
-  }
 
   return (
     <PageShell

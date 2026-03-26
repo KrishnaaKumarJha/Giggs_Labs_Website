@@ -58,3 +58,11 @@ export async function apiFetch(endpoint, options = {}) {
 
     return response;
 }
+
+export function getImageUrl(imagePath) {
+    if (!imagePath) return '/images/Cloud_DevOps.png';
+    if (imagePath.startsWith('http')) return imagePath;
+    // Handle cases where imagePath might or might not have a leading slash
+    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+    return `${API_BASE.replace(/\/api$/, '')}${normalizedPath}`;
+}

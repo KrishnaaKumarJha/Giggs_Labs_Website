@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { apiFetch } from '../../utils/api';
+import { apiFetch, getImageUrl } from '../../utils/api';
 
 const CATEGORIES = ['Article', 'Whitepaper', 'Case Study', 'Tech Report'];
 const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', embed_url: '', is_published: true };
