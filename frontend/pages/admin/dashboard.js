@@ -19,7 +19,7 @@ export default function AdminDashboard() {
     useEffect(() => {
         const token = localStorage.getItem('adminAccessToken');
         if (!token) {
-            router.replace('/');
+            router.replace('/admin/login');
             return;
         }
         setReady(true);
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
     function handleLogout() {
         localStorage.removeItem('adminAccessToken');
         localStorage.removeItem('adminRefreshToken');
-        router.replace('/');
+        router.replace('/admin/login');
     }
 
     if (!ready) return <div className="p-8 text-slate-300">Loading…</div>;

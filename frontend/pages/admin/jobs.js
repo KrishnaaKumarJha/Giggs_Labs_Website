@@ -1,8 +1,5 @@
-// frontend/pages/admin/jobs.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { apiFetch } from '../../utils/api';
 
-const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/jobs/`;
 const EMPTY = { title: '', location: '', type: 'Full-time', description: '', is_active: true };
 
 export default function AdminJobs() {
@@ -14,20 +11,17 @@ export default function AdminJobs() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function token() { return localStorage.getItem('adminAccessToken'); }
-    function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
-
     useEffect(() => {
-        if (!token()) { router.replace('/'); return; }
         loadJobs();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadJobs() {
         try {
-            const res = await fetch(API, { headers: headers() });
-            if (res.status === 401 || res.status === 403) { router.replace('/'); return; }
-            setJobs(await res.json());
+            const res = await apiFetch('/admin/jobs/');
+            if (res.ok) {
+                setJobs(await res.json());
+            }
         } catch { setError('Failed to load jobs'); }
     }
 
@@ -36,9 +30,9 @@ export default function AdminJobs() {
         setLoading(true);
         setError('');
         try {
-            const url = editing ? `${API}${editing}/` : API;
+            const endpoint = editing ? `/admin/jobs/${editing}/` : '/admin/jobs/';
             const method = editing ? 'PUT' : 'POST';
-            const res = await fetch(url, { method, headers: headers(), body: JSON.stringify(form) });
+            const res = await apiFetch(endpoint, { method, body: JSON.stringify(form) });
             if (!res.ok) { setError(`Error: ${res.status}`); setLoading(false); return; }
             setShowForm(false);
             setEditing(null);
@@ -51,7 +45,7 @@ export default function AdminJobs() {
     async function handleDelete(id) {
         if (!confirm('Delete this job opening?')) return;
         try {
-            await fetch(`${API}${id}/`, { method: 'DELETE', headers: headers() });
+            await apiFetch(`/admin/jobs/${id}/`, { method: 'DELETE' });
             await loadJobs();
         } catch { setError('Failed to delete'); }
     }

@@ -1,35 +1,20 @@
-// frontend/pages/admin/applications.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { apiFetch } from '../../utils/api';
 
 export default function AdminApplications() {
   const router = useRouter();
   const [applications, setApplications] = useState(null);
   const [error, setError] = useState(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const BACKEND_URL = API_URL.replace('/api', '');
+
   useEffect(() => {
-    const token = typeof window !== 'undefined'
-      ? localStorage.getItem('adminAccessToken')
-      : null;
-
-    if (!token) {
-      router.replace('/');
-      return;
-    }
-
     async function loadApplications() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-        const res = await fetch(`${apiUrl}/applications/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await apiFetch('/applications/');
 
-        if (res.status === 401 || res.status === 403) {
-          localStorage.removeItem('adminAccessToken');
-          localStorage.removeItem('adminRefreshToken');
-          router.replace('/');
+        if (!res.ok) {
+          setError('Failed to load applications');
           return;
         }
 
@@ -61,7 +46,7 @@ export default function AdminApplications() {
   function handleLogout() {
     localStorage.removeItem('adminAccessToken');
     localStorage.removeItem('adminRefreshToken');
-    router.replace('/');
+    router.replace('/admin/login');
   }
 
   if (!applications && !error) {
@@ -121,7 +106,7 @@ export default function AdminApplications() {
                   const cvUrl = app.cv
                     ? (app.cv.startsWith('http')
                       ? app.cv
-                      : `http://127.0.0.1:8000${app.cv}`)
+                      : `${BACKEND_URL}${app.cv}`)
                     : null;
 
                   return (

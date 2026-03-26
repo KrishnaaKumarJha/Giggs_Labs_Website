@@ -1,10 +1,7 @@
-// frontend/pages/admin/posts.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { apiFetch } from '../../utils/api';
 
-const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/posts/`;
 const CATEGORIES = ['Article', 'Whitepaper', 'Case Study', 'Tech Report'];
-const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', is_published: true };
+const EMPTY = { title: '', slug: '', category: 'Article', excerpt: '', content: '', embed_url: '', is_published: true };
 
 export default function AdminPosts() {
     const router = useRouter();
@@ -15,20 +12,17 @@ export default function AdminPosts() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function token() { return localStorage.getItem('adminAccessToken'); }
-    function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
-
     useEffect(() => {
-        if (!token()) { router.replace('/'); return; }
         loadPosts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadPosts() {
         try {
-            const res = await fetch(API, { headers: headers() });
-            if (res.status === 401 || res.status === 403) { router.replace('/'); return; }
-            setPosts(await res.json());
+            const res = await apiFetch('/admin/posts/');
+            if (res.ok) {
+                setPosts(await res.json());
+            }
         } catch { setError('Failed to load posts'); }
     }
 
@@ -42,7 +36,7 @@ export default function AdminPosts() {
         setLoading(true);
         setError('');
         try {
-            const url = editing ? `${API}${editing}/` : API;
+            const endpoint = editing ? `/admin/posts/${editing}/` : '/admin/posts/';
             const method = editing ? 'PUT' : 'POST';
 
             // Use FormData for potential image upload
@@ -52,12 +46,12 @@ export default function AdminPosts() {
             fd.append('category', form.category);
             fd.append('excerpt', form.excerpt);
             fd.append('content', form.content);
+            fd.append('embed_url', form.embed_url || '');
             fd.append('is_published', form.is_published);
             if (form.imageFile) fd.append('image', form.imageFile);
 
-            const res = await fetch(url, {
+            const res = await apiFetch(endpoint, {
                 method,
-                headers: { Authorization: `Bearer ${token()}` },
                 body: fd,
             });
             if (!res.ok) {
@@ -77,16 +71,15 @@ export default function AdminPosts() {
     async function handleDelete(id) {
         if (!confirm('Delete this post?')) return;
         try {
-            await fetch(`${API}${id}/`, { method: 'DELETE', headers: { Authorization: `Bearer ${token()}` } });
+            await apiFetch(`/admin/posts/${id}/`, { method: 'DELETE' });
             await loadPosts();
         } catch { setError('Failed to delete'); }
     }
 
     async function togglePublish(post) {
         try {
-            await fetch(`${API}${post.id}/`, {
+            await apiFetch(`/admin/posts/${post.id}/`, {
                 method: 'PATCH',
-                headers: headers(),
                 body: JSON.stringify({ is_published: !post.is_published }),
             });
             await loadPosts();
@@ -96,7 +89,9 @@ export default function AdminPosts() {
     function startEdit(post) {
         setForm({
             title: post.title, slug: post.slug, category: post.category,
-            excerpt: post.excerpt, content: post.content, is_published: post.is_published,
+            excerpt: post.excerpt, content: post.content, 
+            embed_url: post.embed_url || '',
+            is_published: post.is_published,
         });
         setEditing(post.id);
         setShowForm(true);
@@ -149,6 +144,9 @@ export default function AdminPosts() {
                                 onChange={(e) => setForm({ ...form, excerpt: e.target.value })} className={`${inputCls} resize-none`} />
                             <textarea required placeholder="Content (Markdown supported)" rows="10" value={form.content}
                                 onChange={(e) => setForm({ ...form, content: e.target.value })} className={`${inputCls} resize-none font-mono text-sm`} />
+                            
+                            <input placeholder="LinkedIn Embed URL (optional)" value={form.embed_url}
+                                onChange={(e) => setForm({ ...form, embed_url: e.target.value })} className={inputCls} />
 
                             <div className="grid md:grid-cols-2 gap-3 items-center">
                                 <div>

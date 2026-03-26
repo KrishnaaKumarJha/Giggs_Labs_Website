@@ -1,8 +1,5 @@
-// frontend/pages/admin/services.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { apiFetch } from '../../utils/api';
 
-const API = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/services/`;
 const EMPTY = {
     icon: '🔧', title: '', tagline: '', description: '',
     color: 'from-cyan-400 to-blue-500', border_hover: 'hover:border-cyan-500/50',
@@ -27,20 +24,17 @@ export default function AdminServices() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function token() { return localStorage.getItem('adminAccessToken'); }
-    function headers() { return { Authorization: `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
-
     useEffect(() => {
-        if (!token()) { router.replace('/'); return; }
         loadServices();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadServices() {
         try {
-            const res = await fetch(API, { headers: headers() });
-            if (res.status === 401 || res.status === 403) { router.replace('/'); return; }
-            setServices(await res.json());
+            const res = await apiFetch('/admin/services/');
+            if (res.ok) {
+                setServices(await res.json());
+            }
         } catch { setError('Failed to load services'); }
     }
 
@@ -50,9 +44,9 @@ export default function AdminServices() {
         setError('');
         const payload = { ...form, highlights: highlightsInput.split(',').map(s => s.trim()).filter(Boolean) };
         try {
-            const url = editing ? `${API}${editing}/` : API;
+            const endpoint = editing ? `/admin/services/${editing}/` : '/admin/services/';
             const method = editing ? 'PUT' : 'POST';
-            const res = await fetch(url, { method, headers: headers(), body: JSON.stringify(payload) });
+            const res = await apiFetch(endpoint, { method, body: JSON.stringify(payload) });
             if (!res.ok) { setError(`Error: ${res.status}`); setLoading(false); return; }
             setShowForm(false);
             setEditing(null);
@@ -66,7 +60,7 @@ export default function AdminServices() {
     async function handleDelete(id) {
         if (!confirm('Delete this service?')) return;
         try {
-            await fetch(`${API}${id}/`, { method: 'DELETE', headers: headers() });
+            await apiFetch(`/admin/services/${id}/`, { method: 'DELETE' });
             await loadServices();
         } catch { setError('Failed to delete'); }
     }

@@ -1,6 +1,4 @@
-// frontend/pages/admin/messages.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { apiFetch } from '../../utils/api';
 
 export default function AdminMessages() {
   const router = useRouter();
@@ -8,29 +6,12 @@ export default function AdminMessages() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = typeof window !== 'undefined'
-      ? localStorage.getItem('adminAccessToken')
-      : null;
-
-    if (!token) {
-      // No token — user hasn't gone through the proper login flow
-      router.replace('/');
-      return;
-    }
-
     async function loadMessages() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-        const res = await fetch(`${apiUrl}/contacts/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await apiFetch('/contacts/');
 
-        if (res.status === 401 || res.status === 403) {
-          localStorage.removeItem('adminAccessToken');
-          localStorage.removeItem('adminRefreshToken');
-          router.replace('/');
+        if (!res.ok) {
+          setError('Failed to load messages');
           return;
         }
 
@@ -62,7 +43,7 @@ export default function AdminMessages() {
   function handleLogout() {
     localStorage.removeItem('adminAccessToken');
     localStorage.removeItem('adminRefreshToken');
-    router.replace('/');
+    router.replace('/admin/login');
   }
 
   if (!messages && !error) {
