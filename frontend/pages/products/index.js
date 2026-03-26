@@ -45,6 +45,7 @@ export default function ProductsIndexPage() {
             {/* ─── 0. INTRO SECTION ─── */}
             <section className="relative z-20 pt-16 pb-32 px-4 bg-transparent overflow-visible">
                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none" />
+                <div className="mx-auto max-w-6xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
