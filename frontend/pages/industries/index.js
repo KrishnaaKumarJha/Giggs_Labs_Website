@@ -309,7 +309,7 @@ export default function IndustriesPage() {
                             Build the next evolution of your <span className="text-[#1E7BFF] italic inline-block pb-2 pr-4">industry platform.</span>
                         </h2>
                         <p className="mx-auto max-w-2xl font-roboto text-[18px] text-slate-400">
-                            Tell us about your domain-specific challenge. We'll respond with a tailored, data-first engineering approach.
+                            Tell us about your domain-specific challenge. We&apos;ll respond with a tailored, data-first engineering approach.
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <Link href="/contact" className="inline-flex items-center justify-center bg-[#1E7BFF] hover:bg-blue-600 text-white font-inter font-bold rounded-[8px] px-[24px] py-[14px] transition-all">

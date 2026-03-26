@@ -177,7 +177,7 @@ export default function IndustryPage() {
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1E7BFF]/10 rounded-full blur-[100px] opacity-50 -translate-y-1/2 translate-x-1/4 pointer-events-none" />
                     <div className="relative z-10">
                         <div className="text-[11px] font-black uppercase tracking-[0.3em] text-[#1E7BFF] mb-6">Technologies</div>
-                        <h3 className="font-space-grotesk text-[32px] md:text-[40px] font-black text-white mb-10 tracking-tight">Ecosystem & Integrations</h3>
+                        <h3 className="font-space-grotesk text-[32px] md:text-[40px] font-black text-white mb-10 tracking-tight">Ecosystem &amp; Integrations</h3>
                         <div className="flex flex-wrap gap-4">
                             {techStack.map((tech) => (
                                 <span key={tech} className="rounded-xl border border-[#0B1F3B] bg-[#0B1F3B]/50 px-6 py-3 text-sm font-bold text-slate-300 hover:border-[#1E7BFF]/50 hover:bg-[#1E7BFF]/10 transition-all cursor-default">{tech}</span>
