@@ -1,30 +1,44 @@
-// frontend/pages/blog/[slug].js
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import PageShell from '../../components/pageshell';
+import { getImageUrl } from '../../utils/api';
+
+import { pool } from '../../utils/db';
 
 export async function getServerSideProps({ params }) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-    const res = await fetch(`${apiUrl}/posts/${params.slug}/`);
-    if (!res.ok) return { notFound: true };
-    const post = await res.json();
+    const [rows] = await pool.query(
+      'SELECT * FROM posts WHERE slug = ? AND is_published = 1',
+      [params.slug]
+    );
+
+    if (!rows || rows.length === 0) {
+      return { notFound: true };
+    }
+
+    // Serialize any date objects to strings for Next.js props
+    const post = JSON.parse(JSON.stringify(rows[0]));
+
     return { props: { post } };
   } catch (err) {
+    console.error('Fetch error:', err);
     return { notFound: true };
   }
 }
 
 export default function PostPage({ post }) {
-  const dateFormatted = new Date(post.created_at).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  if (!post) return null;
+
+  const dateFormatted = post?.created_at
+    ? new Date(post.created_at).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : '';
 
   return (
     <PageShell
@@ -42,7 +56,7 @@ export default function PostPage({ post }) {
           <div className="flex items-center gap-4 text-slate-500">
             <span>{dateFormatted.toUpperCase()}</span>
             <span className="w-1 h-1 rounded-full bg-slate-700" />
-            <span className="text-white">{post.category.toUpperCase()}</span>
+            <span className="text-white">{post.category?.toUpperCase()}</span>
           </div>
         </div>
 
@@ -54,7 +68,12 @@ export default function PostPage({ post }) {
         >
           {post.image && (
             <div className="relative aspect-[21/9] rounded-3xl overflow-hidden mb-12 border border-white/10 shadow-2xl">
-              <Image src={post.image} alt={post.title} fill className="object-cover" priority />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={getImageUrl(post.image)} 
+                alt={post.title} 
+                className="w-full h-full object-cover" 
+              />
               <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
             </div>
           )}

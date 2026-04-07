@@ -19,9 +19,10 @@ const Button = ({
     const variants = {
         primary: "bg-brand-secondary text-white hover:bg-blue-600 shadow-[0_0_15px_rgba(30,123,255,0.4)] hover:shadow-[0_0_20px_rgba(30,123,255,0.6)]",
         secondary: "border border-brand-secondary text-brand-secondary bg-transparent hover:bg-brand-secondary/10",
+        ghost: "bg-transparent text-slate-400 hover:text-white hover:bg-white/5 border border-transparent",
     };
 
-    const classes = `${baseStyles} ${variants[variant]} ${className}`;
+    const classes = `${baseStyles} ${variants[variant] || variants.primary} ${className}`;
 
     if (href) {
         if (external) {

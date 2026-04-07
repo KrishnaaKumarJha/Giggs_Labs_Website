@@ -31,17 +31,46 @@ export default function PageShell({
   children,
   fluid,
   videoSrc,
-  videoOpacity = 0.5,
-  overlayOpacity = 0.4,
   align = 'left',
   simpleHero,
+  videoOpacity = 0.8,
+  overlayOpacity = 0.1,
 }) {
   const alignCls = align === 'center' ? 'text-center mx-auto' : 'text-left';
 
   // Fluid pages render children full-width (for product pages with custom full-bleed heroes)
   if (fluid) {
     return (
-      <main className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 pt-20" style={{ overflow: 'visible' }}>
+      <main className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 relative pt-28" style={{ overflow: 'visible' }}>
+        {videoSrc && (
+          <div className="absolute inset-0 z-0 h-[120vh] overflow-hidden pointer-events-none">
+            <video
+              src={videoSrc}
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{ opacity: videoOpacity }}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-slate-950" style={{ opacity: overlayOpacity }} />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/20 to-slate-950" />
+          </div>
+        )}
+
+        {title && (
+          <section className="relative z-10 mx-auto max-w-6xl px-4 pt-6 md:pt-10 text-center">
+            <h1 className="mt-4 font-extrabold leading-tight tracking-tight text-white futuristic text-4xl sm:text-5xl lg:text-7xl">
+              {title}
+            </h1>
+            {description && (
+              <p className="mt-8 text-white font-medium leading-relaxed text-lg md:text-xl max-w-3xl mx-auto opacity-90">
+                {description}
+              </p>
+            )}
+          </section>
+        )}
+
         {children}
       </main>
     );
@@ -49,8 +78,8 @@ export default function PageShell({
 
   return (
     <main
-      className={`min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 relative ${videoSrc ? 'overflow-hidden' : ''}`}
-      style={videoSrc ? {} : { overflow: 'visible' }}
+      className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 relative"
+      style={{ overflow: 'visible' }}
     >
       {videoSrc && (
         <div className="absolute inset-0 z-0 h-[50vh] md:h-[60vh] overflow-hidden">
@@ -69,7 +98,7 @@ export default function PageShell({
       )}
 
       <section
-        className="page-content relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-16 md:px-6 lg:pt-24"
+        className="page-content relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-28 md:px-6 lg:pt-24"
         style={{ overflow: 'visible' }}
       >
         {/* header */}
@@ -77,11 +106,10 @@ export default function PageShell({
 
           {title && (
             <h1
-              className={`mt-4 font-extrabold leading-tight tracking-tight text-white futuristic ${
-                align === 'center' 
-                ? 'text-4xl sm:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(0,0,0,0.5)]' 
+              className={`mt-4 font-extrabold leading-tight tracking-tight text-white futuristic ${align === 'center'
+                ? 'text-4xl sm:text-5xl lg:text-7xl drop-shadow-[0_0_20px_rgba(0,0,0,0.5)]'
                 : 'text-3xl sm:text-4xl lg:text-5xl'
-              }`}
+                }`}
             >
               {title}
             </h1>
@@ -89,11 +117,10 @@ export default function PageShell({
 
           {description && (
             <p
-              className={`mt-8 text-slate-300 font-medium leading-relaxed ${
-                align === 'center' 
-                ? 'text-lg md:text-xl max-w-3xl mx-auto' 
+              className={`mt-8 text-slate-300 font-medium leading-relaxed ${align === 'center'
+                ? 'text-lg md:text-xl max-w-3xl mx-auto'
                 : 'text-base md:text-lg opacity-90'
-              }`}
+                }`}
             >
               {description}
             </p>

@@ -28,16 +28,22 @@ export default function AdminServices() {
 
     useEffect(() => {
         loadServices();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadServices() {
         try {
-            const res = await apiFetch('/admin/services/');
+            const res = await apiFetch('/admin/services');
             if (res.ok) {
                 setServices(await res.json());
+            } else {
+                setServices([]);
+                setError('Failed to fetch services from server');
             }
-        } catch { setError('Failed to load services'); }
+        } catch (err) { 
+            console.error(err);
+            setServices([]);
+            setError('Failed to load services'); 
+        }
     }
 
     async function handleSave(e) {

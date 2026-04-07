@@ -6,14 +6,16 @@ import {
 } from 'framer-motion';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Button from '../components/Button';
+import PageShell from '../components/pageshell';
 import SectionTitle from '../components/SectionTitle';
+import { Rocket, BrainCircuit, ArrowUpRight, ShieldCheck, Handshake, ChevronRight } from 'lucide-react';
 
 // ─── Shared ───────────────────────────────────────────────────────────────────
-const heroTabs = [
-  { id: 'ai-data', label: 'AI First Engineering', title: 'AI and Data Science & Engineering', tagline: 'Transforming Data into Intelligence. Intelligence into Action.', video: '/hero/ai.mp4', buttonText: 'Explore our AI & Data Capabilities', buttonHref: '/services#ai-data' },
-  { id: 'cyber', label: 'AI-Driven Cybersecurity', title: 'AI-driven Cybersecurity', tagline: 'Securing the Future Through Intelligence.', video: '/hero/cyber.mp4', buttonText: 'Get resilient defenses with AI', buttonHref: '/services#cyber' },
-  { id: 'performance', label: 'Performance Engineering', title: 'Performance Engineering', tagline: 'Delivering Reliability, Speed, and Scalability.', video: '/hero/performance.mp4', buttonText: 'Explore Performance Capabilities', buttonHref: '/services#performance' },
-  { id: 'automation', label: 'Automation Engineering', title: 'Automation', tagline: 'Automating the Enterprise for Speed, Efficiency, and Scale.', video: '/hero/automation.mp4', buttonText: 'Automate with intelligent systems', buttonHref: '/services#automation' },
+// Hero metrics pulled from audit Image 3
+const HERO_METRICS = [
+  { label: 'Deployments', value: '120+' },
+  { label: 'Retention', value: '98%' },
+  { label: 'First delivery', value: '6–12wk' },
 ];
 
 // ─── PILLARS — text taken directly from live site ────────────────────────────
@@ -21,30 +23,32 @@ const heroTabs = [
 const PILLARS = [
   {
     id: 'data', index: '01',
-    label: 'AI & Data Science & Engineering',
-    shortLabel: 'AI & Data',
-    title: `AI & Data Science
-      & Engineering`,
-    tagline: `Transforming Data into Intelligence.
-Intelligence into Action.`,
-    description: 'Our AI and Data Engineering solutions help organizations unlock the full value of their data. We build scalable, intelligent platforms that empower faster decision-making, predictive insights, and end-to-end automation.',
-    capabilities: ['Generative AI & ML Models', 'Data Engineering', 'MLOps', 'Advanced Analytics', 'AI Strategy'],
-    outcomes: 'Accelerated data-to-insight conversion, predictive decision systems, enterprise-grade scalability.',
+    label: 'AI & Data Science',
+    title: 'AI & Data Engineering',
+    tagline: 'Transforming Data into Intelligence.',
+    description: 'We build scalable ML platforms and data pipelines that turn raw business data into automated decisions — so your team acts on insight, not gut feel.',
+    capabilities: [
+      { tech: 'Generative AI & ML', impact: '' },
+      { tech: 'Data Engineering', impact: '' },
+      { tech: 'MLOps', impact: 'models ship in weeks, not months' },
+    ],
+    outcomes: 'Faster data-to-insight cycles, predictive decision systems, enterprise-grade scalability.',
     href: '/services/ai-data',
     accent: '#2ED6FF', accentAlt: '#1E7BFF',
     visual: 'data',
   },
   {
     id: 'cyber', index: '02',
-    label: 'AI-driven Cybersecurity',
-    shortLabel: 'Cybersecurity',
-    title: `AI-driven
-Cybersecurity`,
-    tagline: `Securing the Future
-Through Intelligence.`,
-    description: 'With cyber threats growing more sophisticated, Giggs Software Labs integrates AI into every layer of security. Our intelligent cybersecurity framework enables proactive threat detection, automated response, and continuous compliance.',
-    capabilities: ['AI Threat Detection', 'Predictive Defense', 'SOC Automation', 'Cloud Security', 'Zero Trust Architecture'],
-    outcomes: 'Real-time visibility, faster breach detection, reduced false positives.',
+    label: 'AI-Driven Cybersecurity',
+    title: 'AI-Driven Cybersecurity',
+    tagline: 'Securing the Future Through Intelligence.',
+    description: 'We integrate AI into every security layer so threats are detected before damage occurs — not after. Real-time response, automated compliance, and continuous monitoring.',
+    capabilities: [
+      { tech: 'AI Threat Detection', impact: '' },
+      { tech: 'SOC Automation', impact: 'alerts that matter, noise removed' },
+      { tech: 'Zero Trust', impact: 'no implicit access, ever' },
+    ],
+    outcomes: 'Real-time threat visibility, faster breach detection, SOC 2 / ISO 27001 readiness.',
     href: '/services/cybersecurity',
     accent: '#2ED6FF', accentAlt: '#1E7BFF',
     visual: 'cyber',
@@ -52,14 +56,15 @@ Through Intelligence.`,
   {
     id: 'performance', index: '03',
     label: 'Performance Engineering',
-    shortLabel: 'Performance',
-    title: `Performance
-Engineering`,
-    tagline: `Delivering Reliability,
-Speed, and Scalability.`,
-    description: 'We engineer systems that perform flawlessly under pressure. Our Performance Engineering practice optimizes applications, infrastructure, and cloud environments to ensure consistent, cost-effective, and scalable performance.',
-    capabilities: ['App & Infra Optimization', 'APM', 'Load Testing', 'Cloud Cost Optimization', 'CI/CD Automation'],
-    outcomes: 'Sub-second response times, improved efficiency, lower cloud costs.',
+    title: 'Performance Engineering',
+    tagline: 'Delivering Reliability & Speed.',
+    description: 'We optimize infrastructure and code to handle extreme scale. We eliminate bottlenecks so your systems perform flawlessly under pressure, every time.',
+    capabilities: [
+      { tech: 'App & Infra Optimization', impact: '' },
+      { tech: 'APM', impact: 'visibility into every millisecond' },
+      { tech: 'Cloud Cost Optimization', impact: 'cut waste, not performance' },
+    ],
+    outcomes: 'Sub-second response times, 99.99% availability, minimized cloud overhead.',
     href: '/services/performance',
     accent: '#2ED6FF', accentAlt: '#1E7BFF',
     visual: 'performance',
@@ -67,14 +72,15 @@ Speed, and Scalability.`,
   {
     id: 'automation', index: '04',
     label: 'Automation Engineering',
-    shortLabel: 'Automation',
-    title: `Automation
-Engineering`,
-    tagline: `Automating the Enterprise for
-Speed, Efficiency, and Scale.`,
-    description: 'Our Automation solutions eliminate inefficiencies across business and IT operations. From process digitization to DevOps and infrastructure automation, we enable a faster, error-free, and adaptive enterprise.',
-    capabilities: ['RPA', 'Test Automation', 'IaC', 'Workflow Orchestration', 'Hyperautomation'],
-    outcomes: 'Reduced manual effort, faster go-to-market, unified governance.',
+    title: 'Automation Engineering',
+    tagline: 'Automating at Enterprise Scale.',
+    description: 'We eliminate manual friction across your entire stack. From DevOps to business processes, we build the "digital nervous system" that powers your growth.',
+    capabilities: [
+      { tech: 'RPA', impact: 'automate high-volume manual tasks' },
+      { tech: 'IaC', impact: 'infra that scales with code, not headcount' },
+      { tech: 'Hyperautomation', impact: '' },
+    ],
+    outcomes: '80% reduced manual effort, faster go-to-market, unified governance.',
     href: '/services/automation',
     accent: '#2ED6FF', accentAlt: '#1E7BFF',
     visual: 'automation',
@@ -231,127 +237,198 @@ function AutomationVisual({ accent, accentAlt }) {
 
 const VISUAL_MAP = { data: DataVisual, cyber: CyberVisual, performance: PerformanceVisual, automation: AutomationVisual };
 
-// ─── Four Pillars — Lightweight scroll-reveal cards ──────────────────────────
-// Single PillarCard: whileInView only, no sticky, no window listeners
+function DashboardVisual() {
+  return (
+    <div className="relative w-full aspect-[4/3] rounded-2xl border border-slate-800 bg-slate-950/50 backdrop-blur-sm overflow-hidden shadow-2xl">
+      <div className="absolute top-0 left-0 right-0 h-8 border-b border-slate-800 bg-slate-900/50 flex items-center px-4 gap-1.5">
+        <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50" />
+        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
+        <span className="ml-2 text-[10px] font-mono text-slate-500">ml-pipeline: main</span>
+      </div>
+      <div className="p-6 pt-12 font-mono text-[11px] leading-relaxed">
+        <div className="flex gap-4">
+          <div className="flex-1 space-y-2">
+            <p className="text-blue-400">import <span className="text-white">torch, sklearn</span></p>
+            <p className="text-purple-400">class <span className="text-white">RiskModel(nn.Module):</span></p>
+            <p className="text-indigo-400">  def <span className="text-white">forward(self, x):</span></p>
+            <p className="text-slate-400">    z = self.encoder(x)</p>
+            <p className="text-slate-400">    # FinTech risk scoring</p>
+            <p className="text-slate-400">    return self.head(z)</p>
+            <p className="text-emerald-400">model = RiskModel(cfg)</p>
+            <p className="text-emerald-400">AutoDeploy.ship(model)</p>
+            <p className="text-slate-500 mt-4"># ✓ Deployed in 6 weeks</p>
+          </div>
+          <div className="w-48 space-y-4">
+            <div className="p-3 rounded-lg border border-slate-800 bg-slate-900/50">
+              <p className="text-[10px] text-slate-500 mb-1 caps">Latency P99</p>
+              <p className="text-lg font-bold text-white">12ms</p>
+              <p className="text-[9px] text-emerald-400">▲ 2x faster</p>
+            </div>
+            <div className="p-3 rounded-lg border border-slate-800 bg-slate-900/50">
+              <p className="text-[10px] text-slate-500 mb-1 caps">Throughput</p>
+              <p className="text-lg font-bold text-white">4.2k/s</p>
+              <p className="text-[9px] text-emerald-400">▲ 40% faster</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 relative h-24 w-full">
+           <svg className="w-full h-full" viewBox="0 0 400 100">
+             <path d="M0,80 Q50,75 100,60 T200,40 T300,30 T400,10" fill="none" stroke="#38bdf8" strokeWidth="2" />
+             <path d="M0,80 Q50,75 100,60 T200,40 T300,30 T400,10 L400,100 L0,100 Z" fill="url(#grad)" opacity="0.1" />
+             <defs>
+               <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                 <stop offset="0%" style={{stopColor: '#38bdf8', stopOpacity: 1}} />
+                 <stop offset="100%" style={{stopColor: '#38bdf8', stopOpacity: 0}} />
+               </linearGradient>
+             </defs>
+           </svg>
+           <div className="absolute top-0 right-0 p-2 text-[8px] text-sky-400 font-bold tracking-widest">LIVE DATA</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+function ComplianceStrip() {
+  const badges = [
+    { label: 'SOC 2 Type II', icon: <ShieldCheck className="w-3 h-3" /> },
+    { label: 'ISO 27001', icon: <ShieldCheck className="w-3 h-3" /> },
+    { label: 'GDPR Compliant', icon: <ShieldCheck className="w-3 h-3" /> },
+    { label: 'HIPAA Ready', icon: <ShieldCheck className="w-3 h-3" /> },
+    { label: 'NDA-First Engagement', icon: <Handshake className="w-3 h-3" /> },
+  ];
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3 py-4 border-y border-slate-800/50 bg-slate-900/20 backdrop-blur-sm">
+      {badges.map(b => (
+        <div key={b.label} className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-700/50 bg-slate-800/30 text-[10px] font-bold text-slate-400 caps tracking-wider">
+          <span className="text-sky-400">{b.icon}</span>
+          {b.label}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AudienceSelector() {
+  return (
+    <section className="relative z-10 w-full py-16 px-4 md:px-6 bg-slate-950">
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 uppercase tracking-tight">New to Giggs?</h2>
+        <p className="text-slate-400 mb-10 max-w-2xl mx-auto">Select your industry and current stage so we can show you the most relevant case studies and delivery models.</p>
+        
+        <div className="grid md:grid-cols-3 gap-4">
+          {['FinTech', 'HealthTech', 'Enterprise IT'].map(industry => (
+            <button key={industry} className="p-6 rounded-2xl border border-slate-800 bg-slate-900/40 hover:border-sky-500/50 hover:bg-sky-500/5 transition-all text-left group">
+              <p className="text-[10px] font-black tracking-[0.2em] text-sky-500 mb-2 uppercase">I'm in</p>
+              <p className="text-xl font-bold text-white group-hover:text-sky-300 transition-colors">{industry}</p>
+              <div className="mt-4 flex items-center text-[11px] font-bold text-slate-500 group-hover:text-slate-300 transition-colors uppercase tracking-widest">
+                Explore Path <ArrowUpRight className="ml-1 w-3 h-3" />
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+function EnterpriseSecurityPortal() {
+  return (
+    <section className="relative z-10 w-full py-24 px-4 md:px-6 border-t border-slate-900 bg-[#070e1a]">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldCheck className="w-4 h-4 text-sky-400" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400">Enterprise Readiness</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6">Built for <span className="text-sky-400">Security-First</span> Procurement.</h2>
+            <p className="text-slate-400 text-lg leading-relaxed mb-8">We Understand the Rigor of Enterprise Compliance. Giggs Software Labs Operates on an NDA-First Engagement Model, Ensuring Your IP and Data are Protected from Day Zero.</p>
+            
+            <div className="space-y-4">
+              {[
+                { title: 'NDA-First Data Protection', desc: 'Secure legal framework for all data & IP handling.' },
+                { title: 'SOC 2 & ISO Alignment', desc: 'Working within your existing compliance frameworks.' },
+                { title: 'Production-First MLOps', desc: 'We skip the "labs" phase and go straight to secure deployment.' },
+              ].map(item => (
+                <div key={item.title} className="flex gap-4 p-4 rounded-xl border border-slate-800 bg-slate-900/50">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
+                  <div>
+                    <p className="text-sm font-bold text-white mb-1">{item.title}</p>
+                    <p className="text-xs text-slate-500">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+            <div>
+              <p className="text-xl font-bold text-white mb-6">The Giggs Security Standard</p>
+             <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                   <div className="shrink-0 w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center border border-sky-500/20">
+                     <ShieldCheck className="w-4 h-4 text-sky-400" />
+                   </div>
+                   <div>
+                     <p className="text-sm font-bold text-slate-200 uppercase tracking-widest text-[9px] mb-1">Infrastructure</p>
+                     <p className="text-xs text-slate-400">VPC-only deployments. No public endpoints by default. Zero Trust architecture.</p>
+                   </div>
+                </li>
+                <li className="flex items-start gap-4">
+                   <div className="shrink-0 w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center border border-sky-500/20">
+                     <BrainCircuit className="w-4 h-4 text-sky-400" />
+                   </div>
+                   <div>
+                     <p className="text-sm font-bold text-slate-200 uppercase tracking-widest text-[9px] mb-1">Model Governance</p>
+                     <p className="text-xs text-slate-400">Strict data residency. PII scrubbing at the gateway. Audit trails for every inference.</p>
+                   </div>
+                </li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PillarCard({ pillar, idx }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.18 });
-  const flip = idx % 2 !== 0;
-  const VisualComp = VISUAL_MAP[pillar.visual];
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full rounded-2xl overflow-hidden border border-slate-700/40 bg-slate-900/50 backdrop-blur-sm"
-      style={{ boxShadow: `0 0 40px ${pillar.accent}0a` }}
+      transition={{ duration: 0.5, delay: idx * 0.1 }}
+      className="relative p-8 rounded-3xl border border-slate-800 bg-slate-900/40 backdrop-blur-sm flex flex-col h-full"
     >
-      {/* Top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
-        style={{ background: `linear-gradient(90deg, transparent, ${pillar.accent}80, ${pillar.accentAlt}60, transparent)` }} />
+      <div className="flex items-center gap-3 mb-6">
+        <span className="flex items-center justify-center w-8 h-8 rounded-full text-[10px] font-black border border-sky-500/30 text-sky-400 bg-sky-400/10">{pillar.index}</span>
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-500">{pillar.label}</span>
+      </div>
 
-      {/* Subtle bg glow */}
-      <div className="absolute pointer-events-none"
-        style={{
-          [flip ? 'left' : 'right']: '-60px', top: '50%', transform: 'translateY(-50%)',
-          width: 320, height: 320, borderRadius: '50%',
-          background: `radial-gradient(circle, ${pillar.accent}0f 0%, transparent 70%)`,
-          filter: 'blur(32px)',
-        }} />
+      <h3 className="text-2xl font-bold text-white mb-2">{pillar.title}</h3>
+      <p className="text-sm font-semibold text-sky-300 mb-4">{pillar.tagline}</p>
+      <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">{pillar.description}</p>
 
-      <div className={`relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch`}>
-
-        {/* ── TEXT BLOCK ── */}
-        <div className={`flex flex-col justify-center p-8 md:p-10 ${flip ? 'lg:order-2' : 'lg:order-1'}`}>
-          {/* Index badge + label */}
-          <div className="flex items-center gap-3 mb-6">
-            <span
-              className="inline-flex items-center justify-center w-8 h-8 rounded-full text-[11px] font-black border"
-              style={{ color: pillar.accent, borderColor: `${pillar.accent}50`, background: `${pillar.accent}15` }}
-            >
-              {pillar.index}
-            </span>
-            <span className="h-px w-6" style={{ background: `${pillar.accent}60` }} />
-            <span className="text-[10px] font-black uppercase tracking-[0.28em]" style={{ color: pillar.accent }}>
-              {pillar.label}
-            </span>
+      {/* JARGON TRANSLATION TAGS */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {pillar.capabilities.map((cap) => (
+          <div key={cap.tech} className="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/50 flex flex-col gap-0.5">
+            <span className="text-[10px] font-bold text-slate-200">{cap.tech}</span>
+            {cap.impact && <span className="text-[9px] font-medium text-slate-500 caps tracking-tighter">— {cap.impact}</span>}
           </div>
+        ))}
+      </div>
 
-          {/* Title */}
-          <h3
-            className="font-extrabold tracking-tight text-white mb-3 leading-[1.05]"
-            style={{ fontSize: 'clamp(1.9rem, 3.5vw, 2.8rem)', whiteSpace: 'pre-line' }}
-          >
-            {pillar.title}
-          </h3>
-
-          {/* Tagline */}
-          <p
-            className="font-semibold mb-4 leading-snug whitespace-pre-line text-sm md:text-base"
-            style={{
-              background: `linear-gradient(110deg, ${pillar.accent}, ${pillar.accentAlt})`,
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-            }}
-          >
-            {pillar.tagline}
-          </p>
-
-          {/* Description */}
-          <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-md">
-            {pillar.description}
-          </p>
-
-          {/* Capabilities */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            {pillar.capabilities.map((cap) => (
-              <span
-                key={cap}
-                className="px-3 py-1 rounded-full text-[10px] font-bold border"
-                style={{ borderColor: `${pillar.accent}35`, background: `${pillar.accent}0d`, color: pillar.accent }}
-              >
-                {cap}
-              </span>
-            ))}
-          </div>
-
-          {/* Outcomes */}
-          <div className="flex items-start gap-2 mb-7 p-3 rounded-xl border border-slate-700/30 bg-slate-800/30">
-            <span className="shrink-0 text-[9px] font-black uppercase tracking-widest pt-0.5" style={{ color: pillar.accent }}>Outcomes</span>
-            <span className="text-slate-300 text-xs leading-relaxed">{pillar.outcomes}</span>
-          </div>
-
-          {/* CTA */}
-          <div>
-            <Link
-              href={pillar.href}
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold text-white border transition-all duration-200 hover:scale-[1.03]"
-              style={{
-                borderColor: `${pillar.accent}50`,
-                background: `linear-gradient(135deg, ${pillar.accent}20, ${pillar.accentAlt}10)`,
-              }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 20px ${pillar.accent}35`}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-            >
-              Learn more
-              <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
-          </div>
+      <div className="mt-auto pt-6 border-t border-slate-800/50">
+        <div className="mb-6 rounded-xl bg-sky-400/5 p-4 border border-sky-500/10">
+           <p className="text-[9px] font-black text-sky-500 uppercase tracking-widest mb-1.5">Outcome</p>
+           <p className="text-xs text-slate-300 leading-relaxed font-medium">{pillar.outcomes}</p>
         </div>
-
-        {/* ── VISUAL BLOCK ── */}
-        <div className={`relative flex items-center justify-center p-6 md:p-8 min-h-[280px] lg:min-h-[400px] ${flip ? 'lg:order-1' : 'lg:order-2'} border-t lg:border-t-0 ${flip ? 'lg:border-r' : 'lg:border-l'} border-slate-700/30`}>
-          {/* Tinted bg */}
-          <div className="absolute inset-0" style={{ background: `${pillar.accent}06` }} />
-          {/* Visual */}
-          <div className="relative z-10 w-full max-w-[320px] aspect-square">
-            <VisualComp accent={pillar.accent} accentAlt={pillar.accentAlt} />
-          </div>
-        </div>
-
+        <Link href={pillar.href} className="inline-flex items-center text-sm font-bold text-white hover:text-sky-400 transition-colors group">
+          Learn more <ArrowUpRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
       </div>
     </motion.div>
   );
@@ -359,36 +436,18 @@ function PillarCard({ pillar, idx }) {
 
 function FourPillarsSection() {
   return (
-    <section className="relative w-full py-16 md:py-20 px-4 md:px-6">
-      {/* Background matches rest of site — transparent, lets the global gradient show */}
+    <section className="relative w-full py-20 px-4 md:px-6">
+      <div className="mx-auto max-w-7xl">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <p className="text-[10px] font-black uppercase tracking-[0.35em] text-sky-500 mb-4">Our Expertise · Your Edge</p>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">The Four Pillars <span className="text-slate-500">of Innovation.</span></h2>
+          <p className="text-slate-400 leading-relaxed max-w-2xl mx-auto mb-8">Giggs Software Labs drives transformation through four core practices — engineered from the ground up for enterprise reliability.</p>
+          <Link href="/services" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-sky-400 group transition-colors">
+            Explore All Services <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
 
-      <div className="mx-auto max-w-6xl">
-        {/* ── Section header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-12 md:mb-14"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <span className="h-px w-8" style={{ background: '#2ED6FF', opacity: 0.6 }} />
-            <span className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: '#2ED6FF' }}>
-              Our Expertise · Your Competitive Edge
-            </span>
-          </div>
-          <h2 className="font-extrabold text-white tracking-tight leading-[1.0] mb-4"
-            style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)' }}>
-            The Four Pillars{' '}
-            <span className="text-slate-500">of Innovation.</span>
-          </h2>
-          <p className="text-slate-400 text-base md:text-lg max-w-2xl leading-relaxed">
-            Giggs Software Labs drives transformation through four core pillars — from intelligent data ecosystems to AI-powered cybersecurity, performance engineering, and enterprise automation.
-          </p>
-        </motion.div>
-
-        {/* ── Pillar cards, stacked vertically ── */}
-        <div className="flex flex-col gap-6 md:gap-8">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {PILLARS.map((pillar, idx) => (
             <PillarCard key={pillar.id} pillar={pillar} idx={idx} />
           ))}
@@ -400,144 +459,105 @@ function FourPillarsSection() {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function Home() {
-  const [activeVideo, setActiveVideo] = useState(null);
-  const [activeHeroTab, setActiveHeroTab] = useState(heroTabs[0].id);
-  const [heroDirection, setHeroDirection] = useState(1);
-  const [progressKey, setProgressKey] = useState(0);
-  const heroTimerRef = useRef(null);
-
-  const startHeroTimer = () => {
-    if (heroTimerRef.current) clearInterval(heroTimerRef.current);
-    setProgressKey(k => k + 1);
-    heroTimerRef.current = setInterval(() => {
-      setActiveHeroTab(prev => {
-        const ci = heroTabs.findIndex(t => t.id === prev);
-        setHeroDirection(1);
-        return heroTabs[(ci + 1) % heroTabs.length].id;
-      });
-      setProgressKey(k => k + 1);
-    }, 6000);
-  };
-
-  useEffect(() => { startHeroTimer(); return () => clearInterval(heroTimerRef.current); }, []);
-
-  const firstFoldControls = useAnimation();
-  const firstFoldRef = useRef(null);
-  const firstFoldInView = useInView(firstFoldRef, { amount: 0.22 });
-  useEffect(() => {
-    if (firstFoldInView) { firstFoldControls.start({ opacity: 1, y: 0, transition: { duration: 0.62, ease: 'easeOut' } }); return; }
-    if (typeof window !== 'undefined' && window.scrollY < 32) {
-      const t = setTimeout(() => firstFoldControls.start({ opacity: 1, y: 0, transition: { duration: 0.62, ease: 'easeOut' } }), 90);
-      return () => clearTimeout(t);
-    }
-    firstFoldControls.set({ opacity: 0, y: 18 });
-  }, [firstFoldInView, firstFoldControls]);
-
-  const handleHeroTabClick = (id) => {
-    if (id === activeHeroTab) return;
-    const ci = heroTabs.findIndex(t => t.id === activeHeroTab);
-    const ni = heroTabs.findIndex(t => t.id === id);
-    setHeroDirection(ni > ci ? 1 : -1);
-    setActiveHeroTab(id);
-    setProgressKey(k => k + 1);
-    startHeroTimer();
-  };
 
   return (
-    <main className="relative min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-100 pb-20">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: -40 }}>
-        <video key={activeVideo} src={activeVideo} autoPlay muted loop playsInline className="h-full w-full object-cover opacity-70" />
-      </div>
-      <div className="pointer-events-none fixed inset-0" style={{ zIndex: -30, background: 'linear-gradient(135deg,rgba(2,6,23,.65) 0%,rgba(0,30,60,.55) 30%,rgba(15,10,50,.60) 60%,rgba(2,6,23,.65) 100%)' }} />
-      <div className="pointer-events-none fixed inset-0" style={{ zIndex: -20, background: 'radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,224,255,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 100%,rgba(122,91,255,.06) 0%,transparent 50%)' }} />
+    <PageShell fluid={true}>
+      {/* BACKGROUND GRID */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: 'radial-gradient(#334155 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_50%_-20%,rgba(56,189,248,0.15),transparent_70%)]" />
 
-      {/* HERO */}
-      <section className="relative w-full overflow-hidden text-white min-h-[75vh]">
-        <div className="absolute inset-0 z-0 bg-slate-900">
-          {heroTabs.map(tab => (
-            <video key={tab.id} src={tab.video} autoPlay muted loop playsInline
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${activeHeroTab === tab.id ? 'opacity-100' : 'opacity-0'}`} />
-          ))}
-        </div>
-        <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'linear-gradient(90deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.85) 35%,rgba(0,0,0,.4) 55%,rgba(0,0,0,0) 100%)' }} />
-        <div className="pointer-events-none absolute right-[-10%] top-[-25%] z-10 h-56 w-56 rounded-full bg-cyan-400/35 blur-3xl" />
-        <div className="pointer-events-none absolute left-[-8%] bottom-[-20%] z-10 h-56 w-56 rounded-full bg-indigo-500/30 blur-3xl" />
-        <style jsx>{`
-          @keyframes hero-tab-progress{from{width:0%}to{width:100%}}
-        `}</style>
-
-        <div className="relative z-20 mx-auto w-full max-w-6xl px-4 pt-16 lg:pt-12  pb-10 lg:pb-12">
-          <div className="max-w-3xl">
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6, ease: 'easeOut' }}
-              className="mb-6 flex flex-col items-start">
-              <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-500/10 px-4 py-1.5 text-xs sm:text-[13px] font-black uppercase tracking-[0.25em] text-sky-300 backdrop-blur-md shadow-[0_0_15px_rgba(56,189,248,.15)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
-                Giggs Software Labs
+      {/* HERO SECTION - REDESIGNED PER AUDIT */}
+      <section className="relative z-10 w-full pt-0 lg:pt-2 pb-16 px-4 md:px-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            {/* TEXT CONTENT */}
+            <motion.div 
+               initial={{ opacity: 0, x: -20 }}
+               animate={{ opacity: 1, x: 0 }}
+               transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="flex flex-col gap-2.5 mb-8">
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-sky-500/30 px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.2em] text-sky-400 backdrop-blur-md w-fit">
+                  <span className="h-2 w-2 rounded-full bg-sky-400" />
+                  GIGGS SOFTWARE LABS
+                </div>
+                <p className="text-[6px] md:text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 pl-1.5 whitespace-nowrap opacity-90 leading-tight">
+                  ENGINEERING INTELLIGENCE · POWERING PERFORMANCE · SECURING THE FUTURE
+                </p>
               </div>
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-x-1 sm:gap-x-1.5 gap-y-1 mt-2 sm:mt-2.5 ml-1 sm:ml-2.5 whitespace-nowrap text-white">
-                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Engineering Intelligence</span>
-                <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
-                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Powering Performance</span>
-                <span className="w-[1.5px] h-[1.5px] sm:w-[2.5px] sm:h-[2.5px] rounded-full bg-white opacity-30 inline-block" />
-                <span className="text-[6.5px] sm:text-[8.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-70">Securing the Future</span>
-              </div>
-            </motion.div>
-            <div className="flex gap-2 py-2 mb-6 overflow-x-auto scrollbar-hide">
-              {heroTabs.map(tab => {
-                const isActive = activeHeroTab === tab.id;
-                return (
-                  <button key={tab.id} onClick={() => handleHeroTabClick(tab.id)}
-                    className={`relative flex-shrink-0 whitespace-nowrap px-4 pt-1.5 pb-2.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 border overflow-hidden ${isActive ? 'bg-sky-500/20 border-sky-400/60 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,.25)]' : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-500/60'}`}>
-                    {tab.label}
-                    {isActive && <span key={progressKey} className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 to-blue-500 rounded-full" style={{ animation: 'hero-tab-progress 6s linear forwards' }} />}
-                  </button>
-                );
-              })}
-            </div>
+              
+              <h1 className="text-3xl md:text-5xl lg:text-[4rem] font-extrabold leading-[1.05] tracking-tight text-white mb-6">
+                AI Engineering for <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 whitespace-nowrap">FinTech & HealthTech.</span> <br />
+                Deploy 40% Faster.
+              </h1>
+              
+              <p className="text-xl md:text-2xl font-medium text-slate-300 mb-8 max-w-2xl leading-relaxed">
+                Consulting & Implementation for Production ML Systems. <br />
+                <span className="text-slate-500 font-bold block mt-2">— Not SaaS.</span>
+              </p>
 
-            <div className="min-h-[400px] sm:min-h-[380px] lg:min-h-[340px] pb-6 sm:pb-0">
-              {heroTabs.map(tab => activeHeroTab === tab.id && (
-                <motion.div key={tab.id} initial={{ opacity: 0, x: heroDirection * 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: heroDirection * -30 }} transition={{ duration: .45, ease: 'easeOut' }} className="mt-2">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white">{tab.title}</h1>
-                  <p className="mt-4 text-lg sm:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">{tab.tagline}</p>
-                  <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">At Giggs Software Labs, we combine the power of AI, Automation, Cybersecurity, and Performance Engineering to help enterprises innovate faster, operate smarter, and scale securely in the digital era.</p>
-                  <div className="mt-10 flex flex-col sm:flex-row items-start gap-4 w-full">
-                    <Button href={tab.buttonHref} variant="primary" className="w-full sm:w-auto">{tab.buttonText}</Button>
-                    <Button href="/contact" variant="secondary" className="w-full sm:w-auto">Talk to an Expert</Button>
+              {/* QUICK METRICS */}
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-10 border-l border-slate-800 pl-6">
+                {HERO_METRICS.map(m => (
+                  <div key={m.label}>
+                    <p className="text-2xl font-black text-white">{m.value}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Deployments</p>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                ))}
+              </div>
+
+                <div className="w-full sm:w-auto">
+                  <Button href="/contact" variant="primary" className="w-full sm:w-auto px-8 py-4 text-lg !rounded-xl">
+                    Talk to an Expert
+                  </Button>
+                  <p className="mt-3 text-[11px] font-medium text-slate-500 text-center sm:text-left pl-1 italic">
+                    Book a 30-min discovery call — no pitch, no commitment.
+                  </p>
+                </div>
+            </motion.div>
+
+            {/* DECORATIVE VISUAL */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              className="relative hidden lg:block"
+            >
+              <DashboardVisual />
+              {/* Decorative blobs */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-sky-500/10 rounded-full blur-[80px] -z-10" />
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -z-10" />
+            </motion.div>
+
           </div>
         </div>
       </section>
 
+      <ComplianceStrip />
+      
       {/* TRUST BAR */}
-      <section className="relative w-full border-b border-slate-800 bg-slate-900/50 py-8 backdrop-blur-sm">
+      <section className="relative z-10 w-full bg-slate-950/50 py-12 border-b border-slate-900">
         <div className="mx-auto max-w-7xl px-4 md:px-6 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-6">Trusted by global organizations across</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm font-bold text-slate-300 md:text-base">
-            <span>India</span><span className="text-sky-500">•</span><span>Saudi Arabia</span><span className="text-sky-500">•</span><span>Singapore</span><span className="text-sky-500">•</span><span>UAE</span><span className="text-sky-500">•</span><span>USA</span>
-          </div>
-        </div>
-      </section>
-
-      {/* FIXED PARTNER LOGOS */}
-      <div className="fixed bottom-0 left-0 z-50 w-full border-t border-slate-800/40 bg-slate-950/80 py-4 backdrop-blur-lg shadow-[0_-4px_30px_rgba(0,0,0,.5)]">
-        <div className="mx-auto max-w-7xl px-4 md:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-10">Trusted by global organizations across India · Saudi Arabia · Singapore · UAE · USA</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
             {[
-              { src: '/logo/manual_AmazonW.png', alt: 'Amazon', className: 'translate-y-[4px] md:translate-y-[8px]' },
-              { src: '/logo/JioStarW.png', alt: 'Jio Star', className: 'translate-y-[2px] md:translate-y-[6px]' },
-              { src: '/logo/disney_hotstar.png', alt: 'Disney Hotstar', className: 'translate-y-0 scale-[1.3] md:scale-[1.5]' },
-              { src: '/logo/manual_kantarW.png', alt: 'Kantar', className: 'translate-y-[4px] md:translate-y-[8px]' },
-              { src: '/logo/accentureW.png', alt: 'Accenture', className: 'translate-y-0 md:translate-y-[2px]' },
+              { src: '/logo/manual_AmazonW.png', alt: 'Amazon', h: 'h-6 md:h-10' },
+              { src: '/logo/JioStarW.png', alt: 'Jio Star', h: 'h-8 md:h-12' },
+              { src: '/logo/disney_hotstar.png', alt: 'Disney Hotstar', h: 'h-10 md:h-14' },
+              { src: '/logo/manual_kantarW.png', alt: 'Kantar', h: 'h-5 md:h-9' },
+              { src: '/logo/accentureW.png', alt: 'Accenture', h: 'h-6 md:h-10' },
             ].map(p => (
-              <Image key={p.alt} src={p.src} alt={p.alt} width={120} height={32} className={`h-6 md:h-8 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 ${p.className || ''}`} />
+              <div key={p.alt} className="flex items-center justify-center p-2">
+                <Image src={p.src} alt={p.alt} width={140} height={40} className={`${p.h} w-auto object-contain transition-all hover:scale-105`} />
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <AudienceSelector />
 
       {/* EMPOWERING */}
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-8 md:px-6">
@@ -561,7 +581,7 @@ export default function Home() {
         <div className="mb-10 grid lg:grid-cols-2 gap-10 items-end">
           <div>
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Engineering Digital<br className="hidden lg:block" /> Transformation at Scale</h2>
-            <p className="text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed">Giggs Software Labs combines engineering precision with AI-powered innovation to help enterprises transform faster, operate smarter, and scale securely.</p>
+            <p className="text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed">Giggs Software Labs Combines Engineering Precision with AI-Powered Innovation to Help Enterprises Transform Faster, Operate Smarter, and Scale Securely.</p>
           </div>
           <div className="hidden lg:flex justify-end pr-8">
             <div className="relative h-32 w-32">
@@ -607,26 +627,89 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CASE STUDIES */}
-      <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
-        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      {/* PROOF OF WORK (REBRANDED FROM CASE STUDIES) */}
+      <section className="mx-auto max-w-7xl px-4 pb-24 md:px-6">
+        <div className="mb-14">
           <SectionTitle eyebrow="Proof of Work" title="Real Impact. Real Results." subtitle="How we engineer transformative outcomes for global enterprises." align="left" />
-          <Button href="/blog#case-studies" variant="secondary" className="shrink-0 max-w-max">View All Case Studies</Button>
         </div>
         <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {[
-            { category: 'Retail AI Platform', metric: 'Reduced forecasting errors by 35%', desc: 'Built an intelligent demand forecasting engine processing billions of data points in real time.', color: 'sky' },
-            { category: 'Cybersecurity Automation', metric: 'Detected threats 5x faster', desc: 'Deployed a predictive defense system and automated SOC triaging using advanced behavioral analytics.', color: 'indigo' },
-            { category: 'Performance Optimization', metric: 'Improved system speed by 40%', desc: 'Engineered a highly available cloud-native architecture capable of handling extreme peak traffic.', color: 'blue' },
+            { category: 'Performance Optimization', metric: 'Improved system speed by 40%', desc: 'Engineered a highly available cloud-native architecture capable of handling extreme peak traffic.', color: 'sky', href: '/case-studies/autoload-ai' },
+            { category: 'Cybersecurity Automation', metric: 'Detected threats 5x faster', desc: 'Deployed a predictive defense system and automated SOC triaging using advanced behavioral analytics.', color: 'indigo', href: '/case-studies/mihawk' },
+            { category: 'Cloud & Automation', metric: 'Reduced manual effort by 60%', desc: 'Built platform-agnostic cloud architecture across AWS, Azure, and GCP — engineered for scale and intelligent automation.', color: 'blue', href: '/case-studies/automation-engineering' },
           ].map(study => (
-            <div key={study.category} className="group relative rounded-3xl bg-slate-900 border border-slate-800 p-8 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,.2)] hover:border-sky-500/30">
+            <Link key={study.category} href={study.href} className="group relative rounded-3xl bg-slate-900 border border-slate-800 p-8 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,.2)] hover:border-sky-500/30">
               <div className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">{study.category}</div>
               <div className={`mb-4 text-2xl md:text-3xl font-black text-${study.color}-400 leading-tight`}>{study.metric}</div>
               <p className="text-sm text-slate-400 leading-relaxed mb-8">{study.desc}</p>
               <div className="mt-auto flex items-center text-sm font-bold text-slate-300 group-hover:text-white transition-colors">Read the case study<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></div>
-            </div>
+            </Link>
           ))}
         </div>
+      </section>
+
+      {/* TESTIMONIALS — Compact Single Card */}
+      <section className="mx-auto max-w-6xl px-4 pb-14 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative overflow-hidden rounded-[2.5rem] border border-slate-800/60 bg-slate-950/50 backdrop-blur-xl"
+        >
+          {/* Subtle glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(56,189,248,.08),transparent_70%)]" />
+
+          <div className="relative z-10 p-8 md:p-12">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="h-px w-6 bg-sky-400/60" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400">Client Commendations</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                  Trusted by Enterprises.{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-400">Proven by Outcomes.</span>
+                </h2>
+              </div>
+              <Link
+                href="/testimonials"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white border border-slate-700 bg-slate-900/60 hover:border-sky-500/50 hover:bg-sky-500/10 transition-all shrink-0"
+              >
+                View All Testimonials
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
+
+            {/* 4 Stat Columns with Lucide Icons */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-slate-800/30 rounded-2xl overflow-hidden">
+              {[
+                { Icon: Rocket, stat: '30–40%', label: 'Faster Delivery', sub: 'Accelerating timelines without compromising quality', color: 'sky' },
+                { Icon: BrainCircuit, stat: 'Deep', label: 'Technical Expertise', sub: 'AI, Data, Cybersecurity & Scalable Systems', color: 'indigo' },
+                { Icon: ShieldCheck, stat: 'Enhanced', label: 'System Resilience', sub: 'Improved performance across critical workflows', color: 'blue' },
+                { Icon: Handshake, stat: 'Long-term', label: 'Partnerships', sub: 'Outcome-driven, not just delivery-driven', color: 'sky' },
+              ].map((item, idx) => (
+                <div key={item.label} className="group bg-slate-950/60 p-6 hover:bg-slate-900/40 transition-colors">
+                  <item.Icon className={`w-5 h-5 text-${item.color}-400 mb-3 group-hover:scale-110 transition-transform`} />
+                  <div className={`text-xl font-black text-white mb-0.5`}>{item.stat}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-sky-300 mb-2">{item.label}</div>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">{item.sub}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Social Proof Footer */}
+            <div className="mt-8 pt-6 border-t border-slate-800/40 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-600">
+              <span>Partnered across</span>
+              {['Media & OTT', 'Enterprise IT', 'FinTech', 'High-Growth Startups'].map((s, i) => (
+                <React.Fragment key={s}>
+                  {i > 0 && <span className="text-slate-700">·</span>}
+                  <span className="text-slate-400">{s}</span>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* GLOBAL PRESENCE */}
@@ -640,7 +723,7 @@ export default function Home() {
               <div className="relative z-10">
                 <div className="relative h-64 md:h-[28rem] w-full overflow-hidden rounded-3xl bg-slate-950/50 border border-slate-800/40">
                   <Image src="/regions-map.png" alt="World map" fill className="object-cover opacity-80" style={{ filter: 'brightness(1.1) grayscale(0.2)' }} />
-                  {[{ l: '12%', t: '22%', n: 'USA', c: 'cyan' }, { l: '70%', t: '44%', n: 'Saudi Arabia', c: 'sky' }, { l: '84%', t: '42%', n: 'India', c: 'indigo' }, { l: '74%', t: '46%', n: 'UAE', c: 'blue' }, { l: '92%', t: '55%', n: 'Singapore', c: 'sky' }].map(loc => (
+                  {[{ l: '12%', t: '22%', n: 'USA', c: 'cyan' }, { l: '70%', t: '44%', n: 'Saudi Arabia', c: 'sky' }, { l: '84%', t: '42%', n: 'India', c: 'indigo' }, { l: '75.5%', t: '44%', n: 'UAE', c: 'blue' }, { l: '95%', t: '65%', n: 'Singapore', c: 'sky' }].map(loc => (
                     <div key={loc.n} className="absolute" style={{ left: loc.l, top: loc.t }}>
                       <div className={`h-6 w-6 md:h-8 md:w-8 rounded-full bg-${loc.c}-500/20 blur-md animate-pulse`} />
                       <div className={`absolute inset-0 m-auto h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-${loc.c}-400 shadow-[0_0_12px_#38bdf8]`} />
@@ -654,58 +737,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INSIGHTS */}
-      <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
-        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full">
-          <SectionTitle eyebrow="Thought Leadership" title="Insights from Giggs Experts" subtitle="Explore our blogs, whitepapers, and case studies to discover how enterprises are reimagining the future with AI, Data, and Automation." align="left" />
-          <Button href="/blog" variant="secondary" className="shrink-0 max-w-max">Explore Insights</Button>
-        </div>
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
-          {[
-            { type: 'Blog', title: 'The Rise of AI-Driven Cybersecurity', desc: 'How predictive behavioral analytics are replacing signature-based detection models in modern enterprise SOCs.', date: 'Mar 12, 2024', color: 'sky' },
-            { type: 'Whitepaper', title: 'Building Intelligent Data Platforms', desc: 'A comprehensive guide to transitioning from legacy data warehouses to scalable, real-time AI data lakes.', date: 'Feb 28, 2024', color: 'indigo' },
-            { type: 'Article', title: 'Performance Engineering in Cloud Native Systems', desc: 'Techniques for ensuring sub-second response times and extreme scalability in distributed microservices architectures.', date: 'Feb 15, 2024', color: 'blue' },
-          ].map(insight => (
-            <Link key={insight.title} href="/blog" className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 p-8 transition-all hover:-translate-y-2 hover:bg-slate-900 hover:border-sky-500/30 hover:shadow-[0_20px_40px_-15px_rgba(56,189,248,.15)]">
-              <div>
-                <div className={`mb-4 inline-flex items-center rounded-full border border-${insight.color}-500/30 bg-${insight.color}-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-${insight.color}-300`}>{insight.type}</div>
-                <h3 className="mb-3 text-xl font-bold text-slate-100 group-hover:text-white transition-colors">{insight.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed mb-6">{insight.desc}</p>
-              </div>
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mt-6 pt-6 border-t border-slate-800/50">
-                <span>{insight.date}</span><span className="text-sky-400 group-hover:translate-x-1 transition-transform">Read →</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* PARTNERS */}
-      <section className="mx-auto max-w-5xl px-4 pb-14 md:px-6">
-        <div className="mb-10"><SectionTitle eyebrow="Trust" title="Trusted by global organizations" subtitle="" align="center" /></div>
-        <div className="relative flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
-          {[{ name: 'Kantar', src: '/logo/kantarW.png' }, { name: 'JioHotstar', src: '/logo/jioW.png' }, { name: 'Xebia', src: '/logo/xebiaW.png' }, { name: 'Accenture', src: '/logo/accentureW.png' }, { name: 'ITCinfotech', src: '/logo/ITC_Infotech_transparent_large.png' }, { name: 'HappiestMinds', src: '/logo/happiestW.png' }, { name: 'JioStar', src: '/logo/JioStarW.png' }, { name: 'Gspann', src: '/logo/GspannW.png' }, { name: 'Infogain', src: '/logo/infogainW.png' }, { name: 'Successive Digital', src: '/logo/Succesive_digitalW.png' }, { name: 'Saksoft', src: '/logo/SaksoftW.png' }, { name: 'Impetus', src: '/logo/ImpetusW.png' }].map(partner => (
-            <div key={partner.name} className="flex items-center justify-center py-2">
-              <Image src={partner.src} alt={partner.name} width={100} height={28} className="h-6 md:h-7 w-auto flex-shrink-0 object-contain opacity-40 hover:opacity-100 transition-opacity duration-300" />
-            </div>
-          ))}
-        </div>
-      </section>
+      <EnterpriseSecurityPortal />
 
       {/* FINAL CTA */}
-      <section className="mx-auto max-w-6xl px-4 pb-16 md:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-24 md:px-6">
         <div className="relative overflow-hidden rounded-[2.5rem] border border-sky-500/30 bg-slate-900 p-8 md:p-14 shadow-[0_0_50px_rgba(56,189,248,.15)] text-center">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,.1),_transparent_60%)] blur-2xl" />
           <div className="relative z-10 flex flex-col items-center max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Start Your Digital Transformation Journey</h2>
-            <p className="text-base md:text-lg text-slate-300 leading-relaxed mb-10">Speak with Giggs experts to explore how AI, automation and intelligent engineering can transform your business.</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400 mb-6">Next Step</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Talk to an Engineer, <br />Not a Salesperson.</h2>
+            <p className="text-base md:text-lg text-slate-300 leading-relaxed mb-10">No boilerplate templates. No generic slides. We'll discuss your specific architecture and how we can ship your core ML system in 6–12 weeks.</p>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Button href="/contact" variant="primary" className="w-full sm:w-auto px-8 py-4 text-base">Schedule Consultation</Button>
-              <Button href="/contact" variant="secondary" className="w-full sm:w-auto px-8 py-4 text-base">Contact Us</Button>
+              <Button href="/contact" variant="primary" className="w-full sm:w-auto px-10 py-5 text-lg !rounded-2xl">Book Discovery Call</Button>
             </div>
+            <p className="mt-6 text-xs text-slate-500 italic">Expectation: 30-min architectural deep-dive. NDA available upon request.</p>
           </div>
         </div>
       </section>
-    </main>
+    </PageShell>
   );
 }

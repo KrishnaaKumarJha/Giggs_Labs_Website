@@ -5,21 +5,18 @@ export default function AnimatedBackground() {
   const isHomePage = router.pathname === '/';
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-      {/* Existing blobs (keep for some depth) */}
-      <div
-        className="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-[#00E0FF]/20 blur-3xl opacity-40"
-        style={{ animation: 'floatBlob 26s ease-in-out infinite alternate' }}
-      />
-
+    <div
+      className="pointer-events-none fixed inset-0 -z-20"
+      style={{ transform: 'translateZ(0)', contain: 'strict' }}
+    >
       {/* If Home Page, only show the basic blobs (since index.js handles its own) 
-          If NOT Home Page, show the full premium background background */}
+          If NOT Home Page, show the full premium background */}
       {!isHomePage && (
         <>
           {/* BASE DARK LAYER */}
           <div className="absolute inset-0 bg-slate-950" />
 
-          {/* VIBRANT GRADIENT OVERLAY (Matching index.js) */}
+          {/* VIBRANT GRADIENT OVERLAY */}
           <div
             className="absolute inset-0"
             style={{
@@ -28,7 +25,7 @@ export default function AnimatedBackground() {
             }}
           />
 
-          {/* COLOR ACCENT WASH (Matching index.js) */}
+          {/* COLOR ACCENT WASH */}
           <div
             className="absolute inset-0"
             style={{
@@ -42,21 +39,16 @@ export default function AnimatedBackground() {
         </>
       )}
 
-      {/* Original blobs (kept but toned down for home page compatibility) */}
-      <div
-        className="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-[#00E0FF]/32 blur-3xl"
-        style={{ animation: 'floatBlob 26s ease-in-out infinite alternate' }}
-      />
+      {/* Single static blob — always visible, reduced blur on mobile via CSS */}
+      <div className="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-[#00E0FF]/20 blur-2xl md:blur-3xl opacity-40" />
 
-      {/* top-center soft glow */}
+      {/* Additional animated blobs — hidden on mobile via CSS, no JS needed */}
       <div
-        className="absolute -top-52 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#4C8DFF]/30 blur-3xl"
+        className="absolute -top-52 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#4C8DFF]/30 blur-3xl hidden md:block"
         style={{ animation: 'floatBlobReverse 30s ease-in-out infinite alternate' }}
       />
-
-      {/* bottom-right purple blob */}
       <div
-        className="absolute bottom-[-140px] right-[-60px] h-96 w-96 rounded-full bg-[#7A5BFF]/32 blur-3xl"
+        className="absolute bottom-[-140px] right-[-60px] h-96 w-96 rounded-full bg-[#7A5BFF]/32 blur-3xl hidden md:block"
         style={{ animation: 'floatBlob 32s ease-in-out infinite alternate' }}
       />
 
@@ -64,3 +56,4 @@ export default function AnimatedBackground() {
     </div>
   );
 }
+

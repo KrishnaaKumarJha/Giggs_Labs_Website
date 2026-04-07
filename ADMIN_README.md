@@ -1,93 +1,80 @@
-# Giggs Labs — Admin Guide
+# Giggs Labs — Backend & Deployment Documentation (New Architecture)
 
-## 🔐 Accessing the Admin Dashboard
+> [!IMPORTANT]
+> **Major Architecture Update**: This repository has successfully migrated from a standalone **Django** backend to a **Next.js API Routes** architecture. The `/backend` directory is now considered **LEGACY/DEPRECATED** and is kept for reference only. 
 
-The admin panel is hidden from regular visitors. There are two ways to access it:
-
-**Option 1 — Keyboard Shortcut (from any page):**
-Press `Ctrl + Shift + A` anywhere on the website. This will take you to the admin login page.
-
-**Option 2 — Direct URL:**
-```
-http://localhost:3000/admin/login
-```
-
-After logging in with your Django username and password, you'll land on the **Admin Dashboard** with access to:
-- **Job Openings** — Create, edit, delete job listings (shown on Careers page)
-- **Services** — Create, edit, delete service offerings (shown on Services page)
-- **Insights / Blog** — Create, edit, delete blog posts with markdown, images, and publish toggle
-- **Applications** — View job applications (read-only)
-- **Messages** — View contact form messages (read-only)
-
-> **Security:** The login is protected by Django's JWT authentication. Only users created with `createsuperuser` can access the dashboard. There is no visible link anywhere on the website.
+This guide explains the current deployment workflow and the new codebase structure for the benefit of both the admin and collaborating engineers.
 
 ---
 
-## 👤 Admin User Management
+## 🏗️ The New Architecture: Next.js + MySQL
+The project now runs as a single unified application (Frontend + Backend) deployed on **Hostinger Shared Hosting**.
 
-All commands run from the `backend/` directory using the project's virtual environment.
+### 1. Unified Backend (Node.js)
+Instead of a separate Django server, all API endpoints are now located within the Next.js project:
+- **Location:** `frontend/pages/api/`
+- **Stack:** Node.js (Next.js server-side), `mysql2` (Database pooling), `nodemailer` (Email alerts).
 
-### List all admin users
-```
-..python manage.py shell -c "from django.contrib.auth.models import User; [print(f'Username: {u.username}, Email: {u.email}') for u in User.objects.filter(is_staff=True)]"
-```
-
-> **Note:** Passwords are never visible — Django stores them as secure hashes.
-
-### Create a new admin user
-```
-..python manage.py createsuperuser
-```
-You'll be prompted for username, email, and password.
-
-### Change an admin's password
-```
-..python manage.py changepassword <username>
-```
-You'll be prompted to enter the new password twice. No need to know the old password.
-
-### Delete an admin user
-```
-..python manage.py shell
-```
-Then in the Python shell:
-```python
-from django.contrib.auth.models import User
-User.objects.get(username='the_username').delete()
-exit()
-```
+### 2. Database Migration (Postgres → MySQL)
+- **Engine:** MySQL (Provided by Hostinger shared hosting).
+- **Helper:** `frontend/utils/db.js` — manages the connection pool. 
+- **Schema:** Managed via standard SQL imports (`backend/giggs_schema.sql` can be used for reference, but hPanel handles the live MySQL instance).
 
 ---
 
-## 🚀 Running the Project
+## 🚀 How to Run Locally
 
-### Backend (Django)
-```
-cd backend
-..\.venv\Scripts\python.exe manage.py runserver
-```
-Runs on `http://127.0.0.1:8000`
-
-### Frontend (Next.js)
-```
+### 1. Frontend & Backend (Next.js)
+You only need to run one service now:
+```bash
 cd frontend
 npm run dev
 ```
-Runs on `http://localhost:3000`
+Runs on `http://localhost:3000`. API calls to `/api/*` will automatically be handled by the Next.js server.
+
+### 2. Environment Variables
+Create or update `frontend/.env.local` with the following variables:
+- `DB_HOST`: Hostinger DB host (usually `localhost` or an IP).
+- `DB_USER`: Your MySQL username.
+- `DB_PASS`: Your MySQL password.
+- `DB_NAME`: Your MySQL database name.
+- `NOTIFICATION_EMAIL`: Recipient for contact form alerts.
+- `SMTP_PASS`: Gmail App Password if using Gmail for mailing.
 
 ---
 
-## 📁 Key Admin Files
+## 📂 New Codebase Map
 
-| File | Purpose |
-|---|---|
-| `frontend/pages/_app.js` | Contains the hidden Ctrl+Shift+A shortcut |
-| `frontend/pages/admin/login.js` | Admin login page |
-| `frontend/pages/admin/dashboard.js` | Admin dashboard hub |
-| `frontend/pages/admin/jobs.js` | Job openings CRUD |
-| `frontend/pages/admin/services.js` | Services CRUD |
-| `frontend/pages/admin/posts.js` | Blog posts CRUD |
-| `frontend/pages/admin/applications.js` | View job applications |
-| `frontend/pages/admin/messages.js` | View contact messages |
-| `backend/api/models.py` | Database models |
-| `backend/api/views.py` | API endpoints |
+| Feature | New Location (Active) | Legacy Location (Deprecated) |
+|---|---|---|
+| **API Endpoints** | `frontend/pages/api/` | `backend/api/` |
+| **Authentication** | `frontend/pages/api/token.js` | Django JWT (SimpleJWT) |
+| **Email Logic** | `frontend/utils/mailer.js` | Django `send_mail` |
+| **DB Models** | Handled via direct SQL in `api/` | `backend/api/models.py` |
+| **Assets/Media** | `frontend/public/` | `backend/media/` |
+
+---
+
+## 🔐 Navigating the Admin Panel
+The admin dashboard remains fully functional and now interacts with the new Next.js API.
+
+- **Shortcut:** Press `Ctrl + Shift + A` on any page to jump to the login.
+- **Login URL:** `http://localhost:3000/admin/login`
+- **Dashboard Hub:** `frontend/pages/admin/dashboard.js`
+- **Feature Pages:**
+    - `jobs.js` — Career portal management.
+    - `posts.js` — Blog and Insights editor.
+    - `services.js` — Service offering updates.
+    - `messages.js` — Real-time contact lead view.
+
+---
+
+## 🛳️ Deployment (Hostinger Shared Hosting)
+This project is configured for Hostinger's Node.js platform:
+
+1. **Build Step:** Root `npm run build` generates the optimized Next.js app.
+2. **Server:** Hostinger points to the `frontend/server.js` or the default Next.js entry point.
+3. **Mailing:** Uses `nodemailer` to trigger alerts. If Hostinger's internal SMTP is blocked, we use Gmail SMTP with an App Password.
+
+> [!TIP]
+> **Usefulness of `/backend`**: Your colleague should refer to `/backend/api/models.py` to understand the original data structure if they need to replicate any complex logic in the new Node.js environment, but **do not deploy** the contents of the `/backend` folder.

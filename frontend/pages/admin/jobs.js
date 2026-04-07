@@ -15,16 +15,22 @@ export default function AdminJobs() {
 
     useEffect(() => {
         loadJobs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadJobs() {
         try {
-            const res = await apiFetch('/admin/jobs/');
+            const res = await apiFetch('/admin/jobs');
             if (res.ok) {
                 setJobs(await res.json());
+            } else {
+                setJobs([]);
+                setError('Failed to fetch jobs from server');
             }
-        } catch { setError('Failed to load jobs'); }
+        } catch (err) { 
+            console.error(err);
+            setJobs([]);
+            setError('Failed to load jobs'); 
+        }
     }
 
     async function handleSave(e) {

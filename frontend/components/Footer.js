@@ -55,7 +55,7 @@ const socials = [
 export default function Footer() {
   return (
     <motion.footer
-      className="relative mt-8 overflow-hidden border-t border-gray-200 bg-white text-slate-600"
+      className="relative mt-8 z-50 overflow-hidden border-t border-gray-200 bg-white text-slate-600"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}

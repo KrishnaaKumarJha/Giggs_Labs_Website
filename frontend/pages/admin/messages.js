@@ -10,7 +10,7 @@ export default function AdminMessages() {
   useEffect(() => {
     async function loadMessages() {
       try {
-        const res = await apiFetch('/contacts/');
+        const res = await apiFetch('/admin/messages');
 
         if (!res.ok) {
           setError('Failed to load messages');

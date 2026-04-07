@@ -16,16 +16,22 @@ export default function AdminPosts() {
 
     useEffect(() => {
         loadPosts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     async function loadPosts() {
         try {
-            const res = await apiFetch('/admin/posts/');
+            const res = await apiFetch('/admin/posts');
             if (res.ok) {
                 setPosts(await res.json());
+            } else {
+                setPosts([]);
+                setError('Failed to fetch posts from server');
             }
-        } catch { setError('Failed to load posts'); }
+        } catch (err) { 
+            console.error(err);
+            setPosts([]);
+            setError('Failed to load posts'); 
+        }
     }
 
     // Auto-generate slug from title

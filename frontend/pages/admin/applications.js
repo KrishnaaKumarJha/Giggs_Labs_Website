@@ -13,7 +13,7 @@ export default function AdminApplications() {
   useEffect(() => {
     async function loadApplications() {
       try {
-        const res = await apiFetch('/applications/');
+        const res = await apiFetch('/admin/applications');
 
         if (!res.ok) {
           setError('Failed to load applications');
@@ -93,47 +93,59 @@ export default function AdminApplications() {
         ) : (
           <div className="overflow-x-auto rounded-xl border border-slate-700/40">
             <table className="min-w-full text-sm">
-              <thead className="bg-slate-900/60">
+              <thead className="bg-slate-900/60 text-slate-300">
                 <tr>
-                  <th className="px-3 py-2 text-left">Name</th>
-                  <th className="px-3 py-2 text-left">Email</th>
-                  <th className="px-3 py-2 text-left">Job Title</th>
-                  <th className="px-3 py-2 text-left">Phone</th>
-                  <th className="px-3 py-2 text-left">CV</th>
-                  <th className="px-3 py-2 text-left">Created</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Candidate</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Job & Qual</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Exp & CTC</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Contact</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Resume</th>
+                  <th className="px-4 py-3 text-left font-bold uppercase tracking-wider text-[10px]">Applied</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-800">
                 {applications.map((app) => {
-                  const cvUrl = app.cv
-                    ? (app.cv.startsWith('http')
-                      ? app.cv
-                      : `${BACKEND_URL}${app.cv}`)
+                  const cvUrl = app.cv_path
+                    ? (app.cv_path.startsWith('http')
+                      ? app.cv_path
+                      : `${BACKEND_URL}${app.cv_path}`)
                     : null;
 
                   return (
-                    <tr key={app.id} className="border-t border-slate-800">
-                      <td className="px-3 py-2">{app.name}</td>
-                      <td className="px-3 py-2 text-[#00C2FF]">
-                        {app.email}
+                    <tr key={app.id} className="hover:bg-white/5 transition-colors group">
+                      <td className="px-4 py-4">
+                        <div className="font-bold text-white">{app.name}</div>
+                        <div className="text-[10px] text-slate-500">Age: {app.age || 'N/A'}</div>
                       </td>
-                      <td className="px-3 py-2">{app.job_title}</td>
-                      <td className="px-3 py-2 text-slate-400">{app.phone}</td>
-                      <td className="px-3 py-2">
+                      <td className="px-4 py-4">
+                        <div className="text-[#00E0FF] font-medium">{app.job_title}</div>
+                        <div className="text-xs text-slate-400">{app.qualification || 'No Qualification'}</div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="text-white">{app.experience_summary || app.experience || 'N/A'} Exp</div>
+                        <div className="text-[10px] text-emerald-400 font-bold">
+                          {app.current_ctc || 'N/A'} → {app.expected_ctc || 'N/A'}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="text-slate-300">{app.email}</div>
+                        <div className="text-[10px] text-slate-500">{app.phone}</div>
+                      </td>
+                      <td className="px-4 py-4">
                         {cvUrl ? (
                           <a
                             href={cvUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#00C2FF] hover:underline"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00E0FF]/10 text-[#00E0FF] border border-[#00E0FF]/20 hover:bg-[#00C2FF] hover:text-black transition-all text-[11px] font-bold"
                           >
-                            Download CV
+                            VIEW CV
                           </a>
                         ) : (
-                          <span className="text-slate-500">No file</span>
+                          <span className="text-slate-500 text-xs italic">No CV</span>
                         )}
                       </td>
-                      <td className="px-3 py-2 text-slate-400">
+                      <td className="px-4 py-4 text-slate-500 text-[11px]">
                         {app.created_display}
                       </td>
                     </tr>

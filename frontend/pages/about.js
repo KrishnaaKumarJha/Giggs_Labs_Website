@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Brain, Shield, Zap, Bot, Lightbulb, Settings, Target, Handshake, Radio } from 'lucide-react';
+import { Brain, Shield, Zap, Bot, Lightbulb, Settings, Target, Handshake, Radio, Linkedin } from 'lucide-react';
 import PageShell from '../components/pageshell';
 import SectionTitle from '../components/SectionTitle';
 import Button from '../components/Button';
@@ -128,91 +128,99 @@ const offices = [
 const leadership = [
   {
     name: 'Ramesh Chowdhary',
-    role: 'President & CEO',
-    vision: 'Our mission is to bridge the gap between complex engineering and human-centric design. We don\'t just build software; we architect the future of digital interaction.',
-    image: '/images/ramesh.jpg',
+    role: 'CEO & President',
+    vision: 'Visionary technology leader with 20+ years of experience driving AI-led innovation, global expansion, and scalable business growth.',
+    image: '/images/Ramesh_C.png',
+    position: 'object-center',
     color: 'cyan',
+    linkedin: 'https://linkedin.com/in/rameshchowdhary'
   },
-  /* 
   {
-    name: 'VP Name',
-    role: 'Vice President of Engineering',
-    vision: 'Excellence is not an act, but a habit. We instill technical rigor and creative freedom in every squad to ensure our clients lead their respective markets.',
-    image: '/vp-placeholder.png',
+    name: 'Vijay Gangwar',
+    role: 'Vice President',
+    vision: 'Business and technology leader with 25+ years of experience driving strategic partnerships, digital transformation, and scalable enterprise growth.',
+    image: '/images/vijay.jpeg',
+    position: 'object-center',
+    containerClass: 'p-4 bg-slate-900/40',
+    imageClass: 'rounded-2xl opacity-90 group-hover:opacity-100 group-hover:scale-105',
     color: 'blue',
+    linkedin: 'https://linkedin.com/in/vijay-gangwar-456a688'
   },
-  */
+  {
+    name: 'Parmod Kumar Aggarwal',
+    role: 'Chief Delivery Officer',
+    vision: 'Delivery leader specializing in global execution, scalable technology solutions, and operational excellence across enterprise environments.',
+    image: '/images/pk.jpg',
+    color: 'violet',
+    linkedin: 'https://linkedin.com/in/parmod-aggarwal-2a1232'
+  },
+  {
+    name: 'Nitish Kumar',
+    role: 'Talent Acquisition Manager',
+    vision: 'Talent leader with 13+ years of experience driving strategic hiring and building high-performing teams across AI/ML, Data Engineering, and global markets.',
+    image: '/images/NK_R.png',
+    color: 'indigo',
+    linkedin: 'https://linkedin.com/in/nitishkumar-materailplus'
+  }
 ];
 
-/* ── page ── */
-export async function getServerSideProps() {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-    const res = await fetch(`${apiUrl}/posts/`);
-    const posts = await res.json();
-    const formatted = posts.map((p) => ({
-      ...p,
-      date_display: new Date(p.created_at).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }),
-    }));
-    return { props: { posts: formatted } };
-  } catch (err) {
-    console.error('Error fetching posts:', err);
-    return { props: { posts: [] } };
-  }
-}
+/**
+ * leadership IMAGE EDITING GUIDE:
+ * 1. Place new images in: /public/images/
+ * 2. Recommended Format: .jpg, .png, or .webp
+ * 3. Ideal Dimensions: Portrait aspect ratio (e.g., 800px width x 1000px height)
+ * 4. Update the 'image' path in the array above.
+ */
 
-export default function About({ posts = [] }) {
+/* ── page ── */
+export default function About() {
   return (
-        <PageShell
-            eyebrow="Our Story"
-            title="Engineering the Intelligent Enterprise"
-            description="Giggs Software Labs is an AI-driven engineering company helping organizations build intelligent, secure, and high-performance digital systems."
-            videoSrc="/hero/automation.mp4"
-            videoOpacity={0.6}
-            align="center"
+    <PageShell
+      eyebrow="Our Story"
+      title="Engineering the Intelligent Enterprise"
+      description="Giggs Software Labs is an AI-driven engineering company helping organizations build intelligent, secure, and high-performance digital systems."
+      videoSrc="/hero/automation.mp4"
+      videoOpacity={0.6}
+      align="center"
+    >
+      <div className="container relative z-10 mx-auto px-4">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={stagger}
+          className="pt-14 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-20"
         >
-            <div className="container relative z-10 mx-auto px-4">
-                <motion.div
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    variants={stagger}
-                    className="pt-14 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-20"
-                >
-                    <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
-                        <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#2ED6FF]/20">
-                            Our Vision
-                        </div>
-                        <div className="text-4xl text-[#2ED6FF]/20 font-serif leading-none mb-3">&ldquo;</div>
-                        <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
-                            To become a global leader in AI-driven engineering and intelligent enterprise systems.
-                        </p>
-                        <div className="mt-6 flex items-center justify-center gap-3">
-                            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#2ED6FF]/40" />
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
-                            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#2ED6FF]/40" />
-                        </div>
-                    </div>
-                    <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
-                        <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#7A5CFF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#7A5CFF]/20">
-                            Our Mission
-                        </div>
-                        <div className="text-4xl text-[#7A5CFF]/20 font-serif leading-none mb-3">&ldquo;</div>
-                        <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
-                            To empower organizations with AI-powered platforms, secure digital ecosystems, and high-performance infrastructure that accelerate innovation and business growth.
-                        </p>
-                        <div className="mt-6 flex items-center justify-center gap-3">
-                            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#7A5CFF]/40" />
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
-                            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#7A5CFF]/40" />
-                        </div>
-                    </div>
-                </motion.div>
+          <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
+            <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#2ED6FF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#2ED6FF]/20">
+              Our Vision
             </div>
+            <div className="text-4xl text-[#2ED6FF]/20 font-serif leading-none mb-3">&ldquo;</div>
+            <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
+              To become a global leader in AI-driven engineering and intelligent enterprise systems.
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#2ED6FF]/40" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#2ED6FF]/40" />
+            </div>
+          </div>
+          <div className="relative rounded-[2rem] border border-slate-800/60 bg-slate-900/20 backdrop-blur-lg p-8 md:p-10 text-center">
+            <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#7A5CFF] to-[#1E7BFF] text-black text-[10px] font-black uppercase tracking-[0.3em] px-5 py-1.5 rounded-full shadow-lg shadow-[#7A5CFF]/20">
+              Our Mission
+            </div>
+            <div className="text-4xl text-[#7A5CFF]/20 font-serif leading-none mb-3">&ldquo;</div>
+            <p className="text-sm md:text-base font-bold text-slate-100 leading-relaxed tracking-tight -mt-4">
+              To empower organizations with AI-powered platforms, secure digital ecosystems, and high-performance infrastructure that accelerate innovation and business growth.
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#7A5CFF]/40" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Giggs Software Labs</span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#7A5CFF]/40" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
 
       {/* ─── OUR STORY ─── */}
       <section className="mx-auto max-w-6xl px-4 py-14 md:px-6">
@@ -441,50 +449,57 @@ export default function About({ posts = [] }) {
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-4 md:px-6">
         <div className="mb-10">
           <SectionTitle
-            eyebrow="Leadership"
             title="Leadership Vision"
             subtitle="The minds behind Giggs Software Labs."
             align="center"
           />
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {leadership.map((leader, idx) => (
             <motion.div
               key={leader.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative overflow-hidden rounded-[3rem] border border-slate-800/60 bg-slate-950/40 p-1 lg:p-1.5 transition-all hover:border-slate-700 hover:bg-slate-900/20 backdrop-blur-md"
+              transition={{ delay: idx * 0.1 }}
+              className="group relative overflow-hidden rounded-[2rem] border border-slate-800/60 bg-slate-950/40 p-1 transition-all hover:border-[#00E0FF]/30 hover:bg-slate-900/20 backdrop-blur-md"
             >
-              <div className="flex flex-col md:flex-row h-full">
-                {/* Leader Image Section */}
-                <div className={`relative w-full md:w-2/5 aspect-[4/5] md:aspect-auto overflow-hidden rounded-[2.5rem]`}>
-                  <div className={`absolute inset-0 z-0 bg-gradient-to-br from-${leader.color}-500/10 to-transparent`} />
+              <div className="flex flex-col">
+                {/* Leader Image — custom focus and sizing */}
+                <div className={`relative w-full aspect-[3/2] overflow-hidden rounded-t-[1.8rem] ${leader.containerClass || ''}`}>
                   <Image
                     src={leader.image}
                     alt={leader.name}
                     fill
-                    className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-700"
+                    className={`object-cover ${leader.position || 'object-top'} ${leader.imageClass || 'opacity-90 group-hover:opacity-100 group-hover:scale-105'} transition-all duration-700`}
                     onError={(e) => {
                       e.target.style.display = 'none';
                     }}
                   />
-                  <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent via-transparent to-slate-900/50 hidden md:block" />
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+
+                  {/* LinkedIn Link Overlay */}
+                  {leader.linkedin && (
+                    <a
+                      href={leader.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute top-3 right-3 z-20 w-9 h-9 rounded-lg bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#0077b5] hover:border-[#0077b5] transition-all hover:scale-110 active:scale-95"
+                    >
+                      <Linkedin className="w-4 h-4 text-white" />
+                    </a>
+                  )}
                 </div>
 
-                {/* Content Section */}
-                <div className="flex-1 p-8 lg:p-10 flex flex-col justify-center">
-                  <div className="mb-6">
-                    <span className="text-4xl text-cyan-500/30 font-serif leading-none italic">&quot;</span>
-                    <p className="text-base md:text-lg text-slate-200 leading-relaxed italic font-medium -mt-2">
-                      {leader.vision}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-black text-slate-50 tracking-tight">{leader.name}</h3>
-                    <div className={`text-[10px] font-bold uppercase tracking-[0.2em] text-${leader.color}-400 mt-1`}>
+                {/* Content Section — compact */}
+                <div className="p-5">
+                  <p className="text-xs text-slate-400 leading-relaxed italic mb-4">
+                    &ldquo;{leader.vision}&rdquo;
+                  </p>
+                  <div className="pt-3 border-t border-white/5">
+                    <h3 className="text-base font-black text-slate-50 tracking-tight">{leader.name}</h3>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00E0FF] mt-0.5">
                       {leader.role}
                     </div>
                   </div>
@@ -495,140 +510,6 @@ export default function About({ posts = [] }) {
         </div>
       </section>
 
-      {/* ─── INSIGHTS & THOUGHT LEADERSHIP ─── */}
-      <section className="mx-auto max-w-6xl px-4 pt-8 pb-4 md:px-6">
-        {/* Rich content block */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 rounded-[2.5rem] border border-slate-800/60 bg-slate-950/40 p-8 md:p-12 backdrop-blur-md"
-        >
-          <div className="flex flex-col justify-center">
-            <Radio className="w-9 h-9 text-brand-highlight mb-4" />
-            <h4 className="text-lg md:text-xl font-black text-slate-50 tracking-tight mb-4">
-              Engineering Knowledge, <span className="text-brand-highlight italic">Open-Sourced</span>
-            </h4>
-            <p className="text-sm text-slate-400 leading-relaxed mb-4">
-              At Giggs Software Labs, we believe the best engineering teams share what they learn. Our Insights Hub is where we publish technical deep-dives, architecture postmortems, and research findings from real-world enterprise projects.
-            </p>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Whether you&apos;re evaluating AI deployment strategies, building a zero-trust security layer, or optimizing cloud infrastructure costs — our publications are designed to give you the blueprints, not just the buzzwords.
-            </p>
-          </div>
-          <div className="flex flex-col justify-center space-y-4">
-            {[
-              { Icon: Brain, label: 'AI & Data Innovation', sub: 'Generative AI, MLOps, data pipelines, and predictive analytics' },
-              { Icon: Shield, label: 'Cybersecurity Research', sub: 'Zero-trust architecture, threat intelligence, and SOC automation' },
-              { Icon: Zap, label: 'Performance Engineering', sub: 'Load testing, APM, cloud cost optimization, and CI/CD patterns' },
-              { Icon: Bot, label: 'Automation & DevOps', sub: 'RPA case studies, infrastructure-as-code, and workflow orchestration' },
-            ].map((topic) => (
-              <div key={topic.label} className="flex items-start gap-4 group">
-                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-xl border border-slate-800 bg-slate-900/40">
-                  <topic.Icon className="w-5 h-5 text-slate-400 group-hover:text-brand-highlight transition-colors" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-slate-100">{topic.label}</div>
-                  <div className="text-xs text-slate-500 mt-0.5">{topic.sub}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Dynamic Posts from Admin Dashboard */}
-        {posts.length > 0 && (
-          <>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-800/50 to-transparent" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-highlight">Latest Publications</span>
-              <div className="h-px flex-1 bg-gradient-to-l from-transparent via-slate-800/50 to-transparent" />
-            </div>
-
-            {/* Featured post (latest) */}
-            {posts[0] && (
-              <Link href={`/blog/${posts[0].slug}`}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="group relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center rounded-[2rem] border border-slate-800/80 bg-slate-950/40 p-1 overflow-hidden hover:border-brand-highlight/40 transition-all cursor-pointer mb-12 backdrop-blur-md"
-                >
-                  <div className="relative aspect-[16/10] md:aspect-square overflow-hidden rounded-[1.8rem]">
-                    <Image
-                      src={posts[0].image || '/images/Ai_Automation.png'}
-                      alt={posts[0].title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full">
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-brand-highlight italic">FEATURED {posts[0].category}</span>
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-10">
-                    <span className="text-xs text-slate-500 mb-2 block">{posts[0].date_display}</span>
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-brand-highlight transition-colors leading-tight">
-                      {posts[0].title}
-                    </h3>
-                    <p className="text-slate-400 text-sm mb-6 line-clamp-3">
-                      {posts[0].excerpt || 'Dive into our latest analysis.'}
-                    </p>
-                    <div className="flex items-center gap-2 text-sm font-semibold text-brand-highlight">
-                      Begin Reading <span className="text-lg">→</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            )}
-
-            {/* Post grid (remaining posts) */}
-            {posts.length > 1 && (
-              <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {posts.slice(1).map((post) => (
-                  <Link key={post.slug} href={`/blog/${post.slug}`}>
-                    <motion.article
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      whileHover={{ y: -8 }}
-                      className="group h-full flex flex-col rounded-2xl border border-slate-800/80 bg-slate-950/60 overflow-hidden hover:border-brand-highlight/30 hover:bg-slate-900/40 transition-all cursor-pointer shadow-xl shadow-black/40"
-                    >
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <Image
-                          src={post.image || '/images/Cloud_DevOps.png'}
-                          alt={post.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute top-3 left-3">
-                          <span className={`text-[9px] font-bold px-2 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10 uppercase tracking-widest ${post.category === 'Case Study' ? 'text-amber-400' :
-                            post.category === 'Whitepaper' ? 'text-emerald-400' :
-                              post.category === 'Tech Report' ? 'text-violet-400' : 'text-[#00C2FF]'
-                            }`}>
-                            {post.category}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-5 flex-1 flex flex-col">
-                        <span className="text-[10px] text-slate-500 mb-2">{post.date_display}</span>
-                        <h3 className="text-lg font-bold text-slate-100 group-hover:text-brand-highlight transition-colors line-clamp-2 mb-3">
-                          {post.title}
-                        </h3>
-                        <p className="text-xs text-slate-400 line-clamp-3 mb-6 flex-1">
-                          {post.excerpt || 'Exploring the nuances of industrial-grade engineering.'}
-                        </p>
-                        <div className="text-[11px] font-bold text-slate-300 group-hover:text-white flex items-center gap-1">
-                          VIEW RESOURCE <span className="group-hover:translate-x-1 transition-transform">→</span>
-                        </div>
-                      </div>
-                    </motion.article>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </section>
 
       {/* ─── WHY ENTERPRISES CHOOSE GIGGS ─── */}
       <section className="mx-auto max-w-6xl px-4 pt-4 pb-14 md:px-6">

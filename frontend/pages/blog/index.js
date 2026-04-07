@@ -15,13 +15,13 @@ export default function InsightsHub() {
   const [dbPosts, setDbPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
   const BACKEND_URL = API_URL.replace(/\/api$/, ''); // Ensure no trailing /api and no double slashes later
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch(`${API_URL}/posts/`);
+        const res = await fetch(`${API_URL}/posts`);
         if (res.ok) {
           const data = await res.json();
           setDbPosts(data);
@@ -110,12 +110,11 @@ export default function InsightsHub() {
                           className="group flex flex-col rounded-2xl border border-white/5 bg-slate-900/40 overflow-hidden hover:border-[#00E0FF]/30 transition-all shadow-xl"
                         >
                           <div className="relative aspect-[16/10] overflow-hidden bg-slate-800">
-                            <Image
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
                               src={getImageUrl(post.image)}
                               alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                             <div className="absolute top-3 left-3 z-10">
                               <span className="text-[9px] font-bold px-2 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-[#00E0FF] uppercase tracking-widest">

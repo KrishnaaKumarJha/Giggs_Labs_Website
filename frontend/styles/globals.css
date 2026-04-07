@@ -27,16 +27,20 @@
 */
 html {
   min-height: 100%;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 
-body,
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
 #__next {
   min-height: 100vh;
-  max-width: 100vw;
-  overflow-x: hidden;
+  position: relative;
 }
 
 /* reset / base */
@@ -44,6 +48,8 @@ body,
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Prevent iOS 300ms tap delay and double-tap zoom on interactive elements */
+  touch-action: manipulation;
 }
 
 a {
@@ -101,11 +107,16 @@ h6,
 main {
   min-height: 100%;
   overflow: visible;
+  position: relative;
 }
 
-/* page-content padding to separate hero & next sections */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* page-content padding base */
 .page-content {
-  padding-top: 2.5rem;
+  /* removed conflicting padding-top to allow component-level Tailwind overrides */
 }
 
 /* Partners scan glow - keep inside container using overflow hidden on parent */

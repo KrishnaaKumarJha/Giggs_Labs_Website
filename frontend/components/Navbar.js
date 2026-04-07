@@ -41,9 +41,9 @@ function BrandLogo() {
       <Image
         src="/logo/logo.png"
         alt="Giggs Software Labs"
-        width={56}
-        height={56}
-        className="h-12 md:h-14 w-auto object-contain"
+        width={64}
+        height={64}
+        className="h-10 md:h-12 w-auto object-contain"
         priority
       />
     </div>
@@ -124,10 +124,22 @@ export default function Navbar() {
     setOpenMobileDropdown(null);
   }, [router.asPath]);
 
+  // Prevent background scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
 
 
   return (
-    <nav className={`fixed top-0 z-[100] w-full transition-all duration-300 ${scrolled ? 'shadow-md py-2' : 'py-4'}`}
+    <nav className={`fixed top-0 z-[100] w-full transition-all duration-300 ${scrolled ? 'shadow-md py-1' : 'py-2'}`}
       style={{
         background: '#ffffff',
         borderBottom: activeDropdown ? '1px solid transparent' : '1px solid rgba(0,0,0,0.08)',
@@ -135,10 +147,10 @@ export default function Navbar() {
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-[4.75rem] items-center justify-between py-2">
+        <div className="flex min-h-[4rem] items-center justify-between py-2">
 
           <div className="flex items-center">
-            <Link href="/" aria-label="Go to home" className="relative flex items-center md:-mt-2">
+            <Link href="/" aria-label="Go to home" className="relative flex items-center">
               <div className="relative z-10 transition-transform hover:scale-[1.02]">
                 <BrandLogo />
               </div>
@@ -150,7 +162,7 @@ export default function Navbar() {
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link) => {
-                const hasDropdown = link.label === 'Solutions' || link.label === 'Industries' || link.label === 'Products';
+                const hasDropdown = ['Solutions', 'Industries', 'Products'].includes(link.label);
                 const isActive = router.asPath.startsWith(link.href) && (link.href !== '/' || router.asPath === '/');
 
                 return (
@@ -191,10 +203,10 @@ export default function Navbar() {
 
             {/* Desktop CTAs */}
             <div className="hidden lg:flex items-center gap-3 ml-4 pl-4 border-l border-sky-500/20">
-              <Button href="/contact" variant="secondary" className="px-5 py-2 !text-[12px] !rounded-full">
-                Contact Us
+              <Button href="/contact" variant="primary" className="px-5 py-2 !text-[12px] !rounded-full">
+                Talk to an Expert
               </Button>
-              <Button href="/careers" variant="primary" className="px-5 py-2 !text-[12px] !rounded-full">
+              <Button href="/careers" variant="secondary" className="px-5 py-2 !text-[12px] !rounded-full">
                 Careers
               </Button>
             </div>
@@ -214,39 +226,51 @@ export default function Navbar() {
 
 
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — Enhanced */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-x-0 top-20 z-[90] lg:hidden border-b border-gray-200 shadow-2xl p-6 h-[calc(100vh-5rem)] overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-x-0 top-[3.75rem] z-[90] lg:hidden h-[calc(100vh-3.75rem)] overflow-y-auto overscroll-contain"
             style={{ background: '#ffffff' }}
           >
-            <div className="flex flex-col gap-6 pb-20">
-              {navLinks.map((link) => {
-                const hasDropdown = link.label === 'Solutions' || link.label === 'Industries' || link.label === 'Products';
+
+            <div className="flex flex-col px-6 pt-2 pb-24">
+              {navLinks.map((link, i) => {
+                const hasDropdown = ['Solutions', 'Industries', 'Products'].includes(link.label);
                 const isDropdownOpen = openMobileDropdown === link.label;
+                const isActive = router.asPath.startsWith(link.href) && (link.href !== '/' || router.asPath === '/');
 
                 return (
-                  <div key={link.href}>
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                    className="border-b border-slate-100 last:border-b-0"
+                  >
                     {hasDropdown ? (
                       <button
                         onClick={() => setOpenMobileDropdown(isDropdownOpen ? null : link.label)}
-                        className="flex items-center justify-between w-full text-2xl font-black text-slate-800 uppercase tracking-tight"
+                        className="flex items-center justify-between w-full py-4 group"
                       >
-                        <span>{link.label}</span>
-                        <svg className={`h-6 w-6 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <span className={`text-lg font-extrabold uppercase tracking-tight transition-colors ${isActive ? 'text-sky-600' : 'text-slate-800'}`}>
+                          {link.label}
+                        </span>
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full transition-all ${isDropdownOpen ? 'bg-sky-50 rotate-180' : 'bg-slate-50'}`}>
+                          <svg className="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
                       </button>
                     ) : (
-                      <Link
-                        href={link.href}
-                        className="block text-2xl font-black text-slate-800 uppercase tracking-tight"
-                      >
-                        {link.label}
+                      <Link href={link.href} className="block py-4">
+                        <span className={`text-lg font-extrabold uppercase tracking-tight transition-colors ${isActive ? 'text-sky-600' : 'text-slate-800'}`}>
+                          {link.label}
+                        </span>
                       </Link>
                     )}
 
@@ -256,38 +280,50 @@ export default function Navbar() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-4 flex flex-col gap-4 pl-4 border-l-2 border-sky-100 py-2">
+                          <div className="grid grid-cols-1 gap-2 pb-4 pl-1">
                             {(
                               link.label === 'Solutions' ? serviceSubLinks :
                                 link.label === 'Industries' ? industrySubLinks :
                                   productSubLinks
                             ).map((sub) => (
-                              <Link key={sub.href} href={sub.href} className="flex flex-col">
-                                <span className="text-sm font-bold text-slate-700 uppercase tracking-tight">{sub.label}</span>
-                                <span className="text-[10px] text-slate-500 mt-0.5 leading-tight">{sub.desc}</span>
+                              <Link
+                                key={sub.href}
+                                href={sub.href}
+                                className="flex flex-col p-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-sky-50 hover:border-sky-200 transition-all"
+                              >
+                                <span className="text-sm font-bold text-slate-800 tracking-tight">{sub.label}</span>
+                                <span className="text-[11px] text-slate-500 mt-0.5 leading-snug">{sub.desc}</span>
                               </Link>
                             ))}
+
+                            <Link href={link.href} className="flex items-center gap-2 p-3 rounded-xl hover:bg-slate-50 transition-all">
+                              <span className="text-xs font-bold text-sky-600 uppercase tracking-wider">
+                                View all {link.label}
+                              </span>
+                              <svg className="h-3 w-3 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                              </svg>
+                            </Link>
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                 );
               })}
 
               {/* Mobile CTAs */}
-              <div className="flex flex-col gap-4 pt-6 border-t border-slate-100">
-                <Button href="/contact" variant="secondary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.2em] !rounded-xl">
-                  Contact Us
+              <div className="flex flex-col gap-3 pt-8 mt-4">
+                <Button href="/contact" variant="primary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.15em] !rounded-2xl shadow-lg shadow-sky-500/20">
+                  Talk to an Expert
                 </Button>
-                <Button href="/careers" variant="primary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.2em] !rounded-xl">
+                <Button href="/careers" variant="secondary" className="w-full justify-center py-4 text-[13px] font-black uppercase tracking-[0.15em] !rounded-2xl">
                   Careers
                 </Button>
               </div>
-
-
             </div>
           </motion.div>
         )}
